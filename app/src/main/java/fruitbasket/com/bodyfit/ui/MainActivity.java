@@ -29,8 +29,10 @@ public class MainActivity extends BaseTabActivity {
         setContentView(R.layout.activity_main);
 
         mTabWidget = (TabWidget) findViewById(R.id.tabWidget_xamarket);
+
         /*mLeftContext = (FrameLayout) findViewById(R.id.contextbar_left);
         mRightContext = (FrameLayout) findViewById(R.id.contextbar_right);*/
+
         mViewPager = (ViewPager) findViewById(R.id.viewpager_bodyfit);
 
         mTabWidget.setStripEnabled(false);
@@ -69,7 +71,7 @@ public class MainActivity extends BaseTabActivity {
     protected TabWidget getTabWidget() {
         return mTabWidget;
     }
-
+    
     /*@Override
     protected View getLeftContext() {
         return mLeftContext;
