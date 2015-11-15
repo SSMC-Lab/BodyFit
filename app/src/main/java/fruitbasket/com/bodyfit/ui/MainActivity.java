@@ -28,7 +28,7 @@ public class MainActivity extends BaseTabActivity {
         Log.d(TAG, "onCreate()");
         setContentView(R.layout.activity_main);
 
-        mTabWidget = (TabWidget) findViewById(R.id.tabWidget_xamarket);
+        mTabWidget = (TabWidget) findViewById(R.id.tabWidget_bodyfit);
 
         /*mLeftContext = (FrameLayout) findViewById(R.id.contextbar_left);
         mRightContext = (FrameLayout) findViewById(R.id.contextbar_right);*/
