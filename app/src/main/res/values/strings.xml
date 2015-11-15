@@ -5,6 +5,9 @@
     <string name="tab_exercise">训练</string>
     <string name="tab_profile">我</string>
 
+    <!--exercise page-->
     <string name="group">组:</string>
     <string name="times">次：</string>
+    <string name="exercise_type">运动类型</string>
+    <string name="start_doing">开始</string>
 </resources>
