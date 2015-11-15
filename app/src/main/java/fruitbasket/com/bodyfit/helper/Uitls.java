@@ -5,7 +5,7 @@ public class Uitls {
 
     private Uitls(){}
 
-    public Uitls getInstance(){
+    public static Uitls getInstance(){
         return uitls;
     }
 }

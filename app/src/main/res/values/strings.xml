@@ -4,4 +4,7 @@
     <string name="tab_target">目标</string>
     <string name="tab_exercise">训练</string>
     <string name="tab_profile">我</string>
+
+    <string name="group">组:</string>
+    <string name="times">次：</string>
 </resources>
