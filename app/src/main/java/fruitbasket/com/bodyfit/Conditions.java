@@ -5,7 +5,7 @@ public class Conditions {
 
     private Conditions(){}
 
-    public Conditions getInstance(){
+    public static Conditions getInstance(){
         return conditions;
     }
 }
