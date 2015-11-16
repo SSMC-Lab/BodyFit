@@ -4,9 +4,36 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <!--<ListView
+        android:id="@+id/profile_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/tab_profile"/>
+        android:divider="#cccccc"
+        android:dividerHeight="2px"
+        android:headerDividersEnabled="false"
+        android:entries="@array/profile"
+        />-->
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="昵称:老王"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="性别:男"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="身高:170cm"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="体重:50KG"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="历史记录"/>
 
 </LinearLayout>
