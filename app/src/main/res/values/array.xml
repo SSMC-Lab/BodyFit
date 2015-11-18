@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string-array name="profile_array">
+            <item>@string/nickname</item>
+            <item>@string/sex</item>
+            <item>@string/height</item>
+            <item>@string/weight</item>
+        </string-array>
+
+    <string-array name="profile_array_default">
+        <item>@string/default_nickname</item>
+        <item>@string/default_sex</item>
+        <item>@string/default_height</item>
+        <item>@string/default_weight</item>
+    </string-array>
+</resources>

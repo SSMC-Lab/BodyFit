@@ -5,5 +5,7 @@
     android:layout_marginLeft="40dp"
     android:layout_marginRight="40dp"
     android:layout_gravity="bottom"
-    android:gravity="bottom"
+    android:gravity="center_horizontal"
+    android:textSize="22dp"
+    android:textColor="#99f"
     />
