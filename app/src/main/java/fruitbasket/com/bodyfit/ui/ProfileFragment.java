@@ -1,9 +1,11 @@
 package fruitbasket.com.bodyfit.ui;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
@@ -58,7 +61,6 @@ public class ProfileFragment extends Fragment {
                         text.setText(preferences.getString("nickname", getContext().getResources().getString(R.string.default_nickname)));
                         new AlertDialog.Builder(getActivity()).
                                 setView(text).
-                                setTitle("修改昵称").
                                 setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -77,24 +79,107 @@ public class ProfileFragment extends Fragment {
                     }
 
                     case 1:   //modify sex
+                        LinearLayout ll = new LinearLayout(getContext());
                         RadioGroup mRadioGroup = new RadioGroup(getContext());
-                        RadioButton RB1 = new RadioButton(getContext());
-                        RB1.setText("男");
 
-                        RadioButton RB2 = new RadioButton(getContext());
+                       final RadioButton RB1 = new RadioButton(getContext());
+                        RB1.setText("男");
+                        RB1.setTextColor(Color.rgb(153, 153, 255));
+                        RB1.setTextSize(40);
+
+                        final RadioButton RB2 = new RadioButton(getContext());
                         RB2.setText("女");
+                        RB2.setTextColor(Color.rgb(153, 153, 255));
+                        RB2.setTextSize(40);
+
+                        String sex = preferences.getString("sex", getContext().getResources().getString(R.string.default_sex));
+
 
                         mRadioGroup.addView(RB1);
                         mRadioGroup.addView(RB2);
+                        mRadioGroup.setPadding(50, 50, 50, 50);
                         mRadioGroup.setOrientation(LinearLayout.HORIZONTAL);
-                        mRadioGroup.setGravity(View.TEXT_ALIGNMENT_CENTER);
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setView(LayoutInflater.from(getContext()).inflate(R.layout.layout_profile_sex,null));
-                        builder.create().show();
+
+                        if(sex.equals("男"))
+                            mRadioGroup.check(RB1.getId());
+                        else
+                            mRadioGroup.check(RB2.getId());
+
+
+                        ll.addView(mRadioGroup);
+
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setView(ll).create();
+                        final Dialog dialog = builder.show();
+
+                        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                if (checkedId == RB1.getId())
+                                    editor.putString("sex", "男");
+                                else
+                                    editor.putString("sex", "女");
+
+                                editor.apply();
+                                dialog.dismiss();
+                                al.clear();
+                                al.addAll(refresh());
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
                         break;
                     case 2:  //modify height
+                        int height = preferences.getInt("height",
+                                Integer.parseInt(getContext().getResources().getString(R.string.default_height)));
+
+                        final NumberPicker mPicker = new NumberPicker(getContext());
+                        mPicker.setMinValue(50);
+                        mPicker.setMaxValue(230);
+                        mPicker.setValue(height);
+
+
+                        new AlertDialog.Builder(getActivity()).
+                                setView(mPicker).
+                                setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        editor.putInt("height", mPicker.getValue());
+                                        editor.apply();
+
+                                        al.clear();
+                                        al.addAll(refresh());
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                }).
+                                setNegativeButton("取消", null).
+                                create().show();
                         break;
                     case 3:  //modify weight
+
+                        int weight = preferences.getInt("weight",
+                                Integer.parseInt(getContext().getResources().getString(R.string.default_weight)));
+
+                        final NumberPicker mPicker2 = new NumberPicker(getContext());
+                        mPicker2.setMinValue(50);
+                        mPicker2.setMaxValue(230);
+                        mPicker2.setValue(weight);
+
+
+                        new AlertDialog.Builder(getActivity()).
+                                setView(mPicker2).
+                                setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        editor.putInt("weight", mPicker2.getValue());
+                                        editor.apply();
+
+                                        al.clear();
+                                        al.addAll(refresh());
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                }).
+                                setNegativeButton("取消", null).
+                                create().show();
                         break;
                 }
             }
@@ -115,8 +200,8 @@ public class ProfileFragment extends Fragment {
 
         String getNickname = preferences.getString("nickname", getContext().getResources().getString(R.string.default_nickname));
         String getSex = preferences.getString("sex", "男");
-        String getHeight = preferences.getString("height", "0");
-        String getWeight = preferences.getString("weight", "0");
+        String getHeight = String.valueOf(preferences.getInt("height", 0));
+        String getWeight = String.valueOf(preferences.getInt("weight", 0));
         String[] data = new String[]{getNickname,getSex,getHeight,getWeight};
 
         for(int i=0; i<profile_array.length; i++){

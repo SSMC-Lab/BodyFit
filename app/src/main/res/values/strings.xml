@@ -14,11 +14,11 @@
     <!--target page-->
     <string name="nickname">昵称:</string>
     <string name="sex">性别:</string>
-    <string name="height">身高:</string>
-    <string name="weight">体重:</string>
+    <string name="height">身高(厘米):</string>
+    <string name="weight">体重(千克):</string>
 
     <string name="default_nickname">游客</string>
     <string name="default_sex">男</string>
-    <string name="default_height">170CM</string>
-    <string name="default_weight">55KG</string>
+    <string name="default_height">170</string>
+    <string name="default_weight">55</string>
 </resources>
