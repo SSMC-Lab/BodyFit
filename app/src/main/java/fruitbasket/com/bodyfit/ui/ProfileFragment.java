@@ -13,14 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +34,6 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.layout_profile, container, false);
 
-
         final SharedPreferences preferences = getActivity().getSharedPreferences("user_info", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = preferences.edit();
 
@@ -44,7 +41,7 @@ public class ProfileFragment extends Fragment {
 
         final ArrayList<Map<String,String>> al = refresh();
         final SimpleAdapter adapter = new SimpleAdapter(this.getActivity(),al,
-                R.layout.layout_profile_listext,
+                R.layout.layout_profileandtarget_listext,
                 new String[]{"info","data"},
                 new int[]{R.id.profile_items,R.id.profile_info});
 
@@ -64,7 +61,7 @@ public class ProfileFragment extends Fragment {
                                 setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        editor.putString("nickname", text.getText().toString());
+                                        editor.putString("nickname", text.getText().toString().trim());
                                         editor.apply();
 
                                         al.clear();
@@ -161,7 +158,7 @@ public class ProfileFragment extends Fragment {
 
                         final NumberPicker mPicker2 = new NumberPicker(getContext());
                         mPicker2.setMinValue(50);
-                        mPicker2.setMaxValue(230);
+                        mPicker2.setMaxValue(150);
                         mPicker2.setValue(weight);
 
 
@@ -207,7 +204,7 @@ public class ProfileFragment extends Fragment {
         for(int i=0; i<profile_array.length; i++){
             Map<String,String> mapItems = new HashMap<>();
             mapItems.put("info",profile_array[i]);
-            if(getNickname.length()>0)
+            if(data[i].length()>0)
                 mapItems.put("data",data[i]);
             else
                 mapItems.put("data",profile_array_default[i]);
