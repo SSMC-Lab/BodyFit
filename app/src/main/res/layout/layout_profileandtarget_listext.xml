@@ -20,5 +20,5 @@
         android:textSize="25dp"
         android:textColor="#999"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="2"/>
+    android:layout_weight="2"/>
 </LinearLayout>

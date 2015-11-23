@@ -6,8 +6,6 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
@@ -53,11 +51,13 @@ public class MainActivity extends BaseTabActivity {
         TextView profileTab=(TextView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
         profileTab.setText(resources.getString(R.string.tab_profile));
 
-        addTab(targetTab,targetFragment,"TARGET");
+        addTab(targetTab, targetFragment, "TARGET");
         addTab(exerciseTab,exerciseFragment,"EXERCISE");
-        addTab(profileTab,profileFragment,"PROFILE");
+        addTab(profileTab, profileFragment, "PROFILE");
 
         setCurrentTab(1);
+
+        //Toast.makeText(this,"boolean="+ NativeHelper.isBelongSegments(), Toast.LENGTH_LONG).show();
     }
 
     @Override
