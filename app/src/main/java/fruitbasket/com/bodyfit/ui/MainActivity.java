@@ -8,8 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.TabWidget;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import fruitbasket.com.bodyfit.R;
+import fruitbasket.com.bodyfit.helper.NativeHelper;
 
 public class MainActivity extends BaseTabActivity {
 
@@ -52,12 +54,10 @@ public class MainActivity extends BaseTabActivity {
         profileTab.setText(resources.getString(R.string.tab_profile));
 
         addTab(targetTab, targetFragment, "TARGET");
-        addTab(exerciseTab,exerciseFragment,"EXERCISE");
+        addTab(exerciseTab, exerciseFragment, "EXERCISE");
         addTab(profileTab, profileFragment, "PROFILE");
 
         setCurrentTab(1);
-
-        //Toast.makeText(this,"boolean="+ NativeHelper.isBelongSegments(), Toast.LENGTH_LONG).show();
     }
 
     @Override
