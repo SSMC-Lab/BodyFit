@@ -21,14 +21,12 @@ public class MainActivity extends BaseTabActivity {
     private FrameLayout mRightContext;*/
     private ViewPager mViewPager;
 
-    private Bluetooth bluetooth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate()");
         setContentView(R.layout.activity_main);
-        bluetooth = new Bluetooth(this);
+
         mTabWidget = (TabWidget) findViewById(R.id.tabWidget_bodyfit);
 
         /*mLeftContext = (FrameLayout) findViewById(R.id.contextbar_left);
@@ -67,8 +65,6 @@ public class MainActivity extends BaseTabActivity {
     protected void onDestroy(){
         Log.d(TAG,"onDestroy()");
         super.onDestroy();
-
-        bluetooth.unregisterBluetoothReceiver();
     }
 
 

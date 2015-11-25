@@ -17,17 +17,18 @@ public class NativeHelper {
     public static native double filter(double inputSignal[]);
 
     /**
-     *?
+     * detects the change points of a action
      * @param filteredSignal
      * @return
      */
     public static native boolean isbelongSegments(double filteredSignal[]);
 
     /**
-     *？
+     *
+     * @param input
      * @return
      */
-    public static native  int dataSelect();
+    public static native  int dataSelect(double input[][]);
 
     /**
      * identify the type of activity
@@ -44,7 +45,7 @@ public class NativeHelper {
     public static native int abnormalDetection(double signalSegments[]);
 
     /**
-     *？
+     *
      * @param signalSegments
      * @return
      */
@@ -65,14 +66,14 @@ public class NativeHelper {
     public static native double amplitudeBalan(double signalSegments[]);
 
     /**
-     *calculate the overall score of a repetition
+     *calculate the  score of one repetition
      * @param signalSegment
      * @return
      */
     public static native double repetitionScore(double signalSegment[]);
 
     /**
-     * calculate the overall score each set of exercise
+     * calculate the score of a set of exercise
      * @param repetitionScore
      * @return
      */
