@@ -1,6 +1,7 @@
 package fruitbasket.com.bodyfit;
 
 import android.app.Application;
+import android.util.Log;
 
 
 public class App extends Application {
@@ -10,6 +11,11 @@ public class App extends Application {
         System.loadLibrary("NativeHelper");
     }
 
+    @Override
+    public void onCreate(){
+        super.onCreate();
+        Log.i(TAG, "onCreate()");
+    }
 
 
 }

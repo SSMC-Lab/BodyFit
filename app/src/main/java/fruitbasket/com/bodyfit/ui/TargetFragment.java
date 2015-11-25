@@ -66,7 +66,7 @@ public class TargetFragment extends Fragment {
                                     }
                                 }).
                                 setNegativeButton("取消", null).
-                                create().show();Log.e("444444", "44444444");
+                                create().show();
                         break;
                     case 1:
                         int sets = preferences.getInt("target_sets",
