@@ -8,9 +8,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.TabWidget;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import fruitbasket.com.bodyfit.R;
 import fruitbasket.com.bodyfit.bluetooth.Bluetooth;
+import fruitbasket.com.bodyfit.helper.NativeHelper;
 
 public class MainActivity extends BaseTabActivity {
 
@@ -21,7 +23,7 @@ public class MainActivity extends BaseTabActivity {
     private FrameLayout mRightContext;*/
     private ViewPager mViewPager;
 
-    Bluetooth bluetooth;
+    private Bluetooth bluetooth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +62,8 @@ public class MainActivity extends BaseTabActivity {
 
         setCurrentTab(1);
 
-        //Toast.makeText(this,"boolean="+ NativeHelper.isBelongSegments(), Toast.LENGTH_LONG).show();
+        //double[] array={1.0,2.0};
+        //Toast.makeText(this, "boolean=" + NativeHelper.isbelongSegments(array), Toast.LENGTH_LONG).show();
     }
 
     @Override
