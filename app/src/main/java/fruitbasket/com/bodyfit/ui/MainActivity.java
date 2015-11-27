@@ -1,5 +1,8 @@
 package fruitbasket.com.bodyfit.ui;
 
+import android.bluetooth.BluetoothA2dp;
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -31,16 +34,23 @@ public class MainActivity extends BaseTabActivity {
         setContentView(R.layout.activity_main);
 
         initViews();
-
         bluetooth = new Bluetooth(this);
         //double[] array={1.0,2.0};
         //Toast.makeText(this, "boolean=" + NativeHelper.isbelongSegments(array), Toast.LENGTH_LONG).show();
     }
 
+
     @Override
     protected void onDestroy(){
-        Log.d(TAG, "onDestroy()");
         super.onDestroy();
+        Log.d(TAG, "onDestroy()");
+        bluetooth.unregisterBluetoothReceiver();
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Log.d(TAG, "onPause()");
         bluetooth.unregisterBluetoothReceiver();
     }
 

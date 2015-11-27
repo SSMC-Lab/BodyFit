@@ -6,18 +6,23 @@ import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
+import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.UUID;
@@ -29,38 +34,45 @@ import fruitbasket.com.bodyfit.R;
  */
 public class Bluetooth {
     BluetoothAdapter bluetoothAdapter;
-    ArrayList<String> deviceList = new ArrayList<String>();
+    ArrayList<String> deviceList = new ArrayList<>();
+    HashMap<String,String> deviceMap = new HashMap<>();
     myHandler handler;
     Dialog dialog;
     UUID iuuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     BluetoothReceiver mReceiver;
     Context context;
     String deviceName="";
-
+    ArrayAdapter<String> adapter;
     //initial
     public Bluetooth(Context c){
         this.context = c;
         if(bluetoothAdapter == null)
             bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
+        adapter = new ArrayAdapter<String>(context, R.layout.layout_bluetooth_receiver, deviceList);
+
         handler  = new myHandler();
-
-        openBluetooth();
+        showDialog();
         registerReceiver();
+        new openBluetooth().start();
+
     }
 
-    public void openBluetooth(){
-        if(!bluetoothAdapter.isEnabled()) {
-            bluetoothAdapter.enable();
-        }
-        bluetoothAdapter.startDiscovery();
 
-        Set<BluetoothDevice> sDevice = bluetoothAdapter.getBondedDevices();
-        Iterator<BluetoothDevice> it = sDevice.iterator();
-        while (it.hasNext()) {
-            deviceList.add(it.next().getName());
-        }
+    private void showDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("配对蓝牙选择").setAdapter(adapter, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int position) {
+                deviceName = deviceList.get(position);
+                dialog.cancel();
+                bluetoothAdapter.cancelDiscovery();//取消发现
+                new bluetoothThread().start();
+            }
+        }).setNegativeButton("取消", null).create();
+        dialog = builder.show();
     }
+
 
     public void registerReceiver(){
         mReceiver = new BluetoothReceiver();
@@ -78,11 +90,18 @@ public class Bluetooth {
         public void onReceive(Context context, Intent intent) {
             Log.i("BluetoothReceiver", "onReceive");
             if(BluetoothDevice.ACTION_FOUND.equals(intent.getAction())){
-                String deviceName = intent.getStringExtra(BluetoothDevice.EXTRA_NAME);
-                if(deviceList.indexOf(deviceName)==-1){ //如果不存在就添加，防止重复添加
-                    deviceList.add(deviceName);
-                    new myHandler().sendEmptyMessage(0x123);
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                String receiveDeviceName = device.getName();
+                String receiveDeviceAddress = device.getAddress();
+
+                if(deviceList.indexOf(receiveDeviceName)==-1){ //如果不存在就添加，防止重复添加
+                    deviceList.add(receiveDeviceName);
+                    deviceMap.put(receiveDeviceName, receiveDeviceAddress);
+                    handler.sendEmptyMessage(0x123);
+
                 }
+                else
+                    dialog.setTitle("配对蓝牙选择");
             }
         }
     }
@@ -91,39 +110,64 @@ public class Bluetooth {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 0x123 && deviceName.equals("")) {
-                if (dialog != null)
-                    dialog.dismiss();
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.layout_bluetooth_receiver, deviceList);
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("配对蓝牙选择").setAdapter(adapter, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int position) {
-                        deviceName = deviceList.get(position);
-                        dialog.cancel();
-                        bluetoothAdapter.cancelDiscovery();//取消发现
-                        new bluetoothThread().start();
-                    }
-                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        dialog.cancel();
-                    }
-
-                }).create();
-                dialog = builder.show();
+                adapter.notifyDataSetChanged();
+                dialog.setTitle("刷新中....");
             }
         }
     }
 
 
+    class openBluetooth extends  Thread{
+        public void run(){
+            if(!bluetoothAdapter.isEnabled()) {
+                bluetoothAdapter.enable();
+                try {
+                    sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            bluetoothAdapter.startDiscovery();
+
+            Set<BluetoothDevice> sDevice = bluetoothAdapter.getBondedDevices();
+            Iterator<BluetoothDevice> it = sDevice.iterator();
+            while (it.hasNext()) {
+                deviceList.add(it.next().getName());
+                deviceMap.put(it.next().getName(),it.next().getAddress());
+            }
+        }
+    }
     class bluetoothThread extends Thread{
         public void run(){
+            String chosenAddress=deviceMap.get(deviceName);
+            Log.i("bluetoothThread", "deviceName" + deviceName+" deviceAddress"+chosenAddress);
+            BluetoothDevice device = bluetoothAdapter.getRemoteDevice(chosenAddress);
+            BluetoothSocket socket=null;
             try {
-                Log.i("bluetoothThread", "deviceName" + deviceName);
-                BluetoothServerSocket serverSocket  = bluetoothAdapter.listenUsingRfcommWithServiceRecord(deviceName, iuuid);
-                Log.i("bluetoothThread", "deviceName" + deviceName);
+                socket = device.createRfcommSocketToServiceRecord(iuuid);
+                socket.connect();
+                InputStream in = socket.getInputStream();
+
+                boolean e = true;
+                while(e){
+                    int count = 0;
+                    count = in.available();
+                    byte[] b = new byte[count];
+                    in.read(b);
+                    Log.i("111111",new String(b));
+                }
+                in.close();
+            } catch (IOException e) {
+                 Log.e("inputStream","failed");
             }
-            catch (Exception e) {Log.e("bluetoothThread","unconnect");}
-            try {
-            } catch (Exception e) {}
+            finally {
+                try {
+                    if(socket!=null)
+                        socket.close();
+                } catch (IOException e) {
+                    Log.e("socket","socket close failed");
+                }
+            }
         }
     }
 }
