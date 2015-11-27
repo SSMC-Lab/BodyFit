@@ -10,32 +10,31 @@ public class NativeHelper {
     }
 
     /**
-     * filte signal
      * @param inputSignal
      * @return
      */
-    public static native double filter(double inputSignal[]);
+    public static native double[] filter(double[] inputSignal);
 
     /**
-     * detects the change points of a action
+     * Is the the person moving?
      * @param filteredSignal
-     * @return
+     * @return true: activity;false:static
      */
-    public static native boolean isbelongSegments(double filteredSignal[]);
+    public static native boolean isbelongSegments(double[] filteredSignal);
 
     /**
      *
      * @param input
      * @return
      */
-    public static native  int dataSelect(double input[][]);
+    public static native  int[] dataSelect(double[][] input);
 
     /**
      * identify the type of activity
      * @param signalSegments
      * @return type of activity
      */
-    public static native int activityRecognition(double signalSegments[]);
+    public static native int activityRecognition(double[][] signalSegments);
 
     /**
      * check whether it is a abnormal behavior in the activity
@@ -52,8 +51,8 @@ public class NativeHelper {
     public static native int zoomSegment(double signalSegments[]);
 
     /**
-     *
-     * @param signalSegments
+     *signalSegments
+     * @param
      * @return
      */
     public static native double timeBalan(double signalSegments[]);
@@ -66,7 +65,7 @@ public class NativeHelper {
     public static native double amplitudeBalan(double signalSegments[]);
 
     /**
-     *calculate the  score of one repetition
+     *calculate the score of one repetition
      * @param signalSegment
      * @return
      */
@@ -74,7 +73,7 @@ public class NativeHelper {
 
     /**
      * calculate the score of a set of exercise
-     * @param repetitionScore
+     * @param repetitionScore a list of scores
      * @return
      */
     public static native double setScore(double repetitionScore[]);
