@@ -33,7 +33,7 @@ import fruitbasket.com.bodyfit.R;
  * Usage:connecting to the device via bluetooth
  */
 public class Bluetooth {
-    BluetoothAdapter bluetoothAdapter;
+    public static BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     ArrayList<String> deviceList = new ArrayList<>();
     HashMap<String,String> deviceMap = new HashMap<>();
     myHandler handler;
@@ -46,15 +46,13 @@ public class Bluetooth {
     //initial
     public Bluetooth(Context c){
         this.context = c;
-        if(bluetoothAdapter == null)
-            bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        adapter = new ArrayAdapter<String>(context, R.layout.layout_bluetooth_receiver, deviceList);
+        adapter = new ArrayAdapter<>(context, R.layout.layout_bluetooth_receiver, deviceList);
 
         handler  = new myHandler();
         showDialog();
         registerReceiver();
-        new openBluetooth().start();
+        new startBluetooth().start();
 
     }
 
@@ -67,9 +65,14 @@ public class Bluetooth {
                 deviceName = deviceList.get(position);
                 dialog.cancel();
                 bluetoothAdapter.cancelDiscovery();//取消发现
+                unregisterBluetoothReceiver();
                 new bluetoothThread().start();
             }
-        }).setNegativeButton("取消", null).create();
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int position) {
+                unregisterBluetoothReceiver();
+            }
+        }).create();
         dialog = builder.show();
     }
 
@@ -93,15 +96,12 @@ public class Bluetooth {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 String receiveDeviceName = device.getName();
                 String receiveDeviceAddress = device.getAddress();
-
-                if(deviceList.indexOf(receiveDeviceName)==-1){ //如果不存在就添加，防止重复添加
+                dialog.setTitle("刷新中....");
+                if(deviceList.indexOf(receiveDeviceName)==-1&&receiveDeviceName!=null&&receiveDeviceAddress!=null){ //如果不存在就添加，防止重复添加
                     deviceList.add(receiveDeviceName);
                     deviceMap.put(receiveDeviceName, receiveDeviceAddress);
                     handler.sendEmptyMessage(0x123);
-
                 }
-                else
-                    dialog.setTitle("配对蓝牙选择");
             }
         }
     }
@@ -111,22 +111,14 @@ public class Bluetooth {
             super.handleMessage(msg);
             if (msg.what == 0x123 && deviceName.equals("")) {
                 adapter.notifyDataSetChanged();
-                dialog.setTitle("刷新中....");
+                dialog.setTitle("配对蓝牙选择");
             }
         }
     }
 
 
-    class openBluetooth extends  Thread{
+    class startBluetooth extends  Thread{
         public void run(){
-            if(!bluetoothAdapter.isEnabled()) {
-                bluetoothAdapter.enable();
-                try {
-                    sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
             bluetoothAdapter.startDiscovery();
 
             Set<BluetoothDevice> sDevice = bluetoothAdapter.getBondedDevices();
@@ -148,10 +140,11 @@ public class Bluetooth {
                 socket.connect();
                 InputStream in = socket.getInputStream();
 
-                boolean e = true;
-                while(e){
-                    int count = 0;
-                    count = in.available();
+                int i=0;
+                while(i<100){
+                    Log.i("222","222222222");
+                    i++;
+                    int count = in.available();
                     byte[] b = new byte[count];
                     in.read(b);
                     Log.i("111111",new String(b));

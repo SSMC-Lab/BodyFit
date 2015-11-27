@@ -34,24 +34,35 @@ public class MainActivity extends BaseTabActivity {
         setContentView(R.layout.activity_main);
 
         initViews();
-        bluetooth = new Bluetooth(this);
+        startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE),0);
         //double[] array={1.0,2.0};
         //Toast.makeText(this, "boolean=" + NativeHelper.isbelongSegments(array), Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode,int resultCode, Intent data){
+        if(requestCode==0) {
+            if (resultCode == RESULT_OK){
+                Bluetooth.bluetoothAdapter.enable();
+                bluetooth = new Bluetooth(this);
+            }
+            else
+                finish();
+            //else 关闭整个程序
+        }
+
+    }
 
     @Override
     protected void onDestroy(){
         super.onDestroy();
         Log.d(TAG, "onDestroy()");
-        bluetooth.unregisterBluetoothReceiver();
     }
 
     @Override
     protected void onPause(){
         super.onPause();
         Log.d(TAG, "onPause()");
-        bluetooth.unregisterBluetoothReceiver();
     }
 
     protected void initViews(){
