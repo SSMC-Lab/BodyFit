@@ -30,7 +30,21 @@ public class MainActivity extends BaseTabActivity {
         Log.d(TAG, "onCreate()");
         setContentView(R.layout.activity_main);
 
+        initViews();
+
         bluetooth = new Bluetooth(this);
+        //double[] array={1.0,2.0};
+        //Toast.makeText(this, "boolean=" + NativeHelper.isbelongSegments(array), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onDestroy(){
+        Log.d(TAG, "onDestroy()");
+        super.onDestroy();
+        bluetooth.unregisterBluetoothReceiver();
+    }
+
+    protected void initViews(){
         mTabWidget = (TabWidget) findViewById(R.id.tabWidget_bodyfit);
 
         /*mLeftContext = (FrameLayout) findViewById(R.id.contextbar_left);
@@ -61,18 +75,7 @@ public class MainActivity extends BaseTabActivity {
         addTab(profileTab, profileFragment, "PROFILE");
 
         setCurrentTab(1);
-
-        //double[] array={1.0,2.0};
-        //Toast.makeText(this, "boolean=" + NativeHelper.isbelongSegments(array), Toast.LENGTH_LONG).show();
     }
-
-    @Override
-    protected void onDestroy(){
-        Log.d(TAG, "onDestroy()");
-        super.onDestroy();
-        bluetooth.unregisterBluetoothReceiver();
-    }
-
 
     @Override
     protected TabWidget getTabWidget() {
