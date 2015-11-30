@@ -6,7 +6,7 @@
  * Signature: ([D)[D
  */
 JNIEXPORT jdoubleArray JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_filter
-        (JNIEnv *env, jclass class, jdoubleArray inputSignal){
+        (JNIEnv *env, jclass class, jdoubleArray inputSignal, jint length){
 
 
     return 0;
@@ -18,7 +18,7 @@ JNIEXPORT jdoubleArray JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_
  * Signature: ([D)Z
  */
 JNIEXPORT jboolean JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_isbelongSegments
-        (JNIEnv *env, jclass class, jdoubleArray filteredSignal){
+        (JNIEnv *env, jclass class, jdoubleArray filteredSignal, jint length){
     return 0;
 }
 
@@ -28,7 +28,7 @@ JNIEXPORT jboolean JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_isbe
  * Signature: ([[D)[I
  */
 JNIEXPORT jintArray JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_dataSelect
-        (JNIEnv *env, jclass class, jobjectArray input){
+        (JNIEnv *env, jclass class, jobjectArray input, jint length_2d, jint length_1d){
     return 0;
 }
 
@@ -38,7 +38,7 @@ JNIEXPORT jintArray JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_dat
  * Signature: ([[D)I
  */
 JNIEXPORT jint JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_activityRecognition
-        (JNIEnv *env, jclass class, jdoubleArray signalSegmentX,jdoubleArray signalSegmentY){
+        (JNIEnv *env, jclass class, jdoubleArray signalSegmentX,jdoubleArray signalSegmentY, jint length){
     return 0;
 }
 
@@ -48,7 +48,7 @@ JNIEXPORT jint JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_activity
  * Signature: ([D)I
  */
 JNIEXPORT jint JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_abnormalDetection
-        (JNIEnv *env, jclass class, jdoubleArray signalSegmentX,jdoubleArray signalSegmentY){
+        (JNIEnv *env, jclass class, jdoubleArray signalSegmentX,jdoubleArray signalSegmentY, jint length){
     return 0;
 }
 
@@ -58,7 +58,7 @@ JNIEXPORT jint JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_abnormal
  * Signature: ([D)I
  */
 JNIEXPORT jint JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_zoomSegment
-        (JNIEnv *env, jclass class, jdoubleArray signalSegmentX,jdoubleArray signalSegmentY){
+        (JNIEnv *env, jclass class, jdoubleArray signalSegmentX,jdoubleArray signalSegmentY, jint length){
     return 0;
 }
 
@@ -68,7 +68,7 @@ JNIEXPORT jint JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_zoomSegm
  * Signature: ([D)D
  */
 JNIEXPORT jdouble JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_timeBalan
-        (JNIEnv *env, jclass class,  jdoubleArray signalSegmentX,jdoubleArray signalSegmentY){
+        (JNIEnv *env, jclass class,  jdoubleArray signalSegmentX,jdoubleArray signalSegmentY, jint length){
     return 0;
 }
 
@@ -78,7 +78,7 @@ JNIEXPORT jdouble JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_timeB
  * Signature: ([D)D
  */
 JNIEXPORT jdouble JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_amplitudeBalan
-        (JNIEnv *env, jclass class, jdoubleArray signalSegmentX,jdoubleArray signalSegmentY){
+        (JNIEnv *env, jclass class, jdoubleArray signalSegmentX,jdoubleArray signalSegmentY, jint length){
     return 0;
 }
 
@@ -88,7 +88,7 @@ JNIEXPORT jdouble JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_ampli
  * Signature: ([D)D
  */
 JNIEXPORT jdouble JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_repetitionScore
-        (JNIEnv *env, jclass class, jdoubleArray signalSegmentX,jdoubleArray signalSegmentY){
+        (JNIEnv *env, jclass class, jdoubleArray signalSegmentX,jdoubleArray signalSegmentY, jint length){
     return 0;
 }
 
@@ -98,6 +98,6 @@ JNIEXPORT jdouble JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_repet
  * Signature: ([D)D
  */
 JNIEXPORT jdouble JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_setScore
-        (JNIEnv *env, jclass class, jdoubleArray repetitionScore){
+        (JNIEnv *env, jclass class, jdoubleArray repetitionScore, jint length){
     return 0;
 }

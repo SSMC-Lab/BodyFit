@@ -11,7 +11,10 @@ public class DataProcessor {
         dataSet=new ArrayList<>();
     }
 
-
+    public void addSourceData(SourceData[] sourceDatas){
+        Data data=new Data(sourceDatas);
+        dataSet.add(data);
+    }
 
 
 }
