@@ -1,9 +1,9 @@
 package fruitbasket.com.bodyfit.data;
 
-public class SourceDataWrapper {
-    public static final String TAG="SourceDataWrapper";
+public class DataWrapper {
+    public static final String TAG="DataWrapper";
 
-    private SourceData[] dataSet;
+    private Data[] dataSet;
     private double[] axSet;
     private double[] aySet;
     private double[] azSet;
@@ -11,17 +11,16 @@ public class SourceDataWrapper {
     private double[] gySet;
     private double[] gzSet;
 
-    public SourceDataWrapper(){}
-
-    public void setDataSet(SourceData[] dataSet){
+    public DataWrapper(Data[] dataSet){
         this.dataSet=dataSet;
+        initializeData();
     }
 
-    public SourceData[] getDataSet(){
+    public Data[] getDataSet(){
         return dataSet;
     }
 
-    public void initializeData(){
+    private void initializeData(){
         if(dataSet==null){
             return;
         }
