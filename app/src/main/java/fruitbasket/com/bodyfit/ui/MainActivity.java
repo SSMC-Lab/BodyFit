@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import fruitbasket.com.bodyfit.R;
 import fruitbasket.com.bodyfit.bluetooth.Bluetooth;
+import fruitbasket.com.bodyfit.bluetooth.BlunoLibrary;
 import fruitbasket.com.bodyfit.helper.NativeHelper;
 
 public class MainActivity extends BaseTabActivity {
@@ -26,7 +27,8 @@ public class MainActivity extends BaseTabActivity {
     private FrameLayout mRightContext;*/
     private ViewPager mViewPager;
 
-    private Bluetooth bluetooth;
+    //private Bluetooth bluetooth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +46,6 @@ public class MainActivity extends BaseTabActivity {
         if(requestCode==0) {
             if (resultCode == RESULT_OK){
                 Bluetooth.bluetoothAdapter.enable();
-                bluetooth = new Bluetooth(this);
             }
             else
                 finish();
@@ -76,7 +77,7 @@ public class MainActivity extends BaseTabActivity {
         mTabWidget.setStripEnabled(false);
 
         Fragment targetFragment=new TargetFragment();
-        Fragment exerciseFragment=new ExerciseFragment();
+        Fragment exerciseFragment=new ExerciseFragment(this);
         Fragment profileFragment=new ProfileFragment();
 
         LayoutInflater inflater=getLayoutInflater();

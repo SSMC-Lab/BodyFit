@@ -1,10 +1,17 @@
 package fruitbasket.com.bodyfit.bluetooth;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
+import android.bluetooth.BluetoothGattService;
+import android.bluetooth.BluetoothProfile;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
@@ -21,9 +28,12 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -33,6 +43,7 @@ import fruitbasket.com.bodyfit.R;
  * Usage:connecting to the device via bluetooth
  */
 public class Bluetooth {
+    final private String TAG="Bluetooth";
     public static BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     ArrayList<String> deviceList = new ArrayList<>();
     HashMap<String,String> deviceMap = new HashMap<>();
@@ -43,6 +54,16 @@ public class Bluetooth {
     Context context;
     String deviceName="";
     ArrayAdapter<String> adapter;
+
+/*
+    private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
+
+        @Override
+        public void onCharacteristicChanged(BluetoothGatt gatt,
+                                            BluetoothGattCharacteristic characteristic) {
+            Log.i(TAG, "bluetooth "+new String(characteristic.getValue()));
+        }
+    };*/
     //initial
     public Bluetooth(Context c){
         this.context = c;
@@ -132,35 +153,77 @@ public class Bluetooth {
     class bluetoothThread extends Thread{
         public void run(){
             String chosenAddress=deviceMap.get(deviceName);
-            Log.i("bluetoothThread", "deviceName" + deviceName+" deviceAddress"+chosenAddress);
-            BluetoothDevice device = bluetoothAdapter.getRemoteDevice(chosenAddress);
-            BluetoothSocket socket=null;
+            Log.i(TAG, "deviceName" + deviceName+" deviceAddress"+chosenAddress);
+/*
+            //作为服务器端接受
             try {
-                socket = device.createRfcommSocketToServiceRecord(iuuid);
-                socket.connect();
-                InputStream in = socket.getInputStream();
-
-                int i=0;
-                while(i<100){
-                    Log.i("222","222222222");
-                    i++;
-                    int count = in.available();
+                InputStream inputStream=null;
+                BluetoothSocket socket=null;
+                BluetoothServerSocket serverSocket  = bluetoothAdapter.listenUsingRfcommWithServiceRecord(deviceName, iuuid);
+                while(inputStream == null){
+                    Log.e("waiting","waitingForAccept");
+                    socket = serverSocket.accept();
+                    Log.e("1","accepted");
+                    inputStream = socket.getInputStream();
+                }
+                for(int i =0;i<50;i++){
+                    int count = 0;
+                    while (count == 0) {
+                        count = inputStream.available();
+                    }
                     byte[] b = new byte[count];
-                    in.read(b);
+                    inputStream.read(b);
                     Log.i("111111",new String(b));
                 }
-                in.close();
+                inputStream.close();
+                socket.close();
+                serverSocket.close();
+            }
+            catch (Exception e) {Log.e(TAG,"connectFailed");}*/
+
+/*
+
+           //作为客户端接受
+           final BluetoothDevice device = bluetoothAdapter.getRemoteDevice(chosenAddress);
+            if (device == null) {
+                Log.e(TAG, "Device not found.  Unable to connect.");
+                return;
+            }
+            try {
+                BluetoothSocket socket = device.createRfcommSocketToServiceRecord(iuuid);
+                bluetoothAdapter.cancelDiscovery();
+                Log.i(TAG, "connecting");
+                socket.connect();
+                Log.i(TAG, "connectedSuccessfully");
+
+                InputStream in = socket.getInputStream();
+                   for(int i =0;i<50;i++){
+                        int count = 0;
+                        while (count == 0) {
+                            count = in.available();
+                        }
+                        byte[] b = new byte[count];
+                        in.read(b);
+                        Log.i("111111",new String(b));
+                    }
             } catch (IOException e) {
-                 Log.e("inputStream","failed");
+                e.printStackTrace();
             }
-            finally {
-                try {
-                    if(socket!=null)
-                        socket.close();
-                } catch (IOException e) {
-                    Log.e("socket","socket close failed");
-                }
-            }
+*/
+
+            /*synchronized(this)
+            {
+                BluetoothGatt mBluetoothGatt = device.connectGatt(context, false, mGattCallback);
+                List<BluetoothGattService> listOfBluetoothGattService = mBluetoothGatt.getServices();
+
+                Log.i(TAG, "connectingSucceeded");
+            }*/
+
+
         }
     }
+
 }
+
+
+
