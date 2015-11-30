@@ -37,7 +37,7 @@ JNIEXPORT jintArray JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_dat
  * Signature: ([[D)I
  */
 JNIEXPORT jint JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_activityRecognition
-        (JNIEnv *, jclass, jobjectArray);
+        (JNIEnv *, jclass, jobjectArray, jdoubleArray);
 
 /*
  * Class:     NativeHelper
@@ -45,7 +45,7 @@ JNIEXPORT jint JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_activity
  * Signature: ([D)I
  */
 JNIEXPORT jint JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_abnormalDetection
-        (JNIEnv *, jclass, jdoubleArray);
+        (JNIEnv *, jclass, jdoubleArray, jdoubleArray);
 
 /*
  * Class:     NativeHelper
@@ -53,7 +53,7 @@ JNIEXPORT jint JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_abnormal
  * Signature: ([D)I
  */
 JNIEXPORT jint JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_zoomSegment
-        (JNIEnv *, jclass, jdoubleArray);
+        (JNIEnv *, jclass, jdoubleArray, jdoubleArray);
 
 /*
  * Class:     NativeHelper
@@ -61,7 +61,7 @@ JNIEXPORT jint JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_zoomSegm
  * Signature: ([D)D
  */
 JNIEXPORT jdouble JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_timeBalan
-        (JNIEnv *, jclass, jdoubleArray);
+        (JNIEnv *, jclass, jdoubleArray, jdoubleArray);
 
 /*
  * Class:     NativeHelper
@@ -69,7 +69,7 @@ JNIEXPORT jdouble JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_timeB
  * Signature: ([D)D
  */
 JNIEXPORT jdouble JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_amplitudeBalan
-        (JNIEnv *, jclass, jdoubleArray);
+        (JNIEnv *, jclass, jdoubleArray, jdoubleArray);
 
 /*
  * Class:     NativeHelper
@@ -77,7 +77,7 @@ JNIEXPORT jdouble JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_ampli
  * Signature: ([D)D
  */
 JNIEXPORT jdouble JNICALL Java_fruitbasket_com_bodyfit_helper_NativeHelper_repetitionScore
-        (JNIEnv *, jclass, jdoubleArray);
+        (JNIEnv *, jclass, jdoubleArray, jdoubleArray);
 
 /*
  * Class:     NativeHelper

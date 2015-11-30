@@ -23,7 +23,7 @@ public class NativeHelper {
     public static native boolean isbelongSegments(double[] filteredSignal);
 
     /**
-     *
+     * select two vector of the inputSignal
      * @param input
      * @return
      */
@@ -31,45 +31,51 @@ public class NativeHelper {
 
     /**
      * identify the type of activity
-     * @param signalSegments
-     * @return type of activity
+     * @param signalSegmentX
+     * @param signalSegmentY
+     * @return
      */
-    public static native int activityRecognition(double[][] signalSegments);
+    public static native int activityRecognition(double[] signalSegmentX,double[] signalSegmentY);
 
     /**
      * check whether it is a abnormal behavior in the activity
-     * @param signalSegments type of abnormal behavior
+     * @param signalSegmentX
+     * @param signalSegmentY
      * @return
      */
-    public static native int abnormalDetection(double signalSegments[]);
+    public static native int abnormalDetection(double[] signalSegmentX,double[] signalSegmentY);
 
     /**
      *
-     * @param signalSegments
+     * @param signalSegmentX
+     * @param signalSegmentY
      * @return
      */
-    public static native int zoomSegment(double signalSegments[]);
+    public static native int zoomSegment(double[] signalSegmentX,double[] signalSegmentY);
 
     /**
-     *signalSegments
-     * @param
+     * signalSegments
+     * @param signalSegmentX
+     * @param signalSegmentY
      * @return
      */
-    public static native double timeBalan(double signalSegments[]);
+    public static native double timeBalan(double[] signalSegmentX,double[] signalSegmentY);
 
     /**
      *
-     * @param signalSegments
+     * @param signalSegmentX
+     * @param signalSegmentY
      * @return
      */
-    public static native double amplitudeBalan(double signalSegments[]);
+    public static native double amplitudeBalan(double[] signalSegmentX,double[] signalSegmentY);
 
     /**
-     *calculate the score of one repetition
-     * @param signalSegment
+     * calculate the score of one repetition
+     * @param signalSegmentX
+     * @param signalSegmentY
      * @return
      */
-    public static native double repetitionScore(double signalSegment[]);
+    public static native double repetitionScore(double[] signalSegmentX,double[] signalSegmentY);
 
     /**
      * calculate the score of a set of exercise
