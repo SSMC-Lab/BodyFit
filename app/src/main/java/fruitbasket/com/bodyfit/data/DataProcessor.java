@@ -1,13 +1,16 @@
 package fruitbasket.com.bodyfit.data;
 
+import java.util.ArrayList;
+
 public class DataProcessor {
     private static final String TAG="DataProcessor";
 
-    DataWrapper dataWrapper;
+    private ArrayList<Data>  dataSet;
 
-    public DataProcessor(Data[] sourceDataSet){
-        dataWrapper=new DataWrapper(sourceDataSet);
+    public DataProcessor(){
+        dataSet=new ArrayList<>();
     }
+
 
 
 

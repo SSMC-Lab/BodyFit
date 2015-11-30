@@ -1,55 +1,55 @@
 package fruitbasket.com.bodyfit.data;
 
 public class Data {
-    private String time;
-    private double ax;
-    private double ay;
-    private double az;
-    private double gx;
-    private double gy;
-    private double gz;
+    public static final String TAG="Data";
 
-    public Data(String time,
-                double ax,
-                double ay,
-                double az,
-                double gx,
-                double gy,
-                double gz){
-        this.time=time;
-        this.ax=ax;
-        this.ay=ay;
-        this.az=az;
-        this.gx=gx;
-        this.gy=gy;
-        this.gz=gz;
+    private double[] axSet;
+    private double[] aySet;
+    private double[] azSet;
+    private double[] gxSet;
+    private double[] gySet;
+    private double[] gzSet;
+
+    public Data(SourceData[] sourceDatas){
+        axSet=new double[sourceDatas.length];
+        aySet=new double[sourceDatas.length];
+        azSet=new double[sourceDatas.length];
+        gxSet=new double[sourceDatas.length];
+        gySet=new double[sourceDatas.length];
+        gzSet=new double[sourceDatas.length];
+
+        for(int i=0;i<sourceDatas.length;++i){
+            axSet[i]=sourceDatas[i].getAx();
+            aySet[i]=sourceDatas[i].getAy();
+            azSet[i]=sourceDatas[i].getAz();
+            gxSet[i]=sourceDatas[i].getGx();
+            gySet[i]=sourceDatas[i].getGy();
+            gzSet[i]=sourceDatas[i].getGz();
+        }
     }
 
-    public String getTime(){
-        return time;
+    public double[] getAxSet(){
+        return axSet;
     }
 
-    public double getAx(){
-        return ax;
+    public double[] getAySet(){
+        return aySet;
     }
 
-    public double getAy(){
-        return ay;
+    public double[] getAzSet(){
+        return azSet;
     }
 
-    public double getAz(){
-        return az;
+    public double[] getGxSet(){
+        return gxSet;
     }
 
-    public double getGx(){
-        return gx;
+    public double[] getGySet(){
+        return gySet;
     }
 
-    public double getGy(){
-        return gy;
+    public double[] getGzSet(){
+        return gzSet;
     }
 
-    public double getGz(){
-        return gz;
-    }
 }
