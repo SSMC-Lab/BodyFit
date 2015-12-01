@@ -13,9 +13,13 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+
 import fruitbasket.com.bodyfit.R;
 import fruitbasket.com.bodyfit.bluetooth.Bluetooth;
 import fruitbasket.com.bodyfit.bluetooth.BlunoLibrary;
+import fruitbasket.com.bodyfit.data.SourceData;
+import fruitbasket.com.bodyfit.helper.JSONHelper;
 import fruitbasket.com.bodyfit.helper.NativeHelper;
 
 public class MainActivity extends BaseTabActivity {
@@ -23,11 +27,9 @@ public class MainActivity extends BaseTabActivity {
     private String TAG="MainActivity";
 
     private TabWidget mTabWidget;
-    /*private FrameLayout mLeftContext;
-    private FrameLayout mRightContext;*/
     private ViewPager mViewPager;
 
-    //private Bluetooth bluetooth;
+    private Bluetooth bluetooth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +39,18 @@ public class MainActivity extends BaseTabActivity {
 
         initViews();
         startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE),0);
-        //double[] array={1.0,2.0};
-        //Toast.makeText(this, "boolean=" + NativeHelper.isbelongSegments(array), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Log.d(TAG, "onPause()");
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        Log.d(TAG, "onDestroy()");
     }
 
     @Override
@@ -54,23 +66,8 @@ public class MainActivity extends BaseTabActivity {
 
     }
 
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        Log.d(TAG, "onDestroy()");
-    }
-
-    @Override
-    protected void onPause(){
-        super.onPause();
-        Log.d(TAG, "onPause()");
-    }
-
     protected void initViews(){
         mTabWidget = (TabWidget) findViewById(R.id.tabWidget_bodyfit);
-
-        /*mLeftContext = (FrameLayout) findViewById(R.id.contextbar_left);
-        mRightContext = (FrameLayout) findViewById(R.id.contextbar_right);*/
 
         mViewPager = (ViewPager) findViewById(R.id.viewpager_bodyfit);
 
@@ -103,16 +100,7 @@ public class MainActivity extends BaseTabActivity {
     protected TabWidget getTabWidget() {
         return mTabWidget;
     }
-    
-    /*@Override
-    protected View getLeftContext() {
-        return mLeftContext;
-    }
 
-    @Override
-    protected View getRighttContext() {
-        return mRightContext;
-    }*/
 
     @Override
     protected ViewPager getViewPager() {
