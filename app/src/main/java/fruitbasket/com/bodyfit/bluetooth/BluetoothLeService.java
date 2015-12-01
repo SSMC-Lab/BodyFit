@@ -43,7 +43,7 @@ import fruitbasket.com.bodyfit.helper.JSONHelper;
 
 /**
  * Service for managing connection and data communication with a GATT server hosted on a
- * given Bluetooth LE device.
+ * given BluetoothLE device.
  */
 public class BluetoothLeService extends Service {
     private final static String TAG = BluetoothLeService.class.getSimpleName();
