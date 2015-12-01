@@ -48,10 +48,6 @@ import fruitbasket.com.bodyfit.helper.JSONHelper;
 public class BluetoothLeService extends Service {
     private final static String TAG = BluetoothLeService.class.getSimpleName();
 
-    private int times = 0;
-    private int maxTimes = 3;
-    private StringBuffer allData = new StringBuffer();
-
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
     BluetoothGatt mBluetoothGatt;
@@ -295,27 +291,7 @@ public class BluetoothLeService extends Service {
         @Override
             public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
-            /*times++;
-            allData.append(new String(characteristic.getValue()));
-            if(times==4) {
-                JSONHelper jsonHelper = JSONHelper.getInstance();
-                SourceData sourceData = null;
-                try {
-                    sourceData = jsonHelper.parser(allData.toString());
-                    Log.i("data", "Time:" + sourceData.getTime()
-                                    + " Ax:" + sourceData.getAx()
-                                    + " Ay:" + sourceData.getAy()
-                                    + " Az:" + sourceData.getAz()
-                                    + " Gx:" + sourceData.getGx()
-                                    + " Gy:" + sourceData.getGy()
-                                    + " Gz:" + sourceData.getGz()
-                    );
-                } catch (JSONException e) {
-                    Log.e(TAG, "json parser exception");
-                }
-                times=0;System.out.println(allData);
-                allData.setLength(0);
-            }*/
+            //String receiveData = new String(characteristic.getValue());
             System.out.println(new String(characteristic.getValue()));
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
         }
