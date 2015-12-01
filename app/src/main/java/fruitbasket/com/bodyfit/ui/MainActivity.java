@@ -1,6 +1,5 @@
 package fruitbasket.com.bodyfit.ui;
 
-import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -11,12 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.TabWidget;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import fruitbasket.com.bodyfit.R;
 import fruitbasket.com.bodyfit.bluetooth.Bluetooth;
-import fruitbasket.com.bodyfit.bluetooth.BlunoLibrary;
-import fruitbasket.com.bodyfit.helper.NativeHelper;
 
 public class MainActivity extends BaseTabActivity {
 
