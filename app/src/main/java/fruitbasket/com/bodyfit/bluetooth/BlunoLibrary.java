@@ -31,7 +31,11 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+
 import fruitbasket.com.bodyfit.R;
+import fruitbasket.com.bodyfit.data.SourceData;
+import fruitbasket.com.bodyfit.helper.JSONHelper;
 import fruitbasket.com.bodyfit.ui.MainActivity;
 
 public  class BlunoLibrary  extends Fragment{
@@ -326,7 +330,6 @@ public  class BlunoLibrary  extends Fragment{
 					}
             	}
 
-
             	//System.out.println("displayData " + intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
 //            	mPlainProtocol.mReceivedframe.append(intent.getStringExtra(BluetoothLeService.EXTRA_DATA)) ;
 //            	System.out.print("mPlainProtocol.mReceivedframe:");
@@ -385,21 +388,19 @@ public  class BlunoLibrary  extends Fragment{
 			System.out.println("mBluetoothAdapter.startLeScan");
 
 			if(mLeDeviceListAdapter != null)
-			{System.out.println("mBluetoothAdapter.startLeScan1111");
+			{
 				mLeDeviceListAdapter.clear();
 				mLeDeviceListAdapter.notifyDataSetChanged();
 			}
-			System.out.println("mBluetoothAdapter.startLeScan2222");
+
 			if(!mScanning)
-			{System.out.println("mBluetoothAdapter.startLeScan33333");
-				if(mBluetoothAdapter==null)
-					System.out.println("mBluetoothAdapter.null");
+			{
 				mScanning = true;
 				mBluetoothAdapter.startLeScan(mLeScanCallback);
 			}
-		} else {System.out.println("mBluetoothAdapter.startLeScan4444");
+		} else {
 			if(mScanning)
-			{System.out.println("mBluetoothAdapter.startLeScan5555");
+			{
 				mScanning = false;
 				mBluetoothAdapter.stopLeScan(mLeScanCallback);
 			}

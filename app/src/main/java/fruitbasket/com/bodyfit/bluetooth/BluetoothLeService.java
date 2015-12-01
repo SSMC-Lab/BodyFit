@@ -32,9 +32,13 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import org.json.JSONException;
+
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import fruitbasket.com.bodyfit.data.SourceData;
+import fruitbasket.com.bodyfit.helper.JSONHelper;
 
 
 /**
@@ -43,6 +47,10 @@ import java.util.List;
  */
 public class BluetoothLeService extends Service {
     private final static String TAG = BluetoothLeService.class.getSimpleName();
+
+    private int times = 0;
+    private int maxTimes = 3;
+    private StringBuffer allData = new StringBuffer();
 
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
@@ -59,7 +67,7 @@ public class BluetoothLeService extends Service {
     //not the Write Characteristic to the device successfully.
     private static final int WRITE_NEW_CHARACTERISTIC = -1;
     //define the limited length of the characteristic.
-    private static final int MAX_CHARACTERISTIC_LENGTH = 17;
+    private static final int MAX_CHARACTERISTIC_LENGTH = 250;
     //Show that Characteristic is writing or not.
     private boolean mIsWritingCharacteristic=false;
 
@@ -285,9 +293,30 @@ public class BluetoothLeService extends Service {
 
         //写数据
         @Override
-        public void onCharacteristicChanged(BluetoothGatt gatt,
+            public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
-        	System.out.println(new String(characteristic.getValue()));
+            /*times++;
+            allData.append(new String(characteristic.getValue()));
+            if(times==4) {
+                JSONHelper jsonHelper = JSONHelper.getInstance();
+                SourceData sourceData = null;
+                try {
+                    sourceData = jsonHelper.parser(allData.toString());
+                    Log.i("data", "Time:" + sourceData.getTime()
+                                    + " Ax:" + sourceData.getAx()
+                                    + " Ay:" + sourceData.getAy()
+                                    + " Az:" + sourceData.getAz()
+                                    + " Gx:" + sourceData.getGx()
+                                    + " Gy:" + sourceData.getGy()
+                                    + " Gz:" + sourceData.getGz()
+                    );
+                } catch (JSONException e) {
+                    Log.e(TAG, "json parser exception");
+                }
+                times=0;System.out.println(allData);
+                allData.setLength(0);
+            }*/
+            System.out.println(new String(characteristic.getValue()));
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
         }
     };
