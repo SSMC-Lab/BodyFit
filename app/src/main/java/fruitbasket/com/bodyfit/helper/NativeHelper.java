@@ -1,5 +1,8 @@
 package fruitbasket.com.bodyfit.helper;
 
+/**
+ * this method is out of date , you must change it before use.
+ */
 public class NativeHelper {
     private static NativeHelper nativeHelper=new NativeHelper();
 

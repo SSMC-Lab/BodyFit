@@ -13,6 +13,8 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 
 import fruitbasket.com.bodyfit.R;
+import fruitbasket.com.bodyfit.data.SourceData;
+import fruitbasket.com.bodyfit.processor.DataProcessor;
 
 public class MainActivity extends BaseTabActivity {
 
@@ -20,7 +22,6 @@ public class MainActivity extends BaseTabActivity {
 
     private TabWidget mTabWidget;
     private ViewPager mViewPager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +93,6 @@ public class MainActivity extends BaseTabActivity {
     protected TabWidget getTabWidget() {
         return mTabWidget;
     }
-
 
     @Override
     protected ViewPager getViewPager() {

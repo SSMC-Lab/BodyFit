@@ -130,7 +130,7 @@ public class DataProcessor{
      * @param signalSegmentY
      * @return
      */
-    public static double repetitionScore(double[] signalSegmentX,double[] signalSegmentY){
+    public static double repetitionScore(double[] signalSegmentX,double[] signalSegmentY,int m,int n){
         return 0;
     }
 
