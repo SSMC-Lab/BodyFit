@@ -12,6 +12,7 @@ import android.widget.ToggleButton;
 
 import fruitbasket.com.bodyfit.R;
 import fruitbasket.com.bodyfit.bluetooth.BlunoLibrary;
+import fruitbasket.com.bodyfit.processor.DataProcessor;
 
 public class ExerciseFragment extends BlunoLibrary {
     public static final String TAG="ExFragment";
@@ -21,8 +22,10 @@ public class ExerciseFragment extends BlunoLibrary {
     private TextView exerciseType;
     private ToggleButton toggleButton;
 
-    public ExerciseFragment(){
+    private DataProcessor dataProcessor;
 
+    public ExerciseFragment(){
+        super();
     }
 
     @SuppressLint("ValidFragment")
@@ -44,5 +47,21 @@ public class ExerciseFragment extends BlunoLibrary {
 
 
 
+    private class ToggleClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+            switch(view.getId()){
+                case R.id.start_doing:
+                    if(((ToggleButton)view).isChecked()==true){
+
+                    }
+                    else{
+
+                    }
+                    break;
+            }
+        }
+    }
 
 }
