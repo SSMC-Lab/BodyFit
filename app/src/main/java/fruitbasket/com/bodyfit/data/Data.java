@@ -10,6 +10,10 @@ public class Data {
     private double[] gySet;
     private double[] gzSet;
 
+    public Data (){
+
+    }
+
     public Data(SourceData[] sourceDatas){
         axSet=new double[sourceDatas.length];
         aySet=new double[sourceDatas.length];
@@ -52,4 +56,21 @@ public class Data {
         return gzSet;
     }
 
+    public void fromSourceData(SourceData[] sourceDatas){
+        axSet=new double[sourceDatas.length];
+        aySet=new double[sourceDatas.length];
+        azSet=new double[sourceDatas.length];
+        gxSet=new double[sourceDatas.length];
+        gySet=new double[sourceDatas.length];
+        gzSet=new double[sourceDatas.length];
+
+        for(int i=0;i<sourceDatas.length;++i){
+            axSet[i]=sourceDatas[i].getAx();
+            aySet[i]=sourceDatas[i].getAy();
+            azSet[i]=sourceDatas[i].getAz();
+            gxSet[i]=sourceDatas[i].getGx();
+            gySet[i]=sourceDatas[i].getGy();
+            gzSet[i]=sourceDatas[i].getGz();
+        }
+    }
 }

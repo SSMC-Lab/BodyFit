@@ -6,9 +6,14 @@ import fruitbasket.com.bodyfit.data.Data;
 import fruitbasket.com.bodyfit.data.SourceData;
 
 public class DataProcessor{
-    private static final String TAG="DataProcessor";
+    private static final DataProcessor dataProcessor=new DataProcessor();
 
 
+    private DataProcessor(){}
+
+    public DataProcessor getInstance(){
+        return dataProcessor;
+    }
 
     /**
      * @param inputSignal

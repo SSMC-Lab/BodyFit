@@ -11,8 +11,9 @@ import android.widget.ToggleButton;
 
 import fruitbasket.com.bodyfit.R;
 import fruitbasket.com.bodyfit.bluetooth.BlunoLibrary;
+import fruitbasket.com.bodyfit.data.Data;
+import fruitbasket.com.bodyfit.data.DataBuffer;
 import fruitbasket.com.bodyfit.data.SourceData;
-import fruitbasket.com.bodyfit.processor.DataProcessor;
 
 public class ExerciseFragment extends BlunoLibrary {
     public static final String TAG="ExFragment";
@@ -23,7 +24,8 @@ public class ExerciseFragment extends BlunoLibrary {
     private ToggleButton toggleButton;
 
     private SourceData[] sourceDatas;
-    private DataProcessor dataProcessor;
+    private Data data;
+    private DataBuffer dataBuffer;
     private boolean isDoing=false;
 
     public ExerciseFragment(){
@@ -33,7 +35,7 @@ public class ExerciseFragment extends BlunoLibrary {
     @SuppressLint("ValidFragment")
     public ExerciseFragment(Context context){
         super(context);
-        dataProcessor=new DataProcessor();
+        dataBuffer =new DataBuffer();
     }
 
 
@@ -55,8 +57,7 @@ public class ExerciseFragment extends BlunoLibrary {
             if(super.mBluetoothLeService.isFull()==true){
                 sourceDatas=super.mBluetoothLeService.getSourceDataSet();
                 if(sourceDatas!=null){
-                    dataProcessor.addSourceDatas(sourceDatas);
-                    //dataProcessor.
+                    //data.fromSourceData(sourceDatas);
                 }
             }
         }
