@@ -56,8 +56,13 @@ public class BluetoothLeService extends Service {
     }
 
     public SourceData[] getSourceDataSet(){
-        isFull=false;
-        return sourceDataSet;
+        if(isFull==true){
+            isFull=false;
+            return sourceDataSet;
+        }
+        else{
+            return null;
+        }
     }
 
     private BluetoothManager mBluetoothManager;
@@ -295,8 +300,8 @@ public class BluetoothLeService extends Service {
         @Override
         public void  onDescriptorWrite(BluetoothGatt gatt, 
         								BluetoothGattDescriptor characteristic,
-        								int status){
-        	System.out.println("onDescriptorWrite  " + characteristic.getUuid().toString() + " " + status);
+                                       int status) {
+            System.out.println("onDescriptorWrite  " + characteristic.getUuid().toString() + " " + status);
         }
 
         //写数据
