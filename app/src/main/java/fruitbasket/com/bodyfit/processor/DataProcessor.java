@@ -1,13 +1,24 @@
 package fruitbasket.com.bodyfit.processor;
 
-import java.util.ArrayList;
-
-import fruitbasket.com.bodyfit.data.Data;
-import fruitbasket.com.bodyfit.data.SourceData;
-
 public class DataProcessor{
     private static final DataProcessor dataProcessor=new DataProcessor();
 
+    //exercise type
+    public static final int FLAT_BENCH_BRABELL_PASS=0;
+    public static final int FLAT_BENCH_DUMBBELL_FLYE=1;
+    public static final int FLAT_BENCH_DUMBBELL_PRESS=2;
+    public static final int INCLINE_DUMBBELL_FLYE=3;
+    public static final int REVERSE_GRIP_PULLDOWN=4;
+    public static final int MACHINE_GURLS=5;
+    public static final int ALTERNATE_DUMBBELL_CURL=6;
+    public static final int PEC_DECK_FLYE=7;
+    public static final int INCLINE_DUMBBEL_PRESS=8;
+    public static final int CABLE_CROSSOVERS=10;
+
+    //wrong type
+    public static final int TOO_QUICK=1000;
+    public static final int NOT_BALANCE=1001;
+    public static final int NOT_STABLE=1002;
 
     private DataProcessor(){}
 
