@@ -13,6 +13,7 @@ public class ExerciseProcessor {
     private DataBuffer dataBuffer;
 
     private int exerciseType;
+    private int abnormalType;
 
     private BluetoothLeService mBluetoothLeService;
 
@@ -39,5 +40,9 @@ public class ExerciseProcessor {
 
     public int getExerciseType(){
         return exerciseType;
+    }
+
+    public int getAbnormalType(){
+        return abnormalType;
     }
 }

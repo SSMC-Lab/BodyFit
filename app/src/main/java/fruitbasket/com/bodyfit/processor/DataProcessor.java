@@ -4,6 +4,7 @@ public class DataProcessor{
     private static final DataProcessor dataProcessor=new DataProcessor();
 
     //exercise type
+    public static final int INITIAL_EXERCISE_TYPE=-1;
     public static final int FLAT_BENCH_BRABELL_PASS=0;
     public static final int FLAT_BENCH_DUMBBELL_FLYE=1;
     public static final int FLAT_BENCH_DUMBBELL_PRESS=2;
@@ -15,7 +16,8 @@ public class DataProcessor{
     public static final int INCLINE_DUMBBEL_PRESS=8;
     public static final int CABLE_CROSSOVERS=10;
 
-    //wrong type
+    //abnormal type
+    public static final int INITIAL_ABNORMAL_TYPE=-1;
     public static final int TOO_QUICK=1000;
     public static final int NOT_BALANCE=1001;
     public static final int NOT_STABLE=1002;
