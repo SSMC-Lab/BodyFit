@@ -1,6 +1,5 @@
 package fruitbasket.com.bodyfit.ui;
 
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
@@ -22,16 +21,17 @@ public class ExerciseFragment extends BlunoLibrary {
     private TextView exerciseType;
     private ToggleButton toggleButton;
 
-    private DataProcessor dataProcessor;
+    private DataProcessor dataProcessor=new DataProcessor();
 
     public ExerciseFragment(){
-        super();
+
     }
 
     @SuppressLint("ValidFragment")
     public ExerciseFragment(Context context){
         super(context);
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){

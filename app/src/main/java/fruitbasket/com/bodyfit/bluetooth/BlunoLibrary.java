@@ -42,7 +42,9 @@ public  class BlunoLibrary  extends Fragment{
 
 	private Context mainContext;
 
-	public BlunoLibrary() {this(null);}
+	public BlunoLibrary() {
+		this(null);
+	}
 	@SuppressLint("ValidFragment")
 	public BlunoLibrary(Context theContext) {
 		mainContext=theContext;

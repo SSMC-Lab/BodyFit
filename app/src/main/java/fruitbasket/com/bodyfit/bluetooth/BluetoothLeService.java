@@ -45,9 +45,18 @@ import fruitbasket.com.bodyfit.data.SourceData;
  */
 public class BluetoothLeService extends Service {
     private final static String TAG = BluetoothLeService.class.getSimpleName();
+
+    private int currentLoad=0;
     private SourceData[] sourceDataSet = new SourceData[Conditions.MAX_SAMPLE_NUMBER];
 
+    private boolean isFull=false;
+
+    public boolean isFull(){
+        return isFull;
+    }
+
     public SourceData[] getSourceDataSet(){
+        isFull=false;
         return sourceDataSet;
     }
 
@@ -307,9 +316,17 @@ public class BluetoothLeService extends Service {
                 gy = dealG(receiveData.substring(11, 15));
                 gz = dealG(receiveData.substring(15, 19));
 
-                //每5次进行写入
+                /*//每5次进行写入
                 if(sourceDataSet.length<5){
                     sourceDataSet[sourceDataSet.length-1]=new SourceData(null,ax,ay,az,gx,gy,gz);
+                }*/
+                if(isFull==false&&currentLoad<Conditions.MAX_SAMPLE_NUMBER){
+                    sourceDataSet[currentLoad]=new SourceData(null,ax,ay,az,gx,gy,gz);
+                    ++currentLoad;
+                }
+                else{
+                    currentLoad=0;
+                    isFull=true;
                 }
 
             }
