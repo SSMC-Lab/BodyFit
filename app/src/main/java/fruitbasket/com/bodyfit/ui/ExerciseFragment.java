@@ -4,7 +4,6 @@ package fruitbasket.com.bodyfit.ui;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +12,13 @@ import android.widget.ToggleButton;
 
 import fruitbasket.com.bodyfit.R;
 import fruitbasket.com.bodyfit.bluetooth.BlunoLibrary;
-import fruitbasket.com.bodyfit.data.SourceData;
-import fruitbasket.com.bodyfit.processor.DataProcessor;
 
 public class ExerciseFragment extends BlunoLibrary {
     public static final String TAG="ExFragment";
 
-    private TextView groupumber;
-    //private TextView
+    private TextView groupNumber;
+    private TextView timesNumber;
+    private TextView exerciseType;
     private ToggleButton toggleButton;
 
     public ExerciseFragment(){
@@ -36,10 +34,12 @@ public class ExerciseFragment extends BlunoLibrary {
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
         View view=inflater.inflate(R.layout.layout_exercise,container,false);
         //initialize Views
+        groupNumber =(TextView)view.findViewById(R.id.group_number);
+        timesNumber=(TextView)view.findViewById(R.id.times_number);
+        exerciseType=(TextView)view.findViewById(R.id.exercise_type);
         toggleButton=(ToggleButton)view.findViewById(R.id.start_doing);
 
         return view;
-
     }
 
 

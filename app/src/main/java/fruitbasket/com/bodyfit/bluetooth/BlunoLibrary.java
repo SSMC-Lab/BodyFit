@@ -41,6 +41,7 @@ import fruitbasket.com.bodyfit.ui.MainActivity;
 public  class BlunoLibrary  extends Fragment{
 
 	private Context mainContext;
+	private SourceData[] sourceDatas;
 
 	public BlunoLibrary() {
 
@@ -505,6 +506,12 @@ public  class BlunoLibrary  extends Fragment{
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
         return intentFilter;
     }
+
+
+	public SourceData[] getSourceDatas(){
+		return sourceDatas;
+	}
+
 
 	private class LeDeviceListAdapter extends BaseAdapter {
 		private ArrayList<BluetoothDevice> mLeDevices;
