@@ -23,9 +23,6 @@ public class ExerciseFragment extends BlunoLibrary {
     //private TextView
     private ToggleButton toggleButton;
 
-    private SourceData[] sourceDatas=null;
-    private DataProcessor dataProcessor=new DataProcessor();
-
     public ExerciseFragment(){
 
     }
