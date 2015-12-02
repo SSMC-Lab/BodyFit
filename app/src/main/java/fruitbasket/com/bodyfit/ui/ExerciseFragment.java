@@ -14,6 +14,8 @@ import fruitbasket.com.bodyfit.bluetooth.BlunoLibrary;
 import fruitbasket.com.bodyfit.data.Data;
 import fruitbasket.com.bodyfit.data.DataBuffer;
 import fruitbasket.com.bodyfit.data.SourceData;
+import fruitbasket.com.bodyfit.processor.DataProcessor;
+import fruitbasket.com.bodyfit.processor.ExerciseProcessor;
 
 public class ExerciseFragment extends BlunoLibrary {
     public static final String TAG="ExFragment";
@@ -45,7 +47,30 @@ public class ExerciseFragment extends BlunoLibrary {
         return view;
     }
 
-
+    private void showExerciseType(int type){
+        if(type == DataProcessor.FLAT_BENCH_BRABELL_PASS)
+            exerciseType.setText("平板杠铃卧推");
+        else  if(type == DataProcessor.FLAT_BENCH_DUMBBELL_FLYE)
+            exerciseType.setText("平板哑铃飞鸟");
+        else  if(type == DataProcessor.FLAT_BENCH_DUMBBELL_PRESS)
+            exerciseType.setText("平板哑铃卧推");
+        else  if(type == DataProcessor.INCLINE_DUMBBELL_FLYE)
+            exerciseType.setText("上斜板哑铃飞鸟");
+        else  if(type == DataProcessor.REVERSE_GRIP_PULLDOWN)
+            exerciseType.setText("阔背肌下拉");
+        else  if(type == DataProcessor.MACHINE_GURLS)
+            exerciseType.setText("器械弯举");
+        else  if(type == DataProcessor.ALTERNATE_DUMBBELL_CURL)
+            exerciseType.setText("哑铃交替弯举");
+        else  if(type == DataProcessor.PEC_DECK_FLYE)
+            exerciseType.setText("器械夹胸");
+        else  if(type == DataProcessor.INCLINE_DUMBBEL_PRESS)
+            exerciseType.setText("上斜板哑铃卧推");
+        else  if(type == DataProcessor.CABLE_CROSSOVERS)
+            exerciseType.setText("十字夹胸");
+        else if(type == DataProcessor.INITIAL_EXERCISE_TYPE)
+            exerciseType.setText("未设置");
+    }
 
 
 

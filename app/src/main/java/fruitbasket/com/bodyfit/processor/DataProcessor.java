@@ -14,7 +14,7 @@ public class DataProcessor{
     public static final int ALTERNATE_DUMBBELL_CURL=6;
     public static final int PEC_DECK_FLYE=7;
     public static final int INCLINE_DUMBBEL_PRESS=8;
-    public static final int CABLE_CROSSOVERS=10;
+    public static final int CABLE_CROSSOVERS=9;
 
     //abnormal type
     public static final int INITIAL_ABNORMAL_TYPE=-1;

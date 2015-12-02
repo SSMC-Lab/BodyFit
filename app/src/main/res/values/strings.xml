@@ -33,13 +33,13 @@
 
     <!-- action_type-->
     <string name="T0">未设置</string>
-    <string name="T1">平板卧推</string>
+    <string name="T1">平板杠铃卧推</string>
     <string name="T2">平板哑铃飞鸟</string>
     <string name="T3">平板哑铃卧推</string>
     <string name="T4">上斜板哑铃飞鸟</string>
-    <string name="T5">上斜板哑铃卧推</string>
-    <string name="T6">器械胸前弯举</string>
-    <string name="T7">交替哑铃弯举</string>
+    <string name="T5">阔背肌下拉</string>
+    <string name="T6">器械弯举</string>
+    <string name="T7">哑铃交替弯举</string>
     <string name="T8">器械夹胸</string>
     <string name="T9">上斜板哑铃卧推</string>
     <string name="T10">十字夹胸</string>

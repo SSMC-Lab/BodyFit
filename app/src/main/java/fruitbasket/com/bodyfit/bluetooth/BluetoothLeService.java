@@ -56,7 +56,7 @@ public class BluetoothLeService extends Service {
     }
 
     public SourceData[] getSourceDataSet(){
-        if(isFull==true){
+        if(isFull){
             isFull=false;
             return sourceDataSet;
         }
@@ -321,10 +321,7 @@ public class BluetoothLeService extends Service {
                 gy = dealG(receiveData.substring(11, 15));
                 gz = dealG(receiveData.substring(15, 19));
 
-                /*//每5次进行写入
-                if(sourceDataSet.length<5){
-                    sourceDataSet[sourceDataSet.length-1]=new SourceData(null,ax,ay,az,gx,gy,gz);
-                }*/
+
                 if(isFull==false&&currentLoad<Conditions.MAX_SAMPLE_NUMBER){
                     sourceDataSet[currentLoad]=new SourceData(null,ax,ay,az,gx,gy,gz);
                     ++currentLoad;
@@ -335,7 +332,6 @@ public class BluetoothLeService extends Service {
                 }
 
             }
-            //System.out.println(new String(characteristic.getValue()));
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
         }
 
