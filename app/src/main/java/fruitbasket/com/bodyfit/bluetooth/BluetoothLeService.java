@@ -32,13 +32,11 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
-import org.json.JSONException;
-
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.data.SourceData;
-import fruitbasket.com.bodyfit.helper.JSONHelper;
 
 
 /**
@@ -47,6 +45,11 @@ import fruitbasket.com.bodyfit.helper.JSONHelper;
  */
 public class BluetoothLeService extends Service {
     private final static String TAG = BluetoothLeService.class.getSimpleName();
+    private SourceData[] sourceDataSet = new SourceData[Conditions.MAX_SAMPLE_NUMBER];
+
+    public SourceData[] getSourceDataSet(){
+        return sourceDataSet;
+    }
 
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
@@ -284,16 +287,50 @@ public class BluetoothLeService extends Service {
         public void  onDescriptorWrite(BluetoothGatt gatt, 
         								BluetoothGattDescriptor characteristic,
         								int status){
-        	System.out.println("onDescriptorWrite  "+characteristic.getUuid().toString()+" "+status);
+        	System.out.println("onDescriptorWrite  " + characteristic.getUuid().toString() + " " + status);
         }
 
         //写数据
         @Override
             public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
-            //String receiveData = new String(characteristic.getValue());
-            System.out.println(new String(characteristic.getValue()));
+            String receiveData = new String(characteristic.getValue());
+            if(receiveData.length()==20) {
+                //排除异常情况
+                try{Double.parseDouble(receiveData.substring(1,19));}catch (Exception e){return;}
+                //获取数据
+                double ax, ay, az, gx, gy, gz;
+                ax = dealA(receiveData.substring(1, 3));
+                ay = dealA(receiveData.substring(3, 5));
+                az = dealA(receiveData.substring(5, 7));
+                gx = dealG(receiveData.substring(7, 11));
+                gy = dealG(receiveData.substring(11, 15));
+                gz = dealG(receiveData.substring(15, 19));
+
+                //每5次进行写入
+                if(sourceDataSet.length<5){
+                    sourceDataSet[sourceDataSet.length-1]=new SourceData(null,ax,ay,az,gx,gy,gz);
+                }
+
+            }
+            //System.out.println(new String(characteristic.getValue()));
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+        }
+
+        private double dealA(String s){
+            int tem = Integer.parseInt(s);
+            if(tem<=10){
+                return (double)tem/10;
+            }
+            else{
+                return -(double)(tem-10)/10;
+            }
+        }
+        private double dealG(String s ){
+            int n = Integer.parseInt(s);
+            if(n>1000)
+                return -(n-1000);
+            return n;
         }
     };
     
