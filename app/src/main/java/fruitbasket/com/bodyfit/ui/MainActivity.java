@@ -29,8 +29,7 @@ public class MainActivity extends BaseTabActivity {
         Log.d(TAG, "onCreate()");
         setContentView(R.layout.activity_main);
 
-        initViews();
-        startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE),0);
+        startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 0);
     }
 
     @Override
@@ -51,12 +50,24 @@ public class MainActivity extends BaseTabActivity {
         if(requestCode==0) {
             if (resultCode == RESULT_OK){
                 BluetoothAdapter.getDefaultAdapter().enable();
+                initViews();
             }
             else
                 finish();
             //else 关闭整个程序
         }
 
+    }
+
+
+    @Override
+    protected TabWidget getTabWidget() {
+        return mTabWidget;
+    }
+
+    @Override
+    protected ViewPager getViewPager() {
+        return mViewPager;
     }
 
     protected void initViews(){
@@ -87,13 +98,4 @@ public class MainActivity extends BaseTabActivity {
         setCurrentTab(1);
     }
 
-    @Override
-    protected TabWidget getTabWidget() {
-        return mTabWidget;
-    }
-
-    @Override
-    protected ViewPager getViewPager() {
-        return mViewPager;
-    }
 }
