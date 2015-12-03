@@ -31,12 +31,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONException;
-
 import fruitbasket.com.bodyfit.R;
-import fruitbasket.com.bodyfit.data.SourceData;
-import fruitbasket.com.bodyfit.helper.JSONHelper;
-import fruitbasket.com.bodyfit.ui.MainActivity;
 
 public  class BlunoLibrary  extends Fragment{
 
@@ -211,9 +206,10 @@ public  class BlunoLibrary  extends Fragment{
 
 
     public void onPauseProcess() {
-    	System.out.println("BLUNOActivity onPause");
 		scanLeDevice(false);
+
 		mainContext.unregisterReceiver(mGattUpdateReceiver);
+
 		mLeDeviceListAdapter.clear();
     	mConnectionState=connectionStateEnum.isToScan;
     	//onConectionStateChange(mConnectionState);
