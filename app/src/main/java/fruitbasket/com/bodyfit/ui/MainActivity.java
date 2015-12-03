@@ -34,6 +34,19 @@ public class MainActivity extends BaseTabActivity {
     }
 
     @Override
+    protected void onPause(){
+        super.onPause();
+        Log.i(TAG, "onPause()");
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        Log.d(TAG, "onDestroy()");
+    }
+
+
+    @Override
     protected void onActivityResult(int requestCode,int resultCode, Intent data){
         if(requestCode==0) {
             if (resultCode == RESULT_OK){
@@ -46,24 +59,9 @@ public class MainActivity extends BaseTabActivity {
 
     }
 
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        Log.d(TAG, "onDestroy()");
-    }
-
-    @Override
-    protected void onPause(){
-        super.onPause();
-        Log.d(TAG, "onPause()");
-    }
-
     protected void initViews(){
         mTabWidget = (TabWidget) findViewById(R.id.tabWidget_bodyfit);
-
-
         mViewPager = (ViewPager) findViewById(R.id.viewpager_bodyfit);
-
         mTabWidget.setStripEnabled(false);
 
         Fragment targetFragment=new TargetFragment();

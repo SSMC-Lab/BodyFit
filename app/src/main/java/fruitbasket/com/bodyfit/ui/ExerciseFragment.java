@@ -3,6 +3,7 @@ package fruitbasket.com.bodyfit.ui;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ public class ExerciseFragment extends BlunoLibrary {
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
+        Log.i(TAG,"onCreateView()");
         View view=inflater.inflate(R.layout.layout_exercise,container,false);
         //initialize Views
         groupNumber =(TextView)view.findViewById(R.id.group_number);
@@ -49,6 +51,33 @@ public class ExerciseFragment extends BlunoLibrary {
         toggleButton.setOnClickListener(new ToggleClickListener());
         return view;
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.i(TAG,"onResume()");
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        Log.i(TAG, "onPause()");
+        onPauseProcess();
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        Log.i(TAG,"onStop()");
+        onStopProcess();
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onStop();
+        onDestroyProcess();
+    }
+
 
     private void showExerciseType(int type){
         if(type == DataProcessor.FLAT_BENCH_BRABELL_PASS)
@@ -92,28 +121,6 @@ public class ExerciseFragment extends BlunoLibrary {
                     break;
             }
         }
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-    }
-    @Override
-    public void onPause(){
-        super.onPause();
-        System.out.println("ExerciseFragment onpause");
-        //onPauseProcess();
-    }
-    @Override
-    public void onStop(){
-        super.onStop();
-        onStopProcess();
-    }
-
-    @Override
-    public void onDestroy(){
-        super.onStop();
-        onDestroyProcess();
     }
 
 }
