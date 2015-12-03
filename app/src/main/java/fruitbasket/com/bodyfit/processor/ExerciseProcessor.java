@@ -12,8 +12,8 @@ public class ExerciseProcessor {
     private Data data;
     private DataBuffer dataBuffer;
 
-    private int exerciseType;
-    private int abnormalType;
+    private int exerciseType=DataProcessor.INITIAL_EXERCISE_TYPE;
+    private int abnormalType=DataProcessor.INITIAL_ABNORMAL_TYPE;
 
     private BluetoothLeService mBluetoothLeService;
 
@@ -21,20 +21,20 @@ public class ExerciseProcessor {
         mBluetoothLeService=mBluetoothLeService;
     }
 
-    private void startDoing(){
+    public void startDoing(){
         isDoing=true;
         while(isDoing==true){
             if(mBluetoothLeService.isFull()==true){
                 sourceDatas=mBluetoothLeService.getSourceDataSet();
                 if(sourceDatas!=null){
                     data.fromSourceData(sourceDatas);
-                    //
+
                 }
             }
         }
     }
 
-    private void stopDoing(){
+    public void stopDoing(){
         isDoing=false;
     }
 

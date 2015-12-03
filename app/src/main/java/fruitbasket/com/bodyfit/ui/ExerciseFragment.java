@@ -25,6 +25,8 @@ public class ExerciseFragment extends BlunoLibrary {
     private TextView exerciseType;
     private ToggleButton toggleButton;
 
+    ExerciseProcessor exerciseProcessor;
+
     public ExerciseFragment(){
         this(null);
     }
@@ -32,6 +34,7 @@ public class ExerciseFragment extends BlunoLibrary {
     @SuppressLint("ValidFragment")
     public ExerciseFragment(Context context){
         super(context);
+        exerciseProcessor=new ExerciseProcessor(super.mBluetoothLeService);
     }
 
     @Override
@@ -81,10 +84,10 @@ public class ExerciseFragment extends BlunoLibrary {
             switch(view.getId()){
                 case R.id.start_doing:
                     if(((ToggleButton)view).isChecked()==true){
-
+                        exerciseProcessor.startDoing();
                     }
                     else{
-
+                        exerciseProcessor.stopDoing();
                     }
                     break;
             }
