@@ -62,7 +62,7 @@ public class ExerciseFragment extends BlunoLibrary {
     public void onPause(){
         super.onPause();
         Log.i(TAG, "onPause()");
-        onPauseProcess();
+        //onPauseProcess();
     }
 
     @Override

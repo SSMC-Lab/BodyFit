@@ -48,13 +48,10 @@ public class BluetoothLeService extends Service {
 
     private int currentLoad=0;
     private SourceData[] sourceDataSet = new SourceData[Conditions.MAX_SAMPLE_NUMBER];
-
     private boolean isFull=false;
-
     public boolean isFull(){
         return isFull;
     }
-
     public SourceData[] getSourceDataSet(){
         if(isFull){
             isFull=false;
@@ -69,33 +66,19 @@ public class BluetoothLeService extends Service {
     private BluetoothAdapter mBluetoothAdapter;
     BluetoothGatt mBluetoothGatt;
     public String mBluetoothDeviceAddress;
-    
     private static final int STATE_DISCONNECTED = 0;
     private static final int STATE_CONNECTING = 1;
     private static final int STATE_CONNECTED = 2;
     public int mConnectionState = STATE_DISCONNECTED;
-
-    
-    //To tell the onCharacteristicWrite call back function that this is a new characteristic, 
+    //To tell the onCharacteristicWrite call back function that this is a new characteristic,
     //not the Write Characteristic to the device successfully.
     private static final int WRITE_NEW_CHARACTERISTIC = -1;
     //define the limited length of the characteristic.
     private static final int MAX_CHARACTERISTIC_LENGTH = 250;
     //Show that Characteristic is writing or not.
     private boolean mIsWritingCharacteristic=false;
-
-    //class to store the Characteristic and content string push into the ring buffer.
-    private class BluetoothGattCharacteristicHelper{
-    	BluetoothGattCharacteristic mCharacteristic;
-    	String mCharacteristicValue;
-    	BluetoothGattCharacteristicHelper(BluetoothGattCharacteristic characteristic, String characteristicValue){
-    		mCharacteristic=characteristic;
-    		mCharacteristicValue=characteristicValue;
-    	}
-    }
     //ring buffer
     private RingBuffer<BluetoothGattCharacteristicHelper> mCharacteristicRingBuffer = new RingBuffer<BluetoothGattCharacteristicHelper>(8);
-    
     public final static String ACTION_GATT_CONNECTED =
             "com.example.bluetooth.le.ACTION_GATT_CONNECTED";
     public final static String ACTION_GATT_DISCONNECTED =
@@ -111,6 +94,28 @@ public class BluetoothLeService extends Service {
 
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.
+
+    private final IBinder mBinder = new LocalBinder();
+    public class LocalBinder extends Binder {
+        BluetoothLeService getService() {
+            return BluetoothLeService.this;
+        }
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return mBinder;
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        // After using a given device, you should make sure that BluetoothGatt.close() is called
+        // such that resources are cleaned up properly.  In this particular example, close() is
+        // invoked when the UI is disconnected from the Service.
+        close();
+        return super.onUnbind(intent);
+    }
+
     private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
@@ -352,7 +357,8 @@ public class BluetoothLeService extends Service {
             return n;
         }
     };
-    
+
+
     private void broadcastUpdate(final String action) {
         final Intent intent = new Intent(action);
         sendBroadcast(intent);
@@ -360,26 +366,7 @@ public class BluetoothLeService extends Service {
 
     private void broadcastUpdate(final String action,
                                  final BluetoothGattCharacteristic characteristic) {
-        final Intent intent = new Intent(action);
-        //System.out.println("BluetoothLeService broadcastUpdate");
-        // This is special handling for the Heart Rate Measurement profile.  Data parsing is
-        // carried out as per profile specifications:
-        // http://developer.bluetooth.org/gatt/characteristics/Pages/CharacteristicViewer.aspx?u=org.bluetooth.characteristic.heart_rate_measurement.xml
-//        if (UUID_HEART_RATE_MEASUREMENT.equals(characteristic.getUuid())) {
-//            int flag = characteristic.getProperties();
-//            int format = -1;
-//            if ((flag & 0x01) != 0) {
-//                format = BluetoothGattCharacteristic.FORMAT_UINT16;
-//                Log.d(TAG, "Heart rate format UINT16.");
-//            } else {
-//                format = BluetoothGattCharacteristic.FORMAT_UINT8;
-//                Log.d(TAG, "Heart rate format UINT8.");
-//            }
-//            final int heartRate = characteristic.getIntValue(format, 1);
-//            Log.d(TAG, String.format("Received heart rate: %d", heartRate));
-//            intent.putExtra(EXTRA_DATA, String.valueOf(heartRate));
-//        } else {
-            // For all other profiles, writes the data formatted in HEX.
+            final Intent intent = new Intent(action);
             final byte[] data = characteristic.getValue();
             if (data != null && data.length > 0) {
                 intent.putExtra(EXTRA_DATA, new String(data));
@@ -388,27 +375,9 @@ public class BluetoothLeService extends Service {
 //        }
     }
 
-    public class LocalBinder extends Binder {
-        BluetoothLeService getService() {
-            return BluetoothLeService.this;
-        }
-    }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return mBinder;
-    }
 
-    @Override
-    public boolean onUnbind(Intent intent) {
-        // After using a given device, you should make sure that BluetoothGatt.close() is called
-        // such that resources are cleaned up properly.  In this particular example, close() is
-        // invoked when the UI is disconnected from the Service.
-        close();
-        return super.onUnbind(intent);
-    }
 
-    private final IBinder mBinder = new LocalBinder();
 
     /**
      * Initializes a reference to the local Bluetooth adapter.
@@ -601,6 +570,13 @@ public class BluetoothLeService extends Service {
 
         return mBluetoothGatt.getServices();
     }
-    
-    
+
+    private class BluetoothGattCharacteristicHelper{
+        BluetoothGattCharacteristic mCharacteristic;
+        String mCharacteristicValue;
+        BluetoothGattCharacteristicHelper(BluetoothGattCharacteristic characteristic, String characteristicValue){
+            mCharacteristic=characteristic;
+            mCharacteristicValue=characteristicValue;
+        }
+    }
 }
