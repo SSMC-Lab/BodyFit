@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class DataBuffer {
     private ArrayList<Data> buffer;//数据缓冲区
 
+    private Data dataSet;
+
     public DataBuffer(){
         buffer =new ArrayList<Data>();
     }
@@ -29,27 +31,12 @@ public class DataBuffer {
         return buffer.isEmpty();
     }
 
-    public double[] getAxSet(){
-        return null;
+    public void transferData(){
+        ////
+        buffer.clear();
     }
 
-    public double[] getAySet(){
-        return null;
-    }
-
-    public double[] getAzSet(){
-        return null;
-    }
-
-    public double[] getGxSet(){
-        return null;
-    }
-
-    public double[] getGySet(){
-        return null;
-    }
-
-    public double[] getGzSet(){
-        return null;
+    public Data getDataSet(){
+        return dataSet;
     }
 }

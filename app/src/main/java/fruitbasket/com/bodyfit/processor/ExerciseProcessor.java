@@ -35,7 +35,7 @@ public class ExerciseProcessor {
                     }
                     else{
                         if(dataBuffer.isEmpty()==false){
-
+                            
                         }
                     }
                 }
