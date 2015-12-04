@@ -337,7 +337,7 @@ public class BluetoothLeService extends Service {
                 }
 
             }
-            System.out.println(receiveData);
+            //System.out.println(receiveData);
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
         }
 

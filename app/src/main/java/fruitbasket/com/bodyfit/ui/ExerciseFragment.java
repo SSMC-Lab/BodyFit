@@ -3,6 +3,7 @@ package fruitbasket.com.bodyfit.ui;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.R;
+import fruitbasket.com.bodyfit.bluetooth.BluetoothLeService;
 import fruitbasket.com.bodyfit.bluetooth.BlunoLibrary;
 import fruitbasket.com.bodyfit.data.Data;
 import fruitbasket.com.bodyfit.data.DataBuffer;
@@ -26,7 +29,8 @@ public class ExerciseFragment extends BlunoLibrary {
     private TextView exerciseType;
     private ToggleButton toggleButton;
 
-    private ExerciseProcessor exerciseProcessor;
+    private Handler handler=new Handler();
+    //private ExerciseProcessor exerciseProcessor;
 
     public ExerciseFragment(){
         this(null);
@@ -43,7 +47,7 @@ public class ExerciseFragment extends BlunoLibrary {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate()");
-        new myThread().start();
+        //new myThread().start();
         //super.onCreateProcess();
     }
 
@@ -123,17 +127,21 @@ public class ExerciseFragment extends BlunoLibrary {
             switch(view.getId()){
                 case R.id.start_doing:
                     if(((ToggleButton)view).isChecked()==true){
-                        exerciseProcessor.startDoing();
+                        ExerciseProcessorTask task =new ExerciseProcessorTask();
+                        Thread thread=new Thread(task);
+                        thread.start();
+
+                        //exerciseProcessor.startDoing();
                     }
                     else{
-                        exerciseProcessor.stopDoing();
+                        //exerciseProcessor.stopDoing();
                     }
                     break;
             }
         }
     }
 
-    private class myThread extends Thread{
+    /*private class myThread extends Thread{
         public void run(){
             while(ExerciseFragment.super.mBluetoothLeService==null) {
                 try {
@@ -144,6 +152,89 @@ public class ExerciseFragment extends BlunoLibrary {
             }
             exerciseProcessor = new ExerciseProcessor(ExerciseFragment.super.mBluetoothLeService);
         }
+    }*/
+
+    private class ExerciseProcessorTask implements Runnable {
+
+        private boolean isDoing=false;
+        private SourceData[] sourceDatas;
+        private Data data;
+        private DataBuffer dataBuffer;
+
+        private int[] selectedIndex;
+        private double[] selectedDimension1;
+        private double[] selectedDimension2;
+
+        private int exerciseType=DataProcessor.INITIAL_EXERCISE_TYPE;
+        private int abnormalType=DataProcessor.INITIAL_ABNORMAL_TYPE;
+
+        private double repetitionScore;
+        private double[] scores;
+
+        //private BluetoothLeService mBluetoothLeService;
+
+        public ExerciseProcessorTask(/*BluetoothLeService bluetoothLeService*/){
+            //mBluetoothLeService=bluetoothLeService;
+            data=new Data();
+            dataBuffer=new DataBuffer();
+        }
+
+        @Override
+        public void run() {
+            isDoing=true;
+            while(isDoing==true){
+                if(mBluetoothLeService.isFull()==true){
+                    sourceDatas=mBluetoothLeService.getSourceDataSet();
+                    if(sourceDatas!=null){
+                        data.fromSourceData(sourceDatas);
+                        DataProcessor.filter(data, Conditions.MID_SPAN);///
+                        if(DataProcessor.isbelongSegments(data)==true){
+                            dataBuffer.add(data);
+                        }
+                        else{
+                            if(dataBuffer.isEmpty()==false){
+                                dataBuffer.transferData();
+                                selectedIndex =DataProcessor.dataSelect(dataBuffer.getDataSet());
+                                selectedDimension1=data.getDimensionByIndex(selectedIndex[0]);
+                                selectedDimension2=data.getDimensionByIndex(selectedIndex[1]);
+                                exerciseType=DataProcessor.activityRecognition(
+                                        selectedDimension1,
+                                        selectedDimension2,
+                                        selectedIndex[0],
+                                        selectedIndex[1]);
+                                //handler.post(new DoUpdateUI(exerciseType));
+                                handler.post(new DoUpdateUI(8));
+                                abnormalType=DataProcessor.abnormalDetection(
+                                        selectedDimension1,
+                                        selectedDimension2,
+                                        selectedIndex[0],
+                                        selectedIndex[1]);
+                            }
+                            else{
+                                handler.post(new DoUpdateUI(8));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void stopDoing(){
+            isDoing=false;
+        }
     }
 
+    private class DoUpdateUI implements Runnable{
+
+        private int exerciseType=DataProcessor.INITIAL_EXERCISE_TYPE;
+
+        private DoUpdateUI(int exerciseType){
+            this.exerciseType=exerciseType;
+        }
+
+        @Override
+        public void run() {
+            showExerciseType(exerciseType);
+        }
+    }
 }
