@@ -1,5 +1,7 @@
 package fruitbasket.com.bodyfit.processor;
 
+import android.util.Log;
+
 import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.bluetooth.BluetoothLeService;
 import fruitbasket.com.bodyfit.data.Data;
@@ -26,8 +28,9 @@ public class ExerciseProcessor {
     private BluetoothLeService mBluetoothLeService;
 
     public ExerciseProcessor(BluetoothLeService bluetoothLeService){
-        mBluetoothLeService=mBluetoothLeService;
+        mBluetoothLeService=bluetoothLeService;
         dataBuffer=new DataBuffer();
+        data = new Data();
     }
 
     public void startDoing(){
@@ -37,6 +40,7 @@ public class ExerciseProcessor {
                 sourceDatas=mBluetoothLeService.getSourceDataSet();
                 if(sourceDatas!=null){
                     data.fromSourceData(sourceDatas);
+
                     DataProcessor.filter(data, Conditions.MID_SPAN);///
                     if(DataProcessor.isbelongSegments(data)==true){
                         dataBuffer.add(data);

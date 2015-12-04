@@ -1,5 +1,7 @@
 package fruitbasket.com.bodyfit.data;
 
+import android.util.Log;
+
 public class Data {
     public static final String TAG="Data";
     public static final int DIMENSION=6;

@@ -36,13 +36,14 @@ public class ExerciseFragment extends BlunoLibrary {
     public ExerciseFragment(Context context){
         super(context);
         Log.i(TAG, "initialize()");
-        exerciseProcessor=new ExerciseProcessor(super.mBluetoothLeService);
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate()");
+        new myThread().start();
         //super.onCreateProcess();
     }
 
@@ -129,6 +130,19 @@ public class ExerciseFragment extends BlunoLibrary {
                     }
                     break;
             }
+        }
+    }
+
+    private class myThread extends Thread{
+        public void run(){
+            while(ExerciseFragment.super.mBluetoothLeService==null) {
+                try {
+                    sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            exerciseProcessor = new ExerciseProcessor(ExerciseFragment.super.mBluetoothLeService);
         }
     }
 
