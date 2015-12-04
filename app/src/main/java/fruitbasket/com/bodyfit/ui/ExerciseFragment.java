@@ -30,7 +30,7 @@ public class ExerciseFragment extends BlunoLibrary {
     private ToggleButton toggleButton;
 
     private Handler handler=new Handler();
-    //private ExerciseProcessor exerciseProcessor;
+    private ExerciseProcessorTask task =new ExerciseProcessorTask();
 
     public ExerciseFragment(){
         this(null);
@@ -47,8 +47,6 @@ public class ExerciseFragment extends BlunoLibrary {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate()");
-        //new myThread().start();
-        //super.onCreateProcess();
     }
 
     @Override
@@ -127,32 +125,18 @@ public class ExerciseFragment extends BlunoLibrary {
             switch(view.getId()){
                 case R.id.start_doing:
                     if(((ToggleButton)view).isChecked()==true){
-                        ExerciseProcessorTask task =new ExerciseProcessorTask();
+
                         Thread thread=new Thread(task);
                         thread.start();
 
-                        //exerciseProcessor.startDoing();
                     }
                     else{
-                        //exerciseProcessor.stopDoing();
+                        task.stopDoing();
                     }
                     break;
             }
         }
     }
-
-    /*private class myThread extends Thread{
-        public void run(){
-            while(ExerciseFragment.super.mBluetoothLeService==null) {
-                try {
-                    sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            exerciseProcessor = new ExerciseProcessor(ExerciseFragment.super.mBluetoothLeService);
-        }
-    }*/
 
     private class ExerciseProcessorTask implements Runnable {
 
@@ -171,10 +155,7 @@ public class ExerciseFragment extends BlunoLibrary {
         private double repetitionScore;
         private double[] scores;
 
-        //private BluetoothLeService mBluetoothLeService;
-
-        public ExerciseProcessorTask(/*BluetoothLeService bluetoothLeService*/){
-            //mBluetoothLeService=bluetoothLeService;
+        public ExerciseProcessorTask(){
             data=new Data();
             dataBuffer=new DataBuffer();
         }
@@ -187,7 +168,7 @@ public class ExerciseFragment extends BlunoLibrary {
                     sourceDatas=mBluetoothLeService.getSourceDataSet();
                     if(sourceDatas!=null){
                         data.fromSourceData(sourceDatas);
-                        DataProcessor.filter(data, Conditions.MID_SPAN);///
+                        DataProcessor.filter(data, Conditions.MID_SPAN);
                         if(DataProcessor.isbelongSegments(data)==true){
                             dataBuffer.add(data);
                         }
@@ -202,8 +183,7 @@ public class ExerciseFragment extends BlunoLibrary {
                                         selectedDimension2,
                                         selectedIndex[0],
                                         selectedIndex[1]);
-                                //handler.post(new DoUpdateUI(exerciseType));
-                                handler.post(new DoUpdateUI(8));
+                                handler.post(new DoUpdateUI(exerciseType));
                                 abnormalType=DataProcessor.abnormalDetection(
                                         selectedDimension1,
                                         selectedDimension2,
@@ -211,7 +191,6 @@ public class ExerciseFragment extends BlunoLibrary {
                                         selectedIndex[1]);
                             }
                             else{
-                                handler.post(new DoUpdateUI(8));
                             }
                         }
                     }
