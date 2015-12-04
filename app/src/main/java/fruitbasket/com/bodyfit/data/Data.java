@@ -2,6 +2,7 @@ package fruitbasket.com.bodyfit.data;
 
 public class Data {
     public static final String TAG="Data";
+    public static final int DIMENSION=6;
 
     private int size;
 
@@ -42,6 +43,25 @@ public class Data {
 
     public double[] getGzSet(){
         return gzSet;
+    }
+
+    public double[] getDimensionByIndex(int index){
+        switch(index){
+            case 0:
+                return axSet;
+            case 1:
+                return aySet;
+            case 2:
+                return azSet;
+            case 3:
+                return gxSet;
+            case 4:
+                return gySet;
+            case 5:
+                return gzSet;
+            default:
+                return null;
+        }
     }
 
     public void fromSourceData(SourceData[] sourceDatas){

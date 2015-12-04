@@ -23,6 +23,7 @@ public class DataProcessor{
     public static final int TOO_QUICK=1000;
     public static final int NOT_BALANCE=1001;
     public static final int NOT_STABLE=1002;
+    public static final int NORMAL=1003;
 
     private DataProcessor(){}
 
@@ -31,17 +32,19 @@ public class DataProcessor{
     }
 
     /**
+     *
      * @param inputSignal
+     * @param span
      * @return
      */
-    public static double[] filter(double[] inputSignal){
+    public static double[] filter(double[] inputSignal,int span){
         return null;
     }
 
     /**
      * Is the the person moving?
      * @param filteredSignal
-     * @return true: activity;false:static
+     * @return
      */
     private static boolean isbelongSegments(double[] filteredSignal){
         return false;
@@ -60,6 +63,8 @@ public class DataProcessor{
      * identify the type of activity
      * @param signalSegmentX
      * @param signalSegmentY
+     * @param m signalSegmentX的维度编号
+     * @param n signalSegmentY的维度编号
      * @return
      */
     public static int activityRecognition(double[] signalSegmentX,double[] signalSegmentY,int m,int n){
@@ -71,9 +76,11 @@ public class DataProcessor{
      * check whether it is a abnormal behavior in the activity
      * @param signalSegmentX
      * @param signalSegmentY
+     * @param m signalSegmentX的维度编号
+     * @param n signalSegmentY的维度编号
      * @return
      */
-    public static int abnormalDetection(double[] signalSegmentX,double[] signalSegmentY){
+    public static int abnormalDetection(double[] signalSegmentX,double[] signalSegmentY,int m,int n){
         return 0;
     }
 
@@ -81,36 +88,8 @@ public class DataProcessor{
      *
      * @param signalSegmentX
      * @param signalSegmentY
-     * @return
-     */
-    public static int zoomSegment(double[] signalSegmentX,double[] signalSegmentY){
-        return 0;
-    }
-
-    /**
-     * signalSegments
-     * @param signalSegmentX
-     * @param signalSegmentY
-     * @return
-     */
-    public static double timeBalan(double[] signalSegmentX,double[] signalSegmentY){
-        return 0;
-    }
-
-    /**
-     *
-     * @param signalSegmentX
-     * @param signalSegmentY
-     * @return
-     */
-    public static double amplitudeBalan(double[] signalSegmentX,double[] signalSegmentY){
-        return 0;
-    }
-
-    /**
-     * calculate the score of one repetition
-     * @param signalSegmentX
-     * @param signalSegmentY
+     * @param m signalSegmentX的维度编号
+     * @param n signalSegmentY的维度编号
      * @return
      */
     public static double repetitionScore(double[] signalSegmentX,double[] signalSegmentY,int m,int n){
@@ -129,21 +108,16 @@ public class DataProcessor{
 
 
 
-    public static void filter(Data data){
-        filter(data.getAxSet());
-        filter(data.getAySet());
-        filter(data.getAzSet());
+    public static void filter(Data data,int span){
+        filter(data.getAxSet(),span);
+        filter(data.getAySet(),span);
+        filter(data.getAzSet(),span);
 
-        filter(data.getGxSet());
-        filter(data.getGySet());
-        filter(data.getGzSet());
+        filter(data.getGxSet(),span);
+        filter(data.getGySet(),span);
+        filter(data.getGzSet(),span);
     }
 
-    /**
-     * Is the the person moving?
-     * @param data
-     * @return
-     */
     public static boolean isbelongSegments(Data data){
         int trueCounter=0,falseCounter=0;
         if(isbelongSegments(data.getAxSet())==true){
@@ -190,7 +164,14 @@ public class DataProcessor{
         }
     }
 
-
-
-    //public static
+    public static int[] dataSelect(Data data){
+        double[][] input=new double[Data.DIMENSION][];
+        input[0]=data.getAxSet();
+        input[1]=data.getAySet();
+        input[2]=data.getAzSet();
+        input[3]=data.getGxSet();
+        input[4]=data.getGySet();
+        input[5]=data.getGzSet();
+        return dataSelect(input);
+    }
 }

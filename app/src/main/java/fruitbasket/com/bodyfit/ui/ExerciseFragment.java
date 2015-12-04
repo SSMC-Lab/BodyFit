@@ -26,7 +26,7 @@ public class ExerciseFragment extends BlunoLibrary {
     private TextView exerciseType;
     private ToggleButton toggleButton;
 
-    ExerciseProcessor exerciseProcessor;
+    private ExerciseProcessor exerciseProcessor;
 
     public ExerciseFragment(){
         this(null);
@@ -36,6 +36,12 @@ public class ExerciseFragment extends BlunoLibrary {
     public ExerciseFragment(Context context){
         super(context);
        exerciseProcessor=new ExerciseProcessor(super.mBluetoothLeService);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        super.onCreateProcess();
     }
 
     @Override
@@ -55,7 +61,8 @@ public class ExerciseFragment extends BlunoLibrary {
     @Override
     public void onResume(){
         super.onResume();
-        Log.i(TAG,"onResume()");
+        Log.i(TAG, "onResume()");
+        super.onResumeProcess();
     }
 
     @Override
