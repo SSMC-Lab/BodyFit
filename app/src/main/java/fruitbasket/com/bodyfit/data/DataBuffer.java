@@ -28,4 +28,28 @@ public class DataBuffer {
     public boolean isEmpty(){
         return buffer.isEmpty();
     }
+
+    public double[] getAxSet(){
+        return null;
+    }
+
+    public double[] getAySet(){
+        return null;
+    }
+
+    public double[] getAzSet(){
+        return null;
+    }
+
+    public double[] getGxSet(){
+        return null;
+    }
+
+    public double[] getGySet(){
+        return null;
+    }
+
+    public double[] getGzSet(){
+        return null;
+    }
 }
