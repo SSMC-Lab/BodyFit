@@ -1,5 +1,7 @@
 package fruitbasket.com.bodyfit.processor;
 
+import fruitbasket.com.bodyfit.data.Data;
+
 public class DataProcessor{
     private static final DataProcessor dataProcessor=new DataProcessor();
 
@@ -124,33 +126,71 @@ public class DataProcessor{
         return 0;
     }
 
+
+
+
+    public static void filter(Data data){
+        filter(data.getAxSet());
+        filter(data.getAySet());
+        filter(data.getAzSet());
+
+        filter(data.getGxSet());
+        filter(data.getGySet());
+        filter(data.getGzSet());
+    }
+
     /**
      * Is the the person moving?
-     * @param filteredSignal
+     * @param data
      * @return
      */
-    public static boolean isbelongSegments(double[][] filteredSignal){
-        final int dimension=6;
-        if(filteredSignal.length!=dimension){
-            return false;
+    public static boolean isbelongSegments(Data data){
+        int trueCounter=0,falseCounter=0;
+        if(isbelongSegments(data.getAxSet())==true){
+            ++trueCounter;
         }
         else{
-            int trueCounter=0,falseCounter=0;
-            for (int i=0;i<dimension;++i){
-                if(isbelongSegments(filteredSignal[i])==true){
-                    ++trueCounter;
-                }
-                else{
-                    ++falseCounter;
-                }
-            }
-            if(trueCounter>=falseCounter){
-                return true;
-            }
-            else{
-                return false;
-            }
+            ++falseCounter;
+        }
+        if(isbelongSegments(data.getAySet())==true){
+            ++trueCounter;
+        }
+        else{
+            ++falseCounter;
+        }
+        if(isbelongSegments(data.getAzSet())==true){
+            ++trueCounter;
+        }
+        else{
+            ++falseCounter;
+        }
+        if(isbelongSegments(data.getGxSet())==true){
+            ++trueCounter;
+        }
+        else{
+            ++falseCounter;
+        }
+        if(isbelongSegments(data.getGySet())==true){
+            ++trueCounter;
+        }
+        else{
+            ++falseCounter;
+        }
+        if(isbelongSegments(data.getGzSet())==true){
+            ++trueCounter;
+        }
+        else{
+            ++falseCounter;
+        }
+        if(trueCounter>=falseCounter){
+            return true;
+        }
+        else{
+            return false;
         }
     }
 
+
+
+    //public static
 }

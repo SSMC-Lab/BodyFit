@@ -19,6 +19,7 @@ public class ExerciseProcessor {
 
     public ExerciseProcessor(BluetoothLeService bluetoothLeService){
         mBluetoothLeService=mBluetoothLeService;
+        dataBuffer=new DataBuffer();
     }
 
     public void startDoing(){
@@ -28,7 +29,15 @@ public class ExerciseProcessor {
                 sourceDatas=mBluetoothLeService.getSourceDataSet();
                 if(sourceDatas!=null){
                     data.fromSourceData(sourceDatas);
+                    DataProcessor.filter(data);
+                    if(DataProcessor.isbelongSegments(data)==true){
+                        dataBuffer.add(data);
+                    }
+                    else{
+                        if(dataBuffer.isEmpty()==false){
 
+                        }
+                    }
                 }
             }
         }
