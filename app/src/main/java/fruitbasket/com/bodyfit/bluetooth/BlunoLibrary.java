@@ -96,14 +96,14 @@ public  class BlunoLibrary  extends Fragment{
 		mainContext=theContext;
 		serialBegin(115200);
 
-		onCreateProcess();	//onCreate Process by BlunoLibrary
-		onResumeProcess();
+		Link();	//onCreate Process by BlunoLibrary
+		registerMyReceiver();
 		scanLeDevice(true);
 		mScanDeviceDialog.show();
 	}
 
 
-    public void onCreateProcess()
+    public void Link()
     {
     	if(!initiate())
 		{
@@ -173,7 +173,7 @@ public  class BlunoLibrary  extends Fragment{
 
     }
 
-    public void onResumeProcess() {
+    public void registerMyReceiver() {
 	    mainContext.registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
 	}
 
