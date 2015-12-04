@@ -49,18 +49,7 @@ public class BluetoothLeService extends Service {
     private int currentLoad=0;
     private SourceData[] sourceDataSet = new SourceData[Conditions.MAX_SAMPLE_NUMBER];
     private boolean isFull=false;
-    public boolean isFull(){
-        return isFull;
-    }
-    public SourceData[] getSourceDataSet(){
-        if(isFull){
-            isFull=false;
-            return sourceDataSet;
-        }
-        else{
-            return null;
-        }
-    }
+
 
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
@@ -358,6 +347,18 @@ public class BluetoothLeService extends Service {
         }
     };
 
+    public boolean isFull(){
+        return isFull;
+    }
+    public SourceData[] getSourceDataSet(){
+        if(isFull){
+            isFull=false;
+            return sourceDataSet;
+        }
+        else{
+            return null;
+        }
+    }
 
     private void broadcastUpdate(final String action) {
         final Intent intent = new Intent(action);
