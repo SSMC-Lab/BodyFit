@@ -35,13 +35,15 @@ public class ExerciseFragment extends BlunoLibrary {
     @SuppressLint("ValidFragment")
     public ExerciseFragment(Context context){
         super(context);
-       exerciseProcessor=new ExerciseProcessor(super.mBluetoothLeService);
+        Log.i(TAG, "initialize()");
+        exerciseProcessor=new ExerciseProcessor(super.mBluetoothLeService);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        super.onCreateProcess();
+        Log.i(TAG, "onCreate()");
+        //super.onCreateProcess();
     }
 
     @Override
@@ -62,7 +64,7 @@ public class ExerciseFragment extends BlunoLibrary {
     public void onResume(){
         super.onResume();
         Log.i(TAG, "onResume()");
-        super.onResumeProcess();
+        //super.onResumeProcess();
     }
 
     @Override

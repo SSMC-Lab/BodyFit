@@ -96,8 +96,8 @@ public  class BlunoLibrary  extends Fragment{
 		mainContext=theContext;
 		serialBegin(115200);
 
-		//onCreateProcess();	//onCreate Process by BlunoLibrary
-		//onResumeProcess();
+		onCreateProcess();	//onCreate Process by BlunoLibrary
+		onResumeProcess();
 		scanLeDevice(true);
 		mScanDeviceDialog.show();
 	}
