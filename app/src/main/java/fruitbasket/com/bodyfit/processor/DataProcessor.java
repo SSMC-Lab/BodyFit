@@ -1,5 +1,8 @@
 package fruitbasket.com.bodyfit.processor;
 
+import android.content.res.AssetManager;
+import android.os.Environment;
+
 import fruitbasket.com.bodyfit.data.Data;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -594,12 +597,14 @@ public class DataProcessor{
     }
 
     private static void readSamples(){
+
         Scanner input=null;
         String line;
         String[] numbers;
         int i=0,j=0;
         try{
             input=new Scanner(new File("0.txt"));
+
         }
         catch(FileNotFoundException e){
             System.out.println("READ FILE ERROR");
