@@ -1,9 +1,8 @@
 package fruitbasket.com.bodyfit.processor;
 
-import android.content.res.AssetManager;
-import android.os.Environment;
-
+import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.data.Data;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -603,8 +602,7 @@ public class DataProcessor{
         String[] numbers;
         int i=0,j=0;
         try{
-            input=new Scanner(new File("0.txt"));
-
+            input=new Scanner(new File(Conditions.APP_FILE_DIR+"0.txt"));
         }
         catch(FileNotFoundException e){
             System.out.println("READ FILE ERROR");
@@ -621,7 +619,7 @@ public class DataProcessor{
         }
 
         try{
-            input=new Scanner(new File("1.txt"));
+            input=new Scanner(new File(Conditions.APP_FILE_DIR+"1.txt"));
         }
         catch(FileNotFoundException e){
             System.out.println("READ FILE ERROR");
@@ -638,7 +636,7 @@ public class DataProcessor{
         }
 
         try{
-            input=new Scanner(new File("2.txt"));
+            input=new Scanner(new File(Conditions.APP_FILE_DIR+"2.txt"));
         }
         catch(FileNotFoundException e){
             System.out.println("READ FILE ERROR");
@@ -655,7 +653,7 @@ public class DataProcessor{
         }
 
         try{
-            input=new Scanner(new File("3.txt"));
+            input=new Scanner(new File(Conditions.APP_FILE_DIR+"3.txt"));
         }
         catch(FileNotFoundException e){
             System.out.println("READ FILE ERROR");
@@ -672,7 +670,7 @@ public class DataProcessor{
         }
 
         try{
-            input=new Scanner(new File("4.txt"));
+            input=new Scanner(new File(Conditions.APP_FILE_DIR+"4.txt"));
         }
         catch(FileNotFoundException e){
             System.out.println("READ FILE ERROR");
@@ -689,7 +687,7 @@ public class DataProcessor{
         }
 
         try{
-            input=new Scanner(new File("5.txt"));
+            input=new Scanner(new File(Conditions.APP_FILE_DIR+"5.txt"));
         }
         catch(FileNotFoundException e){
             System.out.println("READ FILE ERROR");
@@ -706,7 +704,7 @@ public class DataProcessor{
         }
 
         try{
-            input=new Scanner(new File("6.txt"));
+            input=new Scanner(new File(Conditions.APP_FILE_DIR+"6.txt"));
         }
         catch(FileNotFoundException e){
             System.out.println("READ FILE ERROR");
@@ -723,7 +721,7 @@ public class DataProcessor{
         }
 
         try{
-            input=new Scanner(new File("7.txt"));
+            input=new Scanner(new File(Conditions.APP_FILE_DIR+"7.txt"));
         }
         catch(FileNotFoundException e){
             System.out.println("READ FILE ERROR");
@@ -740,7 +738,7 @@ public class DataProcessor{
         }
 
         try{
-            input=new Scanner(new File("8.txt"));
+            input=new Scanner(new File(Conditions.APP_FILE_DIR+"8.txt"));
         }
         catch(FileNotFoundException e){
             System.out.println("READ FILE ERROR");
@@ -757,7 +755,7 @@ public class DataProcessor{
         }
 
         try{
-            input=new Scanner(new File("9.txt"));
+            input=new Scanner(new File(Conditions.APP_FILE_DIR+"9.txt"));
         }
         catch(FileNotFoundException e){
             System.out.println("READ FILE ERROR");

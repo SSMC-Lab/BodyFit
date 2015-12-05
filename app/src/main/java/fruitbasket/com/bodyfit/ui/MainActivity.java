@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
@@ -13,9 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
+
 import fruitbasket.com.bodyfit.R;
-import fruitbasket.com.bodyfit.data.SourceData;
-import fruitbasket.com.bodyfit.processor.DataProcessor;
 
 public class MainActivity extends BaseTabActivity {
 
@@ -29,7 +29,6 @@ public class MainActivity extends BaseTabActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate()");
         setContentView(R.layout.activity_main);
-
         startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 0);
     }
 
@@ -37,6 +36,7 @@ public class MainActivity extends BaseTabActivity {
     protected void onPause(){
         super.onPause();
         Log.i(TAG, "onPause()");
+
     }
 
     @Override
