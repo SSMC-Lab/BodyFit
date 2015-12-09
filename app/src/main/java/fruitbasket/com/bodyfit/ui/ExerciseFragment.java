@@ -9,17 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.R;
-import fruitbasket.com.bodyfit.bluetooth.BluetoothLeService;
 import fruitbasket.com.bodyfit.bluetooth.BlunoLibrary;
 import fruitbasket.com.bodyfit.data.Data;
 import fruitbasket.com.bodyfit.data.DataBuffer;
 import fruitbasket.com.bodyfit.data.SourceData;
 import fruitbasket.com.bodyfit.processor.DataProcessor;
-import fruitbasket.com.bodyfit.processor.ExerciseProcessor;
 
 public class ExerciseFragment extends BlunoLibrary {
     public static final String TAG="ExFragment";
@@ -118,6 +117,7 @@ public class ExerciseFragment extends BlunoLibrary {
 
 
 
+
     private class ToggleClickListener implements View.OnClickListener {
 
         @Override
@@ -128,7 +128,6 @@ public class ExerciseFragment extends BlunoLibrary {
 
                         Thread thread=new Thread(task);
                         thread.start();
-
                     }
                     else{
                         task.stopDoing();
@@ -139,6 +138,8 @@ public class ExerciseFragment extends BlunoLibrary {
     }
 
     private class ExerciseProcessorTask implements Runnable {
+
+        private static final String TAG="ExerciseProcessorTask";
 
         private boolean isDoing=false;
         private SourceData[] sourceDatas;
@@ -162,9 +163,12 @@ public class ExerciseFragment extends BlunoLibrary {
 
         @Override
         public void run() {
+            Log.i(TAG,"run()");
             isDoing=true;
             while(isDoing==true){
+                Log.i(TAG,"isDoing==true");
                 if(mBluetoothLeService.isFull()==true){
+                    Log.i(TAG,"mBluetoothLeService.isFull()==true");
                     sourceDatas=mBluetoothLeService.getSourceDataSet();
                     if(sourceDatas!=null){
                         data.fromSourceData(sourceDatas);
@@ -189,11 +193,16 @@ public class ExerciseFragment extends BlunoLibrary {
                                         selectedDimension2,
                                         selectedIndex[0],
                                         selectedIndex[1]);
+
+                                dataBuffer.clear();
                             }
                             else{
                             }
                         }
                     }
+                }
+                else{
+                    Log.i(TAG,"mBluetoothLeService.isFull()==false");
                 }
             }
         }
@@ -213,6 +222,7 @@ public class ExerciseFragment extends BlunoLibrary {
 
         @Override
         public void run() {
+            //Toast.makeText(getContext(),"type="+exerciseType,Toast.LENGTH_SHORT).show();
             showExerciseType(exerciseType);
         }
     }

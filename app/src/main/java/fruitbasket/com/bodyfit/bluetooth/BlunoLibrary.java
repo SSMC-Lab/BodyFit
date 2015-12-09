@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.annotation.SuppressLint;
@@ -34,6 +33,10 @@ import android.widget.Toast;
 import fruitbasket.com.bodyfit.R;
 
 public  class BlunoLibrary  extends Fragment{
+	private final static String TAG = BlunoLibrary.class.getSimpleName();
+	public static final String SerialPortUUID="0000dfb1-0000-1000-8000-00805f9b34fb";
+	public static final String CommandUUID="0000dfb2-0000-1000-8000-00805f9b34fb";
+	public static final String ModelNumberStringUUID="00002a24-0000-1000-8000-00805f9b34fb";
 
 	private Context mainContext;
 	private int mBaudrate=115200;	//set the default baud rate to 115200
@@ -54,17 +57,6 @@ public  class BlunoLibrary  extends Fragment{
 	private static final int REQUEST_ENABLE_BT = 1;
 	private Handler mHandler= new Handler();
 	public boolean mConnected = false;
-	private final static String TAG = BlunoLibrary.class.getSimpleName();
-
-	public static final String SerialPortUUID="0000dfb1-0000-1000-8000-00805f9b34fb";
-	public static final String CommandUUID="0000dfb2-0000-1000-8000-00805f9b34fb";
-	public static final String ModelNumberStringUUID="00002a24-0000-1000-8000-00805f9b34fb";
-
-	static class ViewHolder {
-		TextView deviceName;
-		TextView deviceAddress;
-	}
-
 
 	private Runnable mConnectingOverTimeRunnable=new Runnable(){
 
@@ -170,8 +162,6 @@ public  class BlunoLibrary  extends Fragment{
 						//onConectionStateChange(mConnectionState);
 					}
 				}
-
-				//System.out.println("displayData " + intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
 			}
 		}
 	};
@@ -190,14 +180,9 @@ public  class BlunoLibrary  extends Fragment{
 		mScanDeviceDialog.show();
 	}
 
-
-
-
     public void onPauseProcess() {
 		scanLeDevice(false);
-
 		mainContext.unregisterReceiver(mGattUpdateReceiver);
-
 		mLeDeviceListAdapter.clear();
     	mConnectionState=connectionStateEnum.isToScan;
     	//onConectionStateChange(mConnectionState);
@@ -206,11 +191,9 @@ public  class BlunoLibrary  extends Fragment{
 		{
 			mBluetoothLeService.disconnect();
             mHandler.postDelayed(mDisonnectingOverTimeRunnable, 10000);
-
-//			mBluetoothLeService.close();
+			//mBluetoothLeService.close();
 		}
 		mSCharacteristic=null;
-
 	}
 
 	public void onStopProcess() {
@@ -227,8 +210,8 @@ public  class BlunoLibrary  extends Fragment{
         mainContext.unbindService(mServiceConnection);
         mBluetoothLeService = null;
 	}
-/*
-	public void onActivityResultProcess(int requestCode, int resultCode, Intent data) {
+
+	/*public void onActivityResultProcess(int requestCode, int resultCode, Intent data) {
 		// User chose not to enable Bluetooth.
 		if (requestCode == REQUEST_ENABLE_BT
 				&& resultCode == Activity.RESULT_CANCELED) {
@@ -236,7 +219,6 @@ public  class BlunoLibrary  extends Fragment{
 			return;
 		}
 	}*/
-
 
 	public void Link()
 	{
@@ -260,14 +242,11 @@ public  class BlunoLibrary  extends Fragment{
 					{
 						final BluetoothDevice device = mLeDeviceListAdapter.getDevice(which);
 
-
 						if (device == null)
 							return;
 						scanLeDevice(false);
 						System.out.println("onListItemClick " + device.getName().toString());
-
 						System.out.println("Device Name:"+device.getName() + "   " + "Device Name:" + device.getAddress());
-
 						mDeviceName=device.getName().toString();
 						mDeviceAddress=device.getAddress().toString();
 						if(mDeviceName.equals("No Device Available") && mDeviceAddress.equals("No Address Available"))
@@ -351,15 +330,12 @@ public  class BlunoLibrary  extends Fragment{
 	void scanLeDevice(final boolean enable) {
 		if (enable) {
 			// Stops scanning after a pre-defined scan period.
-
 			System.out.println("mBluetoothAdapter.startLeScan");
-
 			if(mLeDeviceListAdapter != null)
 			{
 				mLeDeviceListAdapter.clear();
 				mLeDeviceListAdapter.notifyDataSetChanged();
 			}
-
 			if(!mScanning)
 			{
 				mScanning = true;
@@ -385,17 +361,14 @@ public  class BlunoLibrary  extends Fragment{
         mSerialPortCharacteristic=null;
         mCommandCharacteristic=null;
         mGattCharacteristics = new ArrayList<ArrayList<BluetoothGattCharacteristic>>();
-
         // Loops through available GATT Services.
         for (BluetoothGattService gattService : gattServices) {
             uuid = gattService.getUuid().toString();
             System.out.println("displayGattServices + uuid="+uuid);
-
             List<BluetoothGattCharacteristic> gattCharacteristics =
                     gattService.getCharacteristics();
             ArrayList<BluetoothGattCharacteristic> charas =
                     new ArrayList<BluetoothGattCharacteristic>();
-
             // Loops through available Characteristics.
             for (BluetoothGattCharacteristic gattCharacteristic : gattCharacteristics) {
                 charas.add(gattCharacteristic);
@@ -407,7 +380,7 @@ public  class BlunoLibrary  extends Fragment{
                 else if(uuid.equals(SerialPortUUID)){
                 	mSerialPortCharacteristic = gattCharacteristic;
                 	System.out.println("mSerialPortCharacteristic  "+mSerialPortCharacteristic.getUuid().toString());
-//                    updateConnectionState(R.string.comm_establish);
+                    //updateConnectionState(R.string.comm_establish);
                 }
                 else if(uuid.equals(CommandUUID)){
                 	mCommandCharacteristic = gattCharacteristic;
@@ -507,5 +480,10 @@ public  class BlunoLibrary  extends Fragment{
 
 			return view;
 		}
+	}
+
+	static class ViewHolder {
+		TextView deviceName;
+		TextView deviceAddress;
 	}
 }

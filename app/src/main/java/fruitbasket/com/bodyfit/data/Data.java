@@ -19,7 +19,6 @@ public class Data {
     }
 
     public Data(SourceData[] sourceDatas){
-        size=sourceDatas.length;
         fromSourceData(sourceDatas);
     }
 

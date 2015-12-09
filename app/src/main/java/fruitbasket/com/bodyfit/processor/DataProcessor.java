@@ -137,7 +137,7 @@ public class DataProcessor{
 
     /**
      * select two vector of the inputSignal
-     * @param input
+     * @param repetitionSegment
      * @return
      */
     public static int[] dataSelect(double[][] repetitionSegment){
@@ -287,16 +287,16 @@ public class DataProcessor{
             }
         }
         switch(flag){
-            case 0:return FLAT_BENCH_BRABELL_PASS;
-            case 1:return FLAT_BENCH_DUMBBELL_FLYE;
-            case 2:return FLAT_BENCH_DUMBBELL_PRESS;
-            case 3:return INCLINE_DUMBBELL_FLYE;
-            case 4:return REVERSE_GRIP_PULLDOWN;
-            case 5:return MACHINE_GURLS;
-            case 6:return ALTERNATE_DUMBBELL_CURL;
-            case 7:return PEC_DECK_FLYE;
-            case 8:return INCLINE_DUMBBEL_PRESS;
-            case 9:return CABLE_CROSSOVERS;
+            case FLAT_BENCH_BRABELL_PASS:return FLAT_BENCH_BRABELL_PASS;
+            case FLAT_BENCH_DUMBBELL_FLYE:return FLAT_BENCH_DUMBBELL_FLYE;
+            case FLAT_BENCH_DUMBBELL_PRESS:return FLAT_BENCH_DUMBBELL_PRESS;
+            case INCLINE_DUMBBELL_FLYE:return INCLINE_DUMBBELL_FLYE;
+            case REVERSE_GRIP_PULLDOWN:return REVERSE_GRIP_PULLDOWN;
+            case MACHINE_GURLS:return MACHINE_GURLS;
+            case ALTERNATE_DUMBBELL_CURL:return ALTERNATE_DUMBBELL_CURL;
+            case PEC_DECK_FLYE:return PEC_DECK_FLYE;
+            case INCLINE_DUMBBEL_PRESS:return INCLINE_DUMBBEL_PRESS;
+            case CABLE_CROSSOVERS:return CABLE_CROSSOVERS;
             default:return INITIAL_EXERCISE_TYPE;
         }
     }
@@ -468,49 +468,6 @@ public class DataProcessor{
     }
 
     public static boolean isbelongSegments(Data data){
-        /*int trueCounter=0,falseCounter=0;
-        if(isbelongSegments(data.getAxSet())==true){
-            ++trueCounter;
-        }
-        else{
-            ++falseCounter;
-        }
-        if(isbelongSegments(data.getAySet())==true){
-            ++trueCounter;
-        }
-        else{
-            ++falseCounter;
-        }
-        if(isbelongSegments(data.getAzSet())==true){
-            ++trueCounter;
-        }
-        else{
-            ++falseCounter;
-        }
-        if(isbelongSegments(data.getGxSet())==true){
-            ++trueCounter;
-        }
-        else{
-            ++falseCounter;
-        }
-        if(isbelongSegments(data.getGySet())==true){
-            ++trueCounter;
-        }
-        else{
-            ++falseCounter;
-        }
-        if(isbelongSegments(data.getGzSet())==true){
-            ++trueCounter;
-        }
-        else{
-            ++falseCounter;
-        }
-        if(trueCounter>=falseCounter){
-            return true;
-        }
-        else{
-            return false;
-        }*/
         double[][] input=new double[Data.DIMENSION][];
         input[0]=data.getAxSet();
         input[1]=data.getAySet();

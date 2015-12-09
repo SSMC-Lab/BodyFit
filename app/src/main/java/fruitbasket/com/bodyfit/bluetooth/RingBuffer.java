@@ -32,7 +32,7 @@ public class RingBuffer<T> {
     public void push(T item) {
         if (count == buffer.length) {
         	System.out.println("Ring buffer overflow");
-//            throw new RuntimeException("Ring buffer overflow");
+            //throw new RuntimeException("Ring buffer overflow");
         }
         buffer[indexIn] = item;
         indexIn = (indexIn + 1) % buffer.length;     // wrap-around
@@ -46,7 +46,7 @@ public class RingBuffer<T> {
         if (isEmpty()) {
         	System.out.println("Ring buffer pop underflow");
 
-//            throw new RuntimeException("Ring buffer underflow");
+            //throw new RuntimeException("Ring buffer underflow");
         }
         T item = buffer[indexOut];
         buffer[indexOut] = null;                  // to help with garbage collection
@@ -61,7 +61,7 @@ public class RingBuffer<T> {
     public T next() {
         if (isEmpty()) {
         	System.out.println("Ring buffer next underflow");
-//            throw new RuntimeException("Ring buffer underflow");
+            //throw new RuntimeException("Ring buffer underflow");
         }
         return buffer[indexOut];
     }
