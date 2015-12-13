@@ -38,7 +38,7 @@ public class ExerciseFragment extends BlunoLibrary {
     @SuppressLint("ValidFragment")
     public ExerciseFragment(Context context){
         super(context);
-        Log.i(TAG, "initialize()");
+        Log.i(TAG, "ExerciseFragment()");
     }
 
 
@@ -125,7 +125,6 @@ public class ExerciseFragment extends BlunoLibrary {
             switch(view.getId()){
                 case R.id.start_doing:
                     if(((ToggleButton)view).isChecked()==true){
-
                         Thread thread=new Thread(task);
                         thread.start();
                     }
