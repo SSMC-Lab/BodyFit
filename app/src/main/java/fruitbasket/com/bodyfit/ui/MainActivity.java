@@ -36,7 +36,6 @@ public class MainActivity extends BaseTabActivity {
         setContentView(R.layout.activity_main);
         startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 0);
 
-
         String [] dataLine=new String[]{"Time","accX", "accY", "accZ", "gyrX", "gyrY", "gyrZ"};
         try {
             ExcelProcessor.createFileWithHeader( dataLine);

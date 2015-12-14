@@ -1,15 +1,20 @@
 package fruitbasket.com.bodyfit.processor;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.data.Data;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class DataProcessor{
     private static final DataProcessor dataProcessor=new DataProcessor();
 
+    public static Context context;
     //exercise type
     public static final int INITIAL_EXERCISE_TYPE=-1;
     public static final int FLAT_BENCH_BRABELL_PASS=0;
@@ -559,27 +564,30 @@ public class DataProcessor{
         String[] numbers;
         int i=0,j=0;
         try{
-            input=new Scanner(new File(Conditions.APP_FILE_DIR+"0.txt"));
+            input=new Scanner(context.getResources().getAssets().open("0.txt"));
         }
         catch(FileNotFoundException e){
             System.out.println("READ FILE ERROR");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         j=0;
         while(input.hasNextLine()){
             line=input.nextLine();
             numbers=line.split(" ");
-            System.out.println("# OF THIS LINE:"+numbers.length);
+            System.out.println("# OF THIS LINE:" + numbers.length);
             for(i=0;i<numbers.length;i++){
                 sample0[j][i]=Double.parseDouble(numbers[i]);
             }
             j++;
         }
-
         try{
-            input=new Scanner(new File(Conditions.APP_FILE_DIR+"1.txt"));
+            input=new Scanner(context.getResources().getAssets().open("1.txt"));
         }
         catch(FileNotFoundException e){
             System.out.println("READ FILE ERROR");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         j=0;
         while(input.hasNextLine()){
@@ -593,10 +601,12 @@ public class DataProcessor{
         }
 
         try{
-            input=new Scanner(new File(Conditions.APP_FILE_DIR+"2.txt"));
+            input=new Scanner(context.getResources().getAssets().open("2.txt"));
         }
         catch(FileNotFoundException e){
             System.out.println("READ FILE ERROR");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         j=0;
         while(input.hasNextLine()){
@@ -610,10 +620,12 @@ public class DataProcessor{
         }
 
         try{
-            input=new Scanner(new File(Conditions.APP_FILE_DIR+"3.txt"));
+            input=new Scanner(context.getResources().getAssets().open("3.txt"));
         }
         catch(FileNotFoundException e){
             System.out.println("READ FILE ERROR");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         j=0;
         while(input.hasNextLine()){
@@ -627,10 +639,12 @@ public class DataProcessor{
         }
 
         try{
-            input=new Scanner(new File(Conditions.APP_FILE_DIR+"4.txt"));
+            input=new Scanner(context.getResources().getAssets().open("4.txt"));
         }
         catch(FileNotFoundException e){
             System.out.println("READ FILE ERROR");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         j=0;
         while(input.hasNextLine()){
@@ -644,10 +658,12 @@ public class DataProcessor{
         }
 
         try{
-            input=new Scanner(new File(Conditions.APP_FILE_DIR+"5.txt"));
+            input=new Scanner(context.getResources().getAssets().open("5.txt"));
         }
         catch(FileNotFoundException e){
             System.out.println("READ FILE ERROR");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         j=0;
         while(input.hasNextLine()){
@@ -661,10 +677,12 @@ public class DataProcessor{
         }
 
         try{
-            input=new Scanner(new File(Conditions.APP_FILE_DIR+"6.txt"));
+            input=new Scanner(context.getResources().getAssets().open("6.txt"));
         }
         catch(FileNotFoundException e){
             System.out.println("READ FILE ERROR");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         j=0;
         while(input.hasNextLine()){
@@ -678,10 +696,12 @@ public class DataProcessor{
         }
 
         try{
-            input=new Scanner(new File(Conditions.APP_FILE_DIR+"7.txt"));
+            input=new Scanner(context.getResources().getAssets().open("7.txt"));
         }
         catch(FileNotFoundException e){
             System.out.println("READ FILE ERROR");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         j=0;
         while(input.hasNextLine()){
@@ -695,10 +715,12 @@ public class DataProcessor{
         }
 
         try{
-            input=new Scanner(new File(Conditions.APP_FILE_DIR+"8.txt"));
+            input=new Scanner(context.getResources().getAssets().open("8.txt"));
         }
         catch(FileNotFoundException e){
             System.out.println("READ FILE ERROR");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         j=0;
         while(input.hasNextLine()){
@@ -712,10 +734,12 @@ public class DataProcessor{
         }
 
         try{
-            input=new Scanner(new File(Conditions.APP_FILE_DIR+"9.txt"));
+            input=new Scanner(context.getResources().getAssets().open("9.txt"));
         }
         catch(FileNotFoundException e){
             System.out.println("READ FILE ERROR");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         j=0;
         while(input.hasNextLine()){
