@@ -3,21 +3,19 @@ package fruitbasket.com.bodyfit.ui;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.R;
 import fruitbasket.com.bodyfit.bluetooth.BlunoLibrary;
-import fruitbasket.com.bodyfit.data.Data;
-import fruitbasket.com.bodyfit.data.DataBuffer;
-import fruitbasket.com.bodyfit.data.SourceData;
+import fruitbasket.com.bodyfit.data.SourceDataSet;
+import fruitbasket.com.bodyfit.data.DataSetBuffer;
+import fruitbasket.com.bodyfit.data.SourceDataUnit;
 import fruitbasket.com.bodyfit.processor.DataProcessor;
 
 public class ExerciseFragment extends BlunoLibrary {
@@ -135,9 +133,9 @@ public class ExerciseFragment extends BlunoLibrary {
         private static final String TAG="ExerciseProcessorTask";
 
         private boolean isDoing=false;
-        private SourceData[] sourceDatas;
-        private Data data;
-        private DataBuffer dataBuffer;
+        private SourceDataUnit[] sourceDatas;
+        private SourceDataSet data;
+        private DataSetBuffer dataBuffer;
 
         private int[] selectedIndex;
         private double[] selectedDimension1;
@@ -150,8 +148,8 @@ public class ExerciseFragment extends BlunoLibrary {
         private double[] scores;
 
         public ExerciseProcessorTask(){
-            data=new Data();
-            dataBuffer=new DataBuffer();
+            data=new SourceDataSet();
+            dataBuffer=new DataSetBuffer();
         }
 
         @Override
@@ -171,7 +169,7 @@ public class ExerciseFragment extends BlunoLibrary {
                         }
                         else{
                             if(dataBuffer.isEmpty()==false){
-                                dataBuffer.transferData();
+                                dataBuffer.transferBuffer();
                                 selectedIndex =DataProcessor.dataSelect(dataBuffer.getDataSet());
                                 selectedDimension1=data.getDimensionByIndex(selectedIndex[0]);
                                 selectedDimension2=data.getDimensionByIndex(selectedIndex[1]);

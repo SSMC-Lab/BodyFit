@@ -1,7 +1,7 @@
 package fruitbasket.com.bodyfit.processor;
 
 import fruitbasket.com.bodyfit.Conditions;
-import fruitbasket.com.bodyfit.data.Data;
+import fruitbasket.com.bodyfit.data.SourceDataSet;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -457,7 +457,7 @@ public class DataProcessor{
 
 
 
-    public static void filter(Data data,int span){
+    public static void filter(SourceDataSet data,int span){
         filter(data.getAxSet(),span);
         filter(data.getAySet(),span);
         filter(data.getAzSet(),span);
@@ -467,8 +467,8 @@ public class DataProcessor{
         filter(data.getGzSet(),span);
     }
 
-    public static boolean isbelongSegments(Data data){
-        double[][] input=new double[Data.DIMENSION][];
+    public static boolean isbelongSegments(SourceDataSet data){
+        double[][] input=new double[SourceDataSet.DIMENSION][];
         input[0]=data.getAxSet();
         input[1]=data.getAySet();
         input[2]=data.getAzSet();
@@ -478,8 +478,8 @@ public class DataProcessor{
         return isbelongSegments(input);
     }
 
-    public static int[] dataSelect(Data data){
-        double[][] input=new double[Data.DIMENSION][];
+    public static int[] dataSelect(SourceDataSet data){
+        double[][] input=new double[SourceDataSet.DIMENSION][];
         input[0]=data.getAxSet();
         input[1]=data.getAySet();
         input[2]=data.getAzSet();

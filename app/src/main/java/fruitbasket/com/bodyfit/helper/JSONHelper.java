@@ -3,7 +3,7 @@ package fruitbasket.com.bodyfit.helper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import fruitbasket.com.bodyfit.data.SourceData;
+import fruitbasket.com.bodyfit.data.SourceDataUnit;
 
 public class JSONHelper {
     private static final JSONHelper jsonHelper=new JSONHelper();
@@ -14,10 +14,10 @@ public class JSONHelper {
         return jsonHelper;
     }
 
-    public static SourceData parser(String jsonString)
+    public static SourceDataUnit parser(String jsonString)
             throws JSONException {
         JSONObject jsonObject=new JSONObject(jsonString);
-        SourceData sourceData=new SourceData(
+        SourceDataUnit sourceData=new SourceDataUnit(
                 jsonObject.getString("time"),
                 jsonObject.getDouble("ax"),
                 jsonObject.getDouble("ay"),
