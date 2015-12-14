@@ -38,6 +38,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.data.SourceData;
@@ -55,6 +57,7 @@ public class BluetoothLeService extends Service {
     int Lognumber = 0;
     String [] LogTime = new String[20];
     ArrayList<double[]> LogData = new ArrayList<>();
+    ExecutorService sixAxis = Executors.newSingleThreadExecutor();
 
     private final static String TAG = BluetoothLeService.class.getSimpleName();
     private int currentLoad=0;
@@ -518,7 +521,7 @@ public class BluetoothLeService extends Service {
 
 
 
-                Log.i(TAG,"ax="+receiveData.substring(1, 3)+";ay="+receiveData.substring(3, 5) + ";az=" + receiveData.substring(5, 7));
+                Log.i(TAG,"ax="+ax+";ay="+ay + ";az=" + az);
                 Log.i(TAG, "gx=" + gx + ";gy=" + gy + ";gz=" + gz);
                 if(isFull==false&&currentLoad<sourceDataSet.length){
                     sourceDataSet[currentLoad]=new SourceData(null,ax,ay,az,gx,gy,gz);
@@ -533,20 +536,24 @@ public class BluetoothLeService extends Service {
                 //Log data function
                 //
                 String time = System.currentTimeMillis()+"";
-                time = time.substring(6,time.length());
-                double [] dataLog = new double []{ax,ay,az,gx,gy,gz};
+                time = time.substring(5,time.length());
                 LogTime[Lognumber]=time;
-                LogData.add(dataLog);
+                LogData.add(new double []{ax,ay,az,gx,gy,gz});
                 Lognumber++;
 
 
-                if(Lognumber>=20) {
+                if(Lognumber == LogTime.length) {
                     Lognumber=0;
+                    Log.i("1111111","1111111  "+LogTime.length+" "+LogData.size());
                     String APP_FILE_DIR = Environment.getExternalStorageDirectory() + "/SensorData";
                     try {
                         ExcelProcessor.appendDataQuickly(new File(APP_FILE_DIR + "/sixAixs.xlsx"), LogTime, LogData);
                     } catch (IOException e) {
+                        e.printStackTrace();
                     }
+
+                    Log.i("1111111", "11111112222  " + LogTime[19]);
+                    LogData.clear();
                 }
             }
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
