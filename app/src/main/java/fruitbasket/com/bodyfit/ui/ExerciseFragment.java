@@ -28,9 +28,6 @@ public class ExerciseFragment extends BlunoLibrary {
     private TextView exerciseType;
     private ToggleButton toggleButton;
 
-    private Handler handler=new Handler();
-    private ExerciseProcessorTask task =new ExerciseProcessorTask();
-
     public ExerciseFragment(){
         this(null);
     }
@@ -125,11 +122,8 @@ public class ExerciseFragment extends BlunoLibrary {
             switch(view.getId()){
                 case R.id.start_doing:
                     if(((ToggleButton)view).isChecked()==true){
-                        Thread thread=new Thread(task);
-                        thread.start();
                     }
                     else{
-                        task.stopDoing();
                     }
                     break;
             }
@@ -169,7 +163,7 @@ public class ExerciseFragment extends BlunoLibrary {
                 if(mBluetoothLeService.isFull()==true){
                     Log.i(TAG,"mBluetoothLeService.isFull()==true");
                     sourceDatas=mBluetoothLeService.getSourceDataSet();
-                    if(sourceDatas!=null){
+                        if(sourceDatas!=null){
                         data.fromSourceData(sourceDatas);
                         DataProcessor.filter(data, Conditions.MID_SPAN);
                         if(DataProcessor.isbelongSegments(data)==true){
@@ -186,7 +180,7 @@ public class ExerciseFragment extends BlunoLibrary {
                                         selectedDimension2,
                                         selectedIndex[0],
                                         selectedIndex[1]);
-                                handler.post(new DoUpdateUI(exerciseType));
+                                //handler.post(new DoUpdateUI(exerciseType));
                                 abnormalType=DataProcessor.abnormalDetection(
                                         selectedDimension1,
                                         selectedDimension2,
