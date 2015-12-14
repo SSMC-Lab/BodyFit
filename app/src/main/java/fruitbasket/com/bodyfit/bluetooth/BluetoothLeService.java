@@ -38,7 +38,6 @@ import java.util.List;
 import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.data.SourceData;
 
-
 /**
  * Service for managing connection and data communication with a GATT server hosted on a
  * given BluetoothLE device.
@@ -49,7 +48,6 @@ public class BluetoothLeService extends Service {
     private int currentLoad=0;
     private SourceData[] sourceDataSet = new SourceData[Conditions.MAX_SAMPLE_NUMBER];
     private boolean isFull=false;
-
 
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
@@ -80,6 +78,10 @@ public class BluetoothLeService extends Service {
             "fruitbasket.com.bodyfit.le.EXTRA_DATA";
 
     private final IBinder mBinder = new LocalBinder();
+
+
+
+
 
     @Override
     public IBinder onBind(Intent intent) {

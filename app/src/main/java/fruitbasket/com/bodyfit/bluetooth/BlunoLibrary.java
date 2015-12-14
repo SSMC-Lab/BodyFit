@@ -166,9 +166,13 @@ public  class BlunoLibrary  extends Fragment{
 		}
 	};
 
+
+
+
 	public BlunoLibrary() {
 		this(null);
 	}
+
 	@SuppressLint("ValidFragment")
 	public BlunoLibrary(Context theContext) {
 		mainContext=theContext;
@@ -220,8 +224,7 @@ public  class BlunoLibrary  extends Fragment{
 		}
 	}*/
 
-	public void Link()
-	{
+	public void Link(){
 		if(!initiate())
 		{
 			Toast.makeText(mainContext, "error_bluetooth_not_supported",
@@ -350,10 +353,6 @@ public  class BlunoLibrary  extends Fragment{
 		}
 	}
 
-
-
-
-
     private void getGattServices(List<BluetoothGattService> gattServices) {
         if (gattServices == null) return;
         String uuid = null;
@@ -412,6 +411,8 @@ public  class BlunoLibrary  extends Fragment{
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
         return intentFilter;
     }
+
+
 
 
 	private class LeDeviceListAdapter extends BaseAdapter {

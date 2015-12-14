@@ -127,7 +127,7 @@ public class DataProcessor{
 
         }
 
-/**The following code is used for identify the starting and ending point based on extracted metric*/
+        /**The following code is used for identify the starting and ending point based on extracted metric*/
 
         if(energyAverage>energyThreshold && SqrEnergyAverage<2)
             return true;

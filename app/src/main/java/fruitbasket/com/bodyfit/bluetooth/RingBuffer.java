@@ -1,6 +1,5 @@
 package fruitbasket.com.bodyfit.bluetooth;
 
-@SuppressWarnings("unchecked")
 public class RingBuffer<T> {
 
     private T[] buffer;          // queue elements
@@ -45,7 +44,6 @@ public class RingBuffer<T> {
     public T pop() {
         if (isEmpty()) {
         	System.out.println("Ring buffer pop underflow");
-
             //throw new RuntimeException("Ring buffer underflow");
         }
         T item = buffer[indexOut];

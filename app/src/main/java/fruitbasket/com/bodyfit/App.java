@@ -9,9 +9,9 @@ import java.io.File;
 public class App extends Application {
     private static final String TAG="APP";
 
-    static{
+    /*static{
         System.loadLibrary("NativeHelper");
-    }
+    }*/
 
     @Override
     public void onCreate(){
