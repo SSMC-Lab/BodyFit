@@ -29,20 +29,32 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 
 import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.data.SourceData;
+import fruitbasket.com.bodyfit.utilities.ExcelProcessor;
 
 /**
  * Service for managing connection and data communication with a GATT server hosted on a
  * given BluetoothLE device.
  */
 public class BluetoothLeService extends Service {
+
+    //
+    //Log data function
+    //
+    int Lognumber = 0;
+    String [] LogTime = new String[20];
+    ArrayList<double[]> LogData = new ArrayList<>();
 
     private final static String TAG = BluetoothLeService.class.getSimpleName();
     private int currentLoad=0;
@@ -497,8 +509,10 @@ public class BluetoothLeService extends Service {
                 gy = dealG(receiveData.substring(11, 15));
                 gz = dealG(receiveData.substring(15, 19));
 
-                Log.i(TAG,"ax="+ax+";ay="+ay+";az="+az);
-                Log.i(TAG,"gx="+gx+";gy="+gy+";gz="+gz);
+
+
+                Log.i(TAG,"ax="+ax+";ay="+ay + ";az=" + az);
+                                    Log.i(TAG, "gx=" + gx + ";gy=" + gy + ";gz=" + gz);
                 if(isFull==false&&currentLoad<sourceDataSet.length){
                     sourceDataSet[currentLoad]=new SourceData(null,ax,ay,az,gx,gy,gz);
                     ++currentLoad;
@@ -508,6 +522,25 @@ public class BluetoothLeService extends Service {
                     isFull=true;
                 }
 
+                //
+                //Log data function
+                //
+                String time = System.currentTimeMillis()+"";
+                time = time.substring(6,time.length());
+                double [] dataLog = new double []{ax,ay,az,gx,gy,gz};
+                LogTime[Lognumber]=time;
+                LogData.add(dataLog);
+                Lognumber++;
+
+
+                if(Lognumber>=20) {
+                    Lognumber=0;
+                    String APP_FILE_DIR = Environment.getExternalStorageDirectory() + "/SensorData";
+                    try {
+                        ExcelProcessor.appendDataQuickly(new File(APP_FILE_DIR + "/sixAixs.xlsx"), LogTime, LogData);
+                    } catch (IOException e) {
+                    }
+                }
             }
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
         }

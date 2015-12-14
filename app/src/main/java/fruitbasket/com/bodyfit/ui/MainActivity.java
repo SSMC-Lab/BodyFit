@@ -15,7 +15,12 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.locks.Condition;
+
 import fruitbasket.com.bodyfit.R;
+import fruitbasket.com.bodyfit.utilities.ExcelProcessor;
 
 public class MainActivity extends BaseTabActivity {
 
@@ -30,6 +35,12 @@ public class MainActivity extends BaseTabActivity {
         Log.d(TAG, "onCreate()");
         setContentView(R.layout.activity_main);
         startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 0);
+
+
+        String [] dataLine=new String[]{"Time","accX", "accY", "accZ", "gyrX", "gyrY", "gyrZ"};
+        try {
+            ExcelProcessor.createFileWithHeader( dataLine);
+        } catch (IOException e) {}
     }
 
     @Override
