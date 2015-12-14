@@ -2,6 +2,9 @@ package fruitbasket.com.bodyfit.data;
 
 import java.util.ArrayList;
 
+/**
+ *
+ */
 public class DataBuffer {
     private ArrayList<Data> buffer;//数据缓冲区
 
@@ -31,19 +34,25 @@ public class DataBuffer {
         return buffer.isEmpty();
     }
 
+    /**
+     *
+     */
     public void transferData(){
-        if(buffer==null)
-            return;
-        int bufferLength = buffer.size();
 
+    }
+
+    public Data getDataSet(){
+        if(buffer==null)
+            return null;
+        int bufferSize = buffer.size();
         int totalLength = 0;
-        for(int i = 0; i<bufferLength; i++){
+        for(int i = 0; i<bufferSize; i++){
             totalLength += buffer.get(i).getAxSet().length;
         }
 
         SourceData [] sourceData = new SourceData[totalLength];
         int count = 0;
-        for(int i = 0; i<bufferLength; i++){
+        for(int i = 0; i<bufferSize; i++){
             Data item = buffer.get(i);
             for(int j = 0; j<item.getAxSet().length; j++){
                 sourceData[count++] = new SourceData(
@@ -59,9 +68,6 @@ public class DataBuffer {
 
         dataSet = new Data(sourceData);
         buffer.clear();
-    }
-
-    public Data getDataSet(){
         return dataSet;
     }
 }

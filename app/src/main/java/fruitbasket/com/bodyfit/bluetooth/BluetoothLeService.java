@@ -123,11 +123,20 @@ public class BluetoothLeService extends Service {
         }
     }
 
+    /**
+     * send broadcast when gets a update
+     * @param action
+     */
     private void broadcastUpdate(final String action) {
         final Intent intent = new Intent(action);
         sendBroadcast(intent);
     }
 
+    /**
+     *
+     * @param action
+     * @param characteristic
+     */
     private void broadcastUpdate(final String action,
                                  final BluetoothGattCharacteristic characteristic) {
             final Intent intent = new Intent(action);
@@ -159,7 +168,6 @@ public class BluetoothLeService extends Service {
             Log.e(TAG, "Unable to obtain a BluetoothAdapter.");
             return false;
         }
-
         return true;
     }
 
@@ -242,7 +250,6 @@ public class BluetoothLeService extends Service {
      * Write information to the device on a given {@code BluetoothGattCharacteristic}. The content string and characteristic is 
      * only pushed into a ring buffer. All the transmission is based on the {@code onCharacteristicWrite} call back function, 
      * which is called directly in this function
-     *
      * @param characteristic The characteristic to write to.
      */
     public void writeCharacteristic(BluetoothGattCharacteristic characteristic) {

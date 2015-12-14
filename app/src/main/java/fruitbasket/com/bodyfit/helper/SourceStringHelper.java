@@ -2,6 +2,9 @@ package fruitbasket.com.bodyfit.helper;
 
 import fruitbasket.com.bodyfit.data.SourceData;
 
+/**
+ *
+ */
 public class SourceStringHelper {
     private static final SourceStringHelper sourceStringHelper=new SourceStringHelper();
 
