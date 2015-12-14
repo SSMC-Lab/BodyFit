@@ -518,8 +518,8 @@ public class BluetoothLeService extends Service {
 
 
 
-                Log.i(TAG,"ax="+ax+";ay="+ay + ";az=" + az);
-                                    Log.i(TAG, "gx=" + gx + ";gy=" + gy + ";gz=" + gz);
+                Log.i(TAG,"ax="+receiveData.substring(1, 3)+";ay="+receiveData.substring(3, 5) + ";az=" + receiveData.substring(5, 7));
+                Log.i(TAG, "gx=" + gx + ";gy=" + gy + ";gz=" + gz);
                 if(isFull==false&&currentLoad<sourceDataSet.length){
                     sourceDataSet[currentLoad]=new SourceDataUnit(null,ax,ay,az,gx,gy,gz);
                     ++currentLoad;
@@ -555,7 +555,7 @@ public class BluetoothLeService extends Service {
 
         private double dealA(String s){
             int tem = Integer.parseInt(s);
-            if(tem<=10){
+            if(tem<10){
                 return (double)tem/10;
             }
             else{
@@ -565,7 +565,7 @@ public class BluetoothLeService extends Service {
 
         private double dealG(String s ){
             int n = Integer.parseInt(s);
-            if(n>1000)
+            if(n>=1000)
                 return -(n-1000);
             return n;
         }
