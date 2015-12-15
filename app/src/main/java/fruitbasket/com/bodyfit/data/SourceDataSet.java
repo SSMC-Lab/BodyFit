@@ -1,9 +1,7 @@
 package fruitbasket.com.bodyfit.data;
 
-import android.util.Log;
-
-public class Data {
-    public static final String TAG="Data";
+public class SourceDataSet {
+    public static final String TAG="SourceDataSet";
     public static final int DIMENSION=6;
 
     private int size;
@@ -15,12 +13,14 @@ public class Data {
     private double[] gySet;
     private double[] gzSet;
 
-    public Data (){
+    public SourceDataSet(){
     }
 
-    public Data(SourceData[] sourceDatas){
+    public SourceDataSet(SourceDataUnit[] sourceDatas){
         fromSourceData(sourceDatas);
     }
+
+    public int size(){return size;}
 
     public double[] getAxSet(){
         return axSet;
@@ -65,7 +65,7 @@ public class Data {
         }
     }
 
-    public void fromSourceData(SourceData[] sourceDatas){
+    public void fromSourceData(SourceDataUnit[] sourceDatas){
         size=sourceDatas.length;
 
         axSet=new double[sourceDatas.length];

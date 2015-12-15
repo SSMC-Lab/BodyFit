@@ -1,6 +1,6 @@
 package fruitbasket.com.bodyfit.data;
 
-public class SourceData {
+public class SourceDataUnit {
     private String time;
     private double ax;
     private double ay;
@@ -9,13 +9,13 @@ public class SourceData {
     private double gy;
     private double gz;
 
-    public SourceData(String time,
-                      double ax,
-                      double ay,
-                      double az,
-                      double gx,
-                      double gy,
-                      double gz){
+    public SourceDataUnit(String time,
+                          double ax,
+                          double ay,
+                          double az,
+                          double gx,
+                          double gy,
+                          double gz){
         this.time=time;
         this.ax=ax;
         this.ay=ay;

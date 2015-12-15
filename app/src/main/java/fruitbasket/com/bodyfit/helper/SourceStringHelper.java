@@ -1,6 +1,6 @@
 package fruitbasket.com.bodyfit.helper;
 
-import fruitbasket.com.bodyfit.data.SourceData;
+import fruitbasket.com.bodyfit.data.SourceDataUnit;
 
 /**
  *
@@ -14,7 +14,7 @@ public class SourceStringHelper {
         return sourceStringHelper;
     }
 
-    public SourceData parser(String sourceString){
+    public SourceDataUnit parser(String sourceString){
         return null;
     }
 }
