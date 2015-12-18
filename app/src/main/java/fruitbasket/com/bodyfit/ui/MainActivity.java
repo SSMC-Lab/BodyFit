@@ -88,7 +88,7 @@ public class MainActivity extends BaseTabActivity {
         mTabWidget.setStripEnabled(false);
 
         Fragment targetFragment=new TargetFragment();
-        Fragment exerciseFragment=new ExerciseFragment(this);
+        Fragment exerciseFragment=new ExerciseFragment();
         Fragment profileFragment=new ProfileFragment();
 
         LayoutInflater inflater=getLayoutInflater();

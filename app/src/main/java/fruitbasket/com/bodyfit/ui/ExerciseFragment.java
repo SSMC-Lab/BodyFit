@@ -12,13 +12,14 @@ import android.widget.ToggleButton;
 
 import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.R;
+import fruitbasket.com.bodyfit.bluetooth.BluetoothFragment;
 import fruitbasket.com.bodyfit.bluetooth.BlunoLibrary;
 import fruitbasket.com.bodyfit.data.SourceDataSet;
 import fruitbasket.com.bodyfit.data.DataSetBuffer;
 import fruitbasket.com.bodyfit.data.SourceDataUnit;
 import fruitbasket.com.bodyfit.processor.DataProcessor;
 
-public class ExerciseFragment extends BlunoLibrary {
+public class ExerciseFragment extends BluetoothFragment {
     public static final String TAG="ExFragment";
 
     private TextView groupNumber;
@@ -26,21 +27,15 @@ public class ExerciseFragment extends BlunoLibrary {
     private TextView exerciseType;
     private ToggleButton toggleButton;
 
-    public ExerciseFragment(){
-        this(null);
-    }
-
-    @SuppressLint("ValidFragment")
-    public ExerciseFragment(Context context){
-        super(context);
-        Log.i(TAG, "ExerciseFragment()");
-    }
-
-
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate()");
+    }
+
+    @Override
+    protected void updateUI(int what, Bundle bundle) {
+
     }
 
     @Override
@@ -75,13 +70,11 @@ public class ExerciseFragment extends BlunoLibrary {
     public void onStop(){
         super.onStop();
         Log.i(TAG,"onStop()");
-        onStopProcess();
     }
 
     @Override
     public void onDestroy(){
         super.onStop();
-        onDestroyProcess();
     }
 
 
@@ -120,14 +113,16 @@ public class ExerciseFragment extends BlunoLibrary {
             switch(view.getId()){
                 case R.id.start_doing:
                     if(((ToggleButton)view).isChecked()==true){
+                        startWork();
                     }
                     else{
+                        stopWork();
                     }
                     break;
             }
         }
     }
-
+/*
     private class ExerciseProcessorTask implements Runnable {
 
         private static final String TAG="ExerciseProcessorTask";
@@ -216,5 +211,5 @@ public class ExerciseFragment extends BlunoLibrary {
             //Toast.makeText(getContext(),"type="+exerciseType,Toast.LENGTH_SHORT).show();
             showExerciseType(exerciseType);
         }
-    }
+    }*/
 }
