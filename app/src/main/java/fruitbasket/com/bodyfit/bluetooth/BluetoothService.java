@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.R;
 import fruitbasket.com.bodyfit.data.SourceDataUnit;
 import fruitbasket.com.bodyfit.helper.JSONHelper;
@@ -148,8 +149,8 @@ public class BluetoothService extends Service {
             e.printStackTrace();
         }
 
-        //从蓝牙中读取数据
         if(handler!=null){
+            //从蓝牙中读取数据
             bluetoothDataReadThread=new Thread(new BluetoothDataReadTask(bluetoothSocket,handler));
             bluetoothDataReadThread.start();
         }
@@ -292,7 +293,7 @@ public class BluetoothService extends Service {
                             //Log.d(TAG,"itemsPreSecond=="+itemsPreSecond);
 
                             Message message=new Message();
-                            message.what=0x123;///
+                            message.what= Conditions.EXERCISE_TYPE;///
                             bundle.putDouble("items_pre_second",itemsPreSecond);
                             bundle.putString("time",sourceDataUnit.getTime());
                             bundle.putDouble("ax",sourceDataUnit.getAx());

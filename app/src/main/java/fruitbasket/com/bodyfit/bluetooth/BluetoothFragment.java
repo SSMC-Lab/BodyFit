@@ -28,31 +28,53 @@ public abstract class BluetoothFragment extends Fragment {
 
     private void showBluetootListDialog(){
         if(bluetoothService!=null){
-            new AlertDialog.Builder(getContext()).setTitle("Bluetooth List")
+            new AlertDialog
+                    .Builder(getContext())
+                    .setTitle("Bluetooth List")
                     .setAdapter(bluetoothService.getArrayAdapter(), new DialogInterface.OnClickListener() {
 
-                        public void onClick(DialogInterface arg0, int which) {
+                        public void onClick(DialogInterface arg0, final int which) {
                             bluetoothService.stopDiscovery();
-                            bluetoothService.connectToDevice(bluetoothService.getDeviceArrayList().get(which).getAddress());
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    bluetoothService.connectToDevice(bluetoothService
+                                            .getDeviceArrayList()
+                                            .get(which)
+                                            .getAddress());
+                                }
+                            }).start();
                         }
-                    }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    })
+                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
 
-                @Override
-                public void onCancel(DialogInterface arg0) {
-                    bluetoothService.stopDiscovery();
-                }
-            }).show();
+                        @Override
+                        public void onCancel(DialogInterface arg0) {
+                            bluetoothService.stopDiscovery();
+                        }
+                    }).show();
         }
     }
 
+    /**
+     * 启动蓝牙等一系列工作
+     */
     protected void startWork(){
         this.getActivity().bindService(intentToBluetootthService, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
+    /**
+     * 关闭蓝牙等一系列工作
+     */
     protected void stopWork(){
         this.getActivity().unbindService(serviceConnection);
     }
 
+    /**
+     * 更新用户界面
+     * @param what 指明更新界面的哪一部分
+     * @param bundle 附带更新界面的数据
+     */
     protected abstract void updateUI(int what,Bundle bundle);
 
 
