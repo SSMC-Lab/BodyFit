@@ -53,7 +53,10 @@ public abstract class BluetoothFragment extends Fragment {
         this.getActivity().unbindService(serviceConnection);
     }
 
-    protected abstract void updateUI(Bundle bundle);
+    protected abstract void updateUI(int what,Bundle bundle);
+
+
+
 
     private ServiceConnection serviceConnection=new ServiceConnection() {
         @Override
@@ -72,11 +75,9 @@ public abstract class BluetoothFragment extends Fragment {
     };
 
     final Handler handler= new Handler() {
-        private Bundle bundle;
         public void handleMessage(Message msg) {
             Log.i(TAG,"handleMessage()");
-            bundle=msg.getData();
-            updateUI(bundle);
+            updateUI(msg.what,msg.getData());
         }
     };
 }
