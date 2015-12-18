@@ -516,8 +516,6 @@ public class BluetoothLeService extends Service {
                 gy = dealG(receiveData.substring(11, 15));
                 gz = dealG(receiveData.substring(15, 19));
 
-
-
                 Log.i(TAG,"ax="+ax+";ay="+ay + ";az=" + az);
                 Log.i(TAG, "gx=" + gx + ";gy=" + gy + ";gz=" + gz);
                 if(isFull==false&&currentLoad<sourceDataSet.length){

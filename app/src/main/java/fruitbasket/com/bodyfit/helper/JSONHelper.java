@@ -17,15 +17,21 @@ public class JSONHelper {
     public static SourceDataUnit parser(String jsonString)
             throws JSONException {
         JSONObject jsonObject=new JSONObject(jsonString);
-        SourceDataUnit sourceData=new SourceDataUnit(
+        SourceDataUnit sourceDataUnit=new SourceDataUnit(
                 jsonObject.getString("time"),
                 jsonObject.getDouble("ax"),
                 jsonObject.getDouble("ay"),
                 jsonObject.getDouble("az"),
                 jsonObject.getDouble("gx"),
                 jsonObject.getDouble("gy"),
-                jsonObject.getDouble("gz")
+                jsonObject.getDouble("gz"),
+                jsonObject.getDouble("mx"),
+                jsonObject.getDouble("my"),
+                jsonObject.getDouble("mz"),
+                jsonObject.getDouble("p1"),
+                jsonObject.getDouble("p2"),
+                jsonObject.getDouble("p3")
         );
-        return sourceData;
+        return sourceDataUnit;
     }
 }
