@@ -3,6 +3,7 @@ package fruitbasket.com.bodyfit.helper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.data.SourceDataUnit;
 
 public class JSONHelper {
@@ -18,19 +19,19 @@ public class JSONHelper {
             throws JSONException {
         JSONObject jsonObject=new JSONObject(jsonString);
         SourceDataUnit sourceDataUnit=new SourceDataUnit(
-                jsonObject.getString("time"),
-                jsonObject.getDouble("ax"),
-                jsonObject.getDouble("ay"),
-                jsonObject.getDouble("az"),
-                jsonObject.getDouble("gx"),
-                jsonObject.getDouble("gy"),
-                jsonObject.getDouble("gz"),
-                jsonObject.getDouble("mx"),
-                jsonObject.getDouble("my"),
-                jsonObject.getDouble("mz"),
-                jsonObject.getDouble("p1"),
-                jsonObject.getDouble("p2"),
-                jsonObject.getDouble("p3")
+                jsonObject.getString(Conditions.TIME),
+                jsonObject.getDouble(Conditions.AX),
+                jsonObject.getDouble(Conditions.AY),
+                jsonObject.getDouble(Conditions.AZ),
+                jsonObject.getDouble(Conditions.GX),
+                jsonObject.getDouble(Conditions.GY),
+                jsonObject.getDouble(Conditions.GZ),
+                jsonObject.getDouble(Conditions.MX),
+                jsonObject.getDouble(Conditions.MY),
+                jsonObject.getDouble(Conditions.MZ),
+                jsonObject.getDouble(Conditions.P1),
+                jsonObject.getDouble(Conditions.P2),
+                jsonObject.getDouble(Conditions.P3)
         );
         return sourceDataUnit;
     }

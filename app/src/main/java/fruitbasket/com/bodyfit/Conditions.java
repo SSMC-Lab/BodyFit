@@ -13,6 +13,21 @@ public class Conditions {
     //Massage.what
     public static final int EXERCISE =0x123;
 
+    //json keys
+    public static final String TIME="time";
+    public static final String AX="ax";
+    public static final String AY="ay";
+    public static final String AZ="az";
+    public static final String GX="gx";
+    public static final String GY="gy";
+    public static final String GZ="gz";
+    public static final String MX="mx";
+    public static final String MY="my";
+    public static final String MZ="mz";
+    public static final String P1="p1";
+    public static final String P2="p2";
+    public static final String P3="p3";
+
     private Conditions(){}
 
     public static Conditions getInstance(){

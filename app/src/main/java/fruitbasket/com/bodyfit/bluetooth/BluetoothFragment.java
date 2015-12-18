@@ -26,7 +26,7 @@ public abstract class BluetoothFragment extends Fragment {
         intentToBluetootthService=new Intent(this.getContext(),BluetoothService.class);
     }
 
-    private void showBluetootListDialog(){
+    private void getBluetoothAddressByDialog(){
         if(bluetoothService!=null){
             new AlertDialog
                     .Builder(getContext())
@@ -35,15 +35,11 @@ public abstract class BluetoothFragment extends Fragment {
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface arg0, final int which) {
                                     bluetoothService.stopDiscovery();
-                                    new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            bluetoothService.connectToDevice(bluetoothService
-                                                    .getDeviceArrayList()
-                                                    .get(which)
-                                                    .getAddress());
-                                        }
-                                    }).start();
+                                    bluetoothService.setBluetoothAddress(bluetoothService
+                                            .getDeviceArrayList()
+                                            .get(which)
+                                            .getAddress());
+                                    bluetoothService.connectToDevice();
                                 }
                     })
                     .setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -88,7 +84,7 @@ public abstract class BluetoothFragment extends Fragment {
             Log.i(TAG, "onServiceConnected()");
             bluetoothService=((BluetoothService.MyBinder)service).getService();
             bluetoothService.setHandler(handler);
-            showBluetootListDialog();
+            getBluetoothAddressByDialog();
         }
 
         @Override

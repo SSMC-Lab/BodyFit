@@ -40,6 +40,7 @@ public class BluetoothService extends Service {
     private ArrayList<String> deviceNameList;///
     private ArrayAdapter arrayAdapter;
 
+    private String bluetoothAddress;
     private BluetoothSocket bluetoothSocket;
     private Thread bluetoothDataReadThread;
 
@@ -93,6 +94,14 @@ public class BluetoothService extends Service {
         this.handler=handler;
     }
 
+    public void setBluetoothAddress(String bluetoothAddress){
+        this.bluetoothAddress=bluetoothAddress;
+    }
+
+    public String getBluetoothAddress(){
+        return bluetoothAddress;
+    }
+
     public void turnOnBluetooth(){
         Log.d(TAG, "turnOnBluetooth()");
         if(bluetoothAdapter==null){
@@ -137,26 +146,34 @@ public class BluetoothService extends Service {
 
     }
 
-    public void connectToDevice(String bluetoothAddress){
-        BluetoothDevice device = bluetoothAdapter.getRemoteDevice(bluetoothAddress);
-        try {
-            bluetoothSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
-            bluetoothSocket.connect();///
-            Log.d(TAG, "bluetoothSocket.connect()");
-            //donot close the socket
-        } catch (IOException e) {
-            Toast.makeText(this,"bluetooth connect error",Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-
-        if(handler!=null){
-            //从蓝牙中读取数据
-            bluetoothDataReadThread=new Thread(new BluetoothDataReadTask(bluetoothSocket,handler));
-            bluetoothDataReadThread.start();
+    public void connectToDevice(){
+        if(bluetoothAddress!=null){
+            final BluetoothDevice device = bluetoothAdapter.getRemoteDevice(this.bluetoothAddress);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        bluetoothSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
+                        bluetoothSocket.connect();
+                        Log.d(TAG, "bluetoothSocket.connect()");
+                        //donot close the socket
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    finally {
+                        readData();
+                    }
+                }
+            }).start();
         }
         else{
-            Log.e(TAG, "handler==null. at connectToDevice(). at "+TAG);
+            Log.e(TAG, "bluetoothAddress==null.at connectToDevice()");
         }
+    }
+
+    public void connectToDevice(String bluetoothAddress){
+        this.bluetoothAddress=bluetoothAddress;
+        connectToDevice();
     }
 
     public void disconnectToDevice(){
@@ -178,6 +195,17 @@ public class BluetoothService extends Service {
         }*/
     }
 
+    public void readData(){
+        //从蓝牙中读取数据
+        if(handler!=null
+                &&bluetoothSocket.isConnected()==true){
+            bluetoothDataReadThread=new Thread(new BluetoothDataReadTask(bluetoothSocket,handler));
+            bluetoothDataReadThread.start();
+        }
+        else{
+            Log.e(TAG, "readData() error");
+        }
+    }
 
 
 
@@ -249,10 +277,10 @@ public class BluetoothService extends Service {
 
                     bytesRead = input.read(buffer);
                     if (bytesRead != -1) {
-                        //Log.d(TAG, "bytesRead==" + bytesRead);
-                        //Log.d(TAG, "buffer=="+new String(buffer, 0, bytesRead));
+                        Log.d(TAG, "bytesRead==" + bytesRead);
+                        Log.d(TAG, "buffer=="+new String(buffer, 0, bytesRead));
                         stringBuffer.append(new String(buffer, 0, bytesRead));
-                        //Log.d(TAG, "stringBuffer==" + stringBuffer.toString());
+                        Log.d(TAG, "stringBuffer==" + stringBuffer.toString());
 
                         ///此处使用while
                         //获取stringBuffer中的一条json数据
@@ -273,7 +301,7 @@ public class BluetoothService extends Service {
                         //Log.d(TAG,"endOfLineIndex=="+endOfLineIndex);
                         if(endOfLineIndex > 0){
                             jsonString = stringBuffer.substring(0, endOfLineIndex + 1);
-                            //Log.d(TAG,"jsonString=="+jsonString);
+                            Log.d(TAG,"jsonString=="+jsonString);
                             stringBuffer.delete(0, endOfLineIndex + 1);
                             sourceDataUnit= JSONHelper.parser(jsonString);
                             ++itemsNumber;
@@ -295,19 +323,19 @@ public class BluetoothService extends Service {
                             Message message=new Message();
                             message.what= Conditions.EXERCISE;///
                             bundle.putDouble("items_pre_second",itemsPreSecond);
-                            bundle.putString("time",sourceDataUnit.getTime());
-                            bundle.putDouble("ax",sourceDataUnit.getAx());
-                            bundle.putDouble("ay",sourceDataUnit.getAy());
-                            bundle.putDouble("az",sourceDataUnit.getAz());
-                            bundle.putDouble("gx",sourceDataUnit.getGx());
-                            bundle.putDouble("gy",sourceDataUnit.getGy());
-                            bundle.putDouble("gz",sourceDataUnit.getGz());
-                            bundle.putDouble("Mx",sourceDataUnit.getMx());
-                            bundle.putDouble("My",sourceDataUnit.getMy());
-                            bundle.putDouble("Mz",sourceDataUnit.getMz());
-                            bundle.putDouble("p1",sourceDataUnit.getP1());
-                            bundle.putDouble("p2",sourceDataUnit.getP2());
-                            bundle.putDouble("p3",sourceDataUnit.getP3());
+                            bundle.putString(Conditions.TIME, sourceDataUnit.getTime());
+                            bundle.putDouble(Conditions.AX, sourceDataUnit.getAx());
+                            bundle.putDouble(Conditions.AY,sourceDataUnit.getAy());
+                            bundle.putDouble(Conditions.AZ,sourceDataUnit.getAz());
+                            bundle.putDouble(Conditions.GX,sourceDataUnit.getGx());
+                            bundle.putDouble(Conditions.GY,sourceDataUnit.getGy());
+                            bundle.putDouble(Conditions.GZ,sourceDataUnit.getGz());
+                            bundle.putDouble(Conditions.MX,sourceDataUnit.getMx());
+                            bundle.putDouble(Conditions.MY,sourceDataUnit.getMy());
+                            bundle.putDouble(Conditions.MZ,sourceDataUnit.getMz());
+                            bundle.putDouble(Conditions.P1,sourceDataUnit.getP1());
+                            bundle.putDouble(Conditions.P2,sourceDataUnit.getP2());
+                            bundle.putDouble(Conditions.P3,sourceDataUnit.getP3());
                             message.setData(bundle);
                             handler.sendMessage(message);
 
