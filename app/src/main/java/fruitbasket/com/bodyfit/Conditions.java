@@ -11,7 +11,7 @@ public class Conditions {
     public static final int MID_SPAN=MAX_SAMPLE_NUMBER/2+1;
 
     //Massage.what
-    public static final int EXERCISE_TYPE=0x123;
+    public static final int EXERCISE =0x123;
 
     private Conditions(){}
 

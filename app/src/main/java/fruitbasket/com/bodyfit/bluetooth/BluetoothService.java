@@ -293,7 +293,7 @@ public class BluetoothService extends Service {
                             //Log.d(TAG,"itemsPreSecond=="+itemsPreSecond);
 
                             Message message=new Message();
-                            message.what= Conditions.EXERCISE_TYPE;///
+                            message.what= Conditions.EXERCISE;///
                             bundle.putDouble("items_pre_second",itemsPreSecond);
                             bundle.putString("time",sourceDataUnit.getTime());
                             bundle.putDouble("ax",sourceDataUnit.getAx());

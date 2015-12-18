@@ -1,27 +1,22 @@
 package fruitbasket.com.bodyfit.ui;
 
-import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.widget.LinearLayout;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
 
-import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.locks.Condition;
 
 import fruitbasket.com.bodyfit.R;
 import fruitbasket.com.bodyfit.processor.DataProcessor;
-import fruitbasket.com.bodyfit.utilities.ExcelProcessor;
+import fruitbasket.com.bodyfit.helper.ExcelHelper;
 
 public class MainActivity extends BaseTabActivity {
 
@@ -40,7 +35,7 @@ public class MainActivity extends BaseTabActivity {
 
         String [] dataLine=new String[]{"Time","accX", "accY", "accZ", "gyrX", "gyrY", "gyrZ"};
         try {
-            ExcelProcessor.createFileWithHeader( dataLine);
+            ExcelHelper.createFileWithHeader(dataLine);
         } catch (IOException e) {}
     }
 

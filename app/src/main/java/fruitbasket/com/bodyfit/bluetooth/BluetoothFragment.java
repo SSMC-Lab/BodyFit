@@ -31,20 +31,20 @@ public abstract class BluetoothFragment extends Fragment {
             new AlertDialog
                     .Builder(getContext())
                     .setTitle("Bluetooth List")
-                    .setAdapter(bluetoothService.getArrayAdapter(), new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface arg0, final int which) {
-                            bluetoothService.stopDiscovery();
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    bluetoothService.connectToDevice(bluetoothService
-                                            .getDeviceArrayList()
-                                            .get(which)
-                                            .getAddress());
+                    .setAdapter(bluetoothService.getArrayAdapter(),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface arg0, final int which) {
+                                    bluetoothService.stopDiscovery();
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            bluetoothService.connectToDevice(bluetoothService
+                                                    .getDeviceArrayList()
+                                                    .get(which)
+                                                    .getAddress());
+                                        }
+                                    }).start();
                                 }
-                            }).start();
-                        }
                     })
                     .setOnCancelListener(new DialogInterface.OnCancelListener() {
 
@@ -55,6 +55,8 @@ public abstract class BluetoothFragment extends Fragment {
                     }).show();
         }
     }
+
+
 
     /**
      * 启动蓝牙等一系列工作

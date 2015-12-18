@@ -1,6 +1,5 @@
-package fruitbasket.com.bodyfit.utilities;
+package fruitbasket.com.bodyfit.helper;
 
-import android.hardware.Sensor;
 import android.os.Environment;
 
 import java.io.File;
@@ -8,12 +7,12 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
-public class ExcelProcessor {
-	private static final ExcelProcessor mExcelProcesser=new ExcelProcessor();
+public class ExcelHelper {
+	private static final ExcelHelper mExcelProcesser=new ExcelHelper();
 	
-	private ExcelProcessor(){}
+	private ExcelHelper(){}
 	
-	public ExcelProcessor getInstance(){
+	public ExcelHelper getInstance(){
 		return mExcelProcesser;
 	}
 

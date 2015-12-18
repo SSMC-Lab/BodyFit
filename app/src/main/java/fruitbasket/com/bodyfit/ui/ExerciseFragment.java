@@ -1,7 +1,5 @@
 package fruitbasket.com.bodyfit.ui;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,13 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.R;
 import fruitbasket.com.bodyfit.bluetooth.BluetoothFragment;
-import fruitbasket.com.bodyfit.bluetooth.BlunoLibrary;
-import fruitbasket.com.bodyfit.data.SourceDataSet;
-import fruitbasket.com.bodyfit.data.DataSetBuffer;
-import fruitbasket.com.bodyfit.data.SourceDataUnit;
 import fruitbasket.com.bodyfit.processor.DataProcessor;
 
 public class ExerciseFragment extends BluetoothFragment {
@@ -31,11 +24,6 @@ public class ExerciseFragment extends BluetoothFragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate()");
-    }
-
-    @Override
-    protected void updateUI(int what, Bundle bundle) {
-
     }
 
     @Override
@@ -56,14 +44,12 @@ public class ExerciseFragment extends BluetoothFragment {
     public void onResume(){
         super.onResume();
         Log.i(TAG, "onResume()");
-        //super.onResumeProcess();
     }
 
     @Override
     public void onPause(){
         super.onPause();
         Log.i(TAG, "onPause()");
-        //onPauseProcess();
     }
 
     @Override
@@ -77,6 +63,10 @@ public class ExerciseFragment extends BluetoothFragment {
         super.onStop();
     }
 
+    @Override
+    protected void updateUI(int what, Bundle bundle) {
+
+    }
 
     private void showExerciseType(int type){
         if(type == DataProcessor.FLAT_BENCH_BRABELL_PASS)
@@ -122,6 +112,7 @@ public class ExerciseFragment extends BluetoothFragment {
             }
         }
     }
+
 /*
     private class ExerciseProcessorTask implements Runnable {
 
