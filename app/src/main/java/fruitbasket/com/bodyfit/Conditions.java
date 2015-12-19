@@ -11,7 +11,15 @@ public class Conditions {
     public static final int MID_SPAN=MAX_SAMPLE_NUMBER/2+1;
 
     //Massage.what
-    public static final int EXERCISE =0x123;
+    public static final int MESSAGE_BLUETOOTH_TEST =0x100;
+    public static final int MESSAGE_ERROR_JSON =0x101;
+    public static final int MESSAGE_EXERCISE_TYPE=0x102;
+
+    //Bundle keys
+    public static final String JSON_KEY_ITEMS_PRE_SECOND ="items_pre_second";
+    public static final String JSON_KEY_JOSNERROR ="error_json_string";
+    public static final String JSON_KEY_EXERCISE_TYPE="exercise_type";
+
 
     //json keys
     public static final String TIME="time";

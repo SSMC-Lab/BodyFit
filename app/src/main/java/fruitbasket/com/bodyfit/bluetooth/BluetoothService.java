@@ -15,7 +15,6 @@ import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -26,6 +25,8 @@ import java.util.UUID;
 
 import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.R;
+import fruitbasket.com.bodyfit.data.DataSetBuffer;
+import fruitbasket.com.bodyfit.data.SourceDataSet;
 import fruitbasket.com.bodyfit.data.SourceDataUnit;
 import fruitbasket.com.bodyfit.helper.JSONHelper;
 
@@ -125,7 +126,6 @@ public class BluetoothService extends Service {
 
     public void startDiscovery(){
         Log.d(TAG, "startDiscovery()");
-
         if(bluetoothAdapter.isEnabled()==true && bluetoothAdapter.isDiscovering()==false)
         {
             deviceArrayList.clear();
@@ -232,6 +232,7 @@ public class BluetoothService extends Service {
     };
 
     private class BluetoothDataReadTask implements Runnable{
+        private static final String TAG="BluetoothDataReadTask";
 
         private BluetoothSocket bluetoothSocket;
         private Handler handler;
@@ -241,7 +242,6 @@ public class BluetoothService extends Service {
         private int startOfLineIndex=-1;
         private int endOfLineIndex=-1;
         private String jsonString;
-        private SourceDataUnit sourceDataUnit;
 
         private int bufferSize=512;
         private byte[] buffer=new byte[bufferSize];
@@ -253,6 +253,12 @@ public class BluetoothService extends Service {
         private double localStartTime;//记录从蓝牙接收数据的起始时间，但会定量清0
         private double currentTime;
         private double itemsPreSecond;
+
+        private SourceDataUnit sourceDataUnit;
+        private int loadSize=0;
+        private SourceDataUnit[] sourceDataUnits=new SourceDataUnit[Conditions.MAX_SAMPLE_NUMBER];
+        private SourceDataSet sourceDataSet=new SourceDataSet();
+        private DataSetBuffer dataSetBuffer=new DataSetBuffer();
 
         private BluetoothDataReadTask(BluetoothSocket bluetoothSocket,Handler handler){
             this.bluetoothSocket=bluetoothSocket;
@@ -273,8 +279,7 @@ public class BluetoothService extends Service {
                     bluetoothSocket.connect();
                 }
                 input = bluetoothSocket.getInputStream();
-                while (Thread.currentThread().isInterrupted() == false/*&&input.available()>0*/) {
-
+                while (Thread.currentThread().isInterrupted() == false) {
                     bytesRead = input.read(buffer);
                     if (bytesRead != -1) {
                         Log.d(TAG, "bytesRead==" + bytesRead);
@@ -301,9 +306,20 @@ public class BluetoothService extends Service {
                         //Log.d(TAG,"endOfLineIndex=="+endOfLineIndex);
                         if(endOfLineIndex > 0){
                             jsonString = stringBuffer.substring(0, endOfLineIndex + 1);
-                            Log.d(TAG,"jsonString=="+jsonString);
+                            //Log.d(TAG,"jsonString=="+jsonString);
                             stringBuffer.delete(0, endOfLineIndex + 1);
+
                             sourceDataUnit= JSONHelper.parser(jsonString);
+                            if(loadSize<sourceDataUnits.length){
+                                sourceDataUnits[loadSize]=sourceDataUnit;
+                                ++loadSize;
+                            }
+                            else{
+                                loadSize=0;
+                                sourceDataSet.fromSourceData(sourceDataUnits);
+                                ///
+                            }
+
                             ++itemsNumber;
                             ++localItemsNumber;
 
@@ -321,8 +337,9 @@ public class BluetoothService extends Service {
                             //Log.d(TAG,"itemsPreSecond=="+itemsPreSecond);
 
                             Message message=new Message();
-                            message.what= Conditions.EXERCISE;///
-                            bundle.putDouble("items_pre_second",itemsPreSecond);
+                            message.what= Conditions.MESSAGE_BLUETOOTH_TEST;
+
+                            bundle.putDouble(Conditions.JSON_KEY_ITEMS_PRE_SECOND,itemsPreSecond);
                             bundle.putString(Conditions.TIME, sourceDataUnit.getTime());
                             bundle.putDouble(Conditions.AX, sourceDataUnit.getAx());
                             bundle.putDouble(Conditions.AY,sourceDataUnit.getAy());
@@ -336,6 +353,7 @@ public class BluetoothService extends Service {
                             bundle.putDouble(Conditions.P1,sourceDataUnit.getP1());
                             bundle.putDouble(Conditions.P2,sourceDataUnit.getP2());
                             bundle.putDouble(Conditions.P3,sourceDataUnit.getP3());
+
                             message.setData(bundle);
                             handler.sendMessage(message);
 
@@ -352,6 +370,11 @@ public class BluetoothService extends Service {
             }catch (IOException e) {
                 e.printStackTrace();
             }catch (JSONException e) {
+                /*Message message=new Message();
+                message.what= Conditions.MESSAGE_ERROR_JSON;
+                bundle.putString(Conditions.JSON_KEY_JOSNERROR,jsonString);
+                message.setData(bundle);
+                handler.sendMessage(message);*/
                 e.printStackTrace();
             }
         }

@@ -103,6 +103,14 @@ public class MainActivity extends BaseTabActivity {
         addTab(profileTab, profileFragment, "PROFILE");
 
         setCurrentTab(1);
+
+        ///测试代码
+        /*Fragment BluetoothTestFragment=new BluetoothTestFragment();
+        TextView testTab=(TextView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
+        testTab.setText("测试");
+        addTab(testTab, BluetoothTestFragment, "TEST");;
+
+        setCurrentTab(0);*/
     }
 
 }

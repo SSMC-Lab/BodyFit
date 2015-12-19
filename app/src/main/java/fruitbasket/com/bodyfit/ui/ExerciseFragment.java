@@ -13,7 +13,7 @@ import fruitbasket.com.bodyfit.bluetooth.BluetoothFragment;
 import fruitbasket.com.bodyfit.processor.DataProcessor;
 
 public class ExerciseFragment extends BluetoothFragment {
-    public static final String TAG="ExFragment";
+    public static final String TAG="ExerciseFragment";
 
     private TextView groupNumber;
     private TextView timesNumber;
@@ -60,7 +60,8 @@ public class ExerciseFragment extends BluetoothFragment {
 
     @Override
     public void onDestroy(){
-        super.onStop();
+        Log.i(TAG,"onDestroy()");
+        super.onDestroy();
     }
 
     @Override

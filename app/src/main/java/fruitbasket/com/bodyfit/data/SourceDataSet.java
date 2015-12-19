@@ -1,5 +1,8 @@
 package fruitbasket.com.bodyfit.data;
 
+/**
+ * 用于存储多条记录。此类会将多条记录中同一维度数据整合到一起。
+ */
 public class SourceDataSet {
     public static final String TAG="SourceDataSet";
     public static final int DIMENSION=6;

@@ -1,5 +1,8 @@
 package fruitbasket.com.bodyfit.data;
 
+/**
+ * 用于存储一条记录
+ */
 public class SourceDataUnit {
     private String time;
     private double ax;

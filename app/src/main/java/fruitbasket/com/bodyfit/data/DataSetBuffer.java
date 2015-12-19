@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class DataSetBuffer {
     private ArrayList<SourceDataSet> buffer;//数据缓冲区
 
-    private SourceDataSet sourceDataSet;
+    private SourceDataSet sourceDataSet;//结果数据集
 
     public DataSetBuffer(){
         buffer =new ArrayList<SourceDataSet>();
@@ -23,9 +23,6 @@ public class DataSetBuffer {
         }
     }
 
-    /**
-     * 清空数据缓冲区
-     */
     public void clear(){
         buffer.clear();
     }
@@ -35,9 +32,9 @@ public class DataSetBuffer {
     }
 
     /**
-     * 转换缓冲区的数据到数据集
+     * 转换缓冲区的数据到结果数据集
      */
-    public void transferBuffer(){
+    private void transferBuffer(){
         if(buffer==null||buffer.isEmpty()==true){
             return;
         }
@@ -70,6 +67,10 @@ public class DataSetBuffer {
     }
 
     public SourceDataSet getSourceDataSet(){
+        //如果缓冲区不空，则表明未转换缓冲区的数据到结果数据集
+        if(buffer.isEmpty()==false){
+            transferBuffer();
+        }
         return sourceDataSet;
     }
 }
