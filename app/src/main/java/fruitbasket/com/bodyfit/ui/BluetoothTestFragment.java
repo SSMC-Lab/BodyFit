@@ -24,6 +24,7 @@ public class BluetoothTestFragment extends BluetoothFragment {
     private TextView runTime,time, ax, ay, az, gx, gy, gz, mx, my, mz, p1, p2, p3,errorMessages;
 
     private Timer timer;
+    private int errorStringNumber=0;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -54,7 +55,7 @@ public class BluetoothTestFragment extends BluetoothFragment {
     @Override
     public void onStop(){
         super.onStop();
-        Log.i(TAG,"onStop()");
+        Log.i(TAG, "onStop()");
     }
 
     @Override
@@ -84,7 +85,11 @@ public class BluetoothTestFragment extends BluetoothFragment {
                 break;
 
             case Conditions.MESSAGE_ERROR_JSON:
-                errorMessages.setText("json string error: " + String.valueOf(bundle.getString(Conditions.JSON_KEY_JOSNERROR)));
+                ++errorStringNumber;
+                errorMessages.append("\n\njson error "+errorStringNumber+" :\n"+String.valueOf(bundle.getString(Conditions.JSON_KEY_JOSNERROR)));
+
+                break;
+
             default:
         }
     }
@@ -150,9 +155,11 @@ public class BluetoothTestFragment extends BluetoothFragment {
                 case R.id.toggle_button_test_connect:
                     if(((ToggleButton)view).isChecked()==true){
                         startWork();
+                        startTimeCounter();
                     }
                     else{
                         stopWork();
+                        stopTimeCounter();
                     }
                     break;
             }

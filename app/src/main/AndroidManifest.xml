@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="fruitbasket.com.bodyfit" >
+    package="fruitbasket.com.bodyfit"
+    android:versionCode="2"
+    android:revisionCode="2">
 
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -22,9 +24,7 @@
             </intent-filter>
         </activity>
 
-        <!--用于测试的Activity-->
         <service android:name=".bluetooth.BluetoothService" android:enabled="true"/>
-
     </application>
 
 </manifest>

@@ -25,7 +25,6 @@ import java.util.UUID;
 
 import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.R;
-import fruitbasket.com.bodyfit.data.DataSetBuffer;
 import fruitbasket.com.bodyfit.data.SourceDataSet;
 import fruitbasket.com.bodyfit.data.SourceDataUnit;
 import fruitbasket.com.bodyfit.helper.JSONHelper;
@@ -238,10 +237,11 @@ public class BluetoothService extends Service {
         private Handler handler;
         private Bundle bundle=new Bundle();
 
-        private StringBuffer stringBuffer=new StringBuffer();
+        private StringBuilder stringBuilder =new StringBuilder();
         private int startOfLineIndex=-1;
         private int endOfLineIndex=-1;
         private String jsonString;
+        private String errorJsonString;
 
         private int bufferSize=512;
         private byte[] buffer=new byte[bufferSize];
@@ -258,7 +258,6 @@ public class BluetoothService extends Service {
         private int loadSize=0;
         private SourceDataUnit[] sourceDataUnits=new SourceDataUnit[Conditions.MAX_SAMPLE_NUMBER];
         private SourceDataSet sourceDataSet=new SourceDataSet();
-        private DataSetBuffer dataSetBuffer=new DataSetBuffer();
 
         private BluetoothDataReadTask(BluetoothSocket bluetoothSocket,Handler handler){
             this.bluetoothSocket=bluetoothSocket;
@@ -267,116 +266,151 @@ public class BluetoothService extends Service {
 
         @Override
         public void run() {
-            readData();
-        }
-
-        private void readData(){
-            InputStream input=null;
-            startTime =System.currentTimeMillis();
-            localStartTime=System.currentTimeMillis();
             try {
-                if(bluetoothSocket.isConnected()==false){
-                    bluetoothSocket.connect();
-                }
-                input = bluetoothSocket.getInputStream();
-                while (Thread.currentThread().isInterrupted() == false) {
-                    bytesRead = input.read(buffer);
-                    if (bytesRead != -1) {
-                        Log.d(TAG, "bytesRead==" + bytesRead);
-                        Log.d(TAG, "buffer=="+new String(buffer, 0, bytesRead));
-                        stringBuffer.append(new String(buffer, 0, bytesRead));
-                        Log.d(TAG, "stringBuffer==" + stringBuffer.toString());
-
-                        ///此处使用while
-                        //获取stringBuffer中的一条json数据
-                        startOfLineIndex=stringBuffer.indexOf("{");
-                        //Log.d(TAG,"startOfLineIndex=="+startOfLineIndex);
-
-                        if(startOfLineIndex != 0){
-                            ///数据发生错乱
-                            if(startOfLineIndex==-1){
-                                stringBuffer.delete(0,stringBuffer.length());
-                            }
-                            else{
-                                stringBuffer.delete(0,startOfLineIndex+1);
-                                startOfLineIndex=0;
-                            }
-                        }
-                        endOfLineIndex=stringBuffer.indexOf("}");
-                        //Log.d(TAG,"endOfLineIndex=="+endOfLineIndex);
-                        if(endOfLineIndex > 0){
-                            jsonString = stringBuffer.substring(0, endOfLineIndex + 1);
-                            //Log.d(TAG,"jsonString=="+jsonString);
-                            stringBuffer.delete(0, endOfLineIndex + 1);
-
-                            sourceDataUnit= JSONHelper.parser(jsonString);
-                            if(loadSize<sourceDataUnits.length){
-                                sourceDataUnits[loadSize]=sourceDataUnit;
-                                ++loadSize;
-                            }
-                            else{
-                                loadSize=0;
-                                sourceDataSet.fromSourceData(sourceDataUnits);
-                                ///
-                            }
-
-                            ++itemsNumber;
-                            ++localItemsNumber;
-
-                            currentTime=System.currentTimeMillis();
-                            itemsPreSecond=localItemsNumber/((currentTime-localStartTime)/1000);///注意计算结果
-
-                            if(localItemsNumber>500){
-                                localItemsNumber=0;
-                                localStartTime=currentTime;
-                            }
-
-                            //Log.d(TAG,"currentTime=="+currentTime);
-                            //Log.d(TAG,"startTime=="+startTime);
-                            //Log.d(TAG,"itemsNumber=="+itemsNumber);
-                            //Log.d(TAG,"itemsPreSecond=="+itemsPreSecond);
-
-                            Message message=new Message();
-                            message.what= Conditions.MESSAGE_BLUETOOTH_TEST;
-
-                            bundle.putDouble(Conditions.JSON_KEY_ITEMS_PRE_SECOND,itemsPreSecond);
-                            bundle.putString(Conditions.TIME, sourceDataUnit.getTime());
-                            bundle.putDouble(Conditions.AX, sourceDataUnit.getAx());
-                            bundle.putDouble(Conditions.AY,sourceDataUnit.getAy());
-                            bundle.putDouble(Conditions.AZ,sourceDataUnit.getAz());
-                            bundle.putDouble(Conditions.GX,sourceDataUnit.getGx());
-                            bundle.putDouble(Conditions.GY,sourceDataUnit.getGy());
-                            bundle.putDouble(Conditions.GZ,sourceDataUnit.getGz());
-                            bundle.putDouble(Conditions.MX,sourceDataUnit.getMx());
-                            bundle.putDouble(Conditions.MY,sourceDataUnit.getMy());
-                            bundle.putDouble(Conditions.MZ,sourceDataUnit.getMz());
-                            bundle.putDouble(Conditions.P1,sourceDataUnit.getP1());
-                            bundle.putDouble(Conditions.P2,sourceDataUnit.getP2());
-                            bundle.putDouble(Conditions.P3,sourceDataUnit.getP3());
-
-                            message.setData(bundle);
-                            handler.sendMessage(message);
-
-                            startOfLineIndex=-1;
-                            endOfLineIndex=-1;
-                        }
-                        else{
-                            Log.d(TAG,"startOfLineIndex != 0 || endOfLineIndex <= 0");
-                        }
-                    }
-                }
-                input.close();///close()本身也会引发异常
-                bluetoothSocket.close();
-            }catch (IOException e) {
-                e.printStackTrace();
-            }catch (JSONException e) {
-                /*Message message=new Message();
-                message.what= Conditions.MESSAGE_ERROR_JSON;
-                bundle.putString(Conditions.JSON_KEY_JOSNERROR,jsonString);
-                message.setData(bundle);
-                handler.sendMessage(message);*/
+                readData();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+
+        /**
+         * 从蓝牙Socket中读取数据
+         * @throws IOException
+         */
+        private void readData() throws IOException {
+            startTime =System.currentTimeMillis();
+            localStartTime=System.currentTimeMillis();
+            if(bluetoothSocket.isConnected()==false){
+                bluetoothSocket.connect();
+            }
+            InputStream input = bluetoothSocket.getInputStream();
+
+            while (Thread.currentThread().isInterrupted() == false) {
+                bytesRead = input.read(buffer);
+                if (bytesRead != -1) {
+                    //Log.d(TAG, "bytesRead==" + bytesRead);
+                    //Log.d(TAG, "buffer=="+new String(buffer, 0, bytesRead));
+                    stringBuilder.append(new String(buffer, 0, bytesRead));
+                    //Log.d(TAG, "stringBuilder==" + stringBuilder.toString());
+
+
+                    ///此处使用while
+                    //获取stringBuffer中的一条json数据
+                    startOfLineIndex= stringBuilder.indexOf("{");
+                    //Log.d(TAG,"startOfLineIndex=="+startOfLineIndex);
+                    ///如果数据发生错乱
+                    if(startOfLineIndex != 0){
+                        if(startOfLineIndex==-1){
+                            sendErrorMessage(
+                                    Conditions.MESSAGE_ERROR_JSON,
+                                    Conditions.JSON_KEY_JOSNERROR,
+                                    "itemsNumber=="+itemsNumber+"\nstartOfLineIndex==-1\n"+
+                                            stringBuilder.substring(0, stringBuilder.length()));
+
+                            stringBuilder.delete(0, stringBuilder.length());
+                        }
+                        else{
+                            sendErrorMessage(
+                                    Conditions.MESSAGE_ERROR_JSON,
+                                    Conditions.JSON_KEY_JOSNERROR,
+                                    "itemsNumber==" + itemsNumber + "\nstartOfLineIndex!=-1\n" +
+                                            stringBuilder.substring(0, stringBuilder.length()));
+
+                            stringBuilder.delete(0, startOfLineIndex + 1);
+                            startOfLineIndex=0;
+                        }
+                    }
+
+                    endOfLineIndex= stringBuilder.indexOf("}");
+                    //Log.d(TAG,"endOfLineIndex=="+endOfLineIndex);
+                    if(endOfLineIndex > 0){
+                        jsonString = stringBuilder.substring(0, endOfLineIndex + 1);
+                        //Log.d(TAG,"jsonString=="+jsonString);
+                        stringBuilder.delete(0, endOfLineIndex + 1);
+
+                        try {
+                            sourceDataUnit= JSONHelper.parser(jsonString);
+                        } catch (JSONException e) {
+                            sendErrorMessage(
+                                    Conditions.MESSAGE_ERROR_JSON,
+                                    Conditions.JSON_KEY_JOSNERROR,
+                                    "itemsNumber==" + itemsNumber + "\nJSONException\n" +
+                                            jsonString);
+                            e.printStackTrace();
+                            continue;
+                        }
+                        if(loadSize<sourceDataUnits.length){
+                            sourceDataUnits[loadSize]=sourceDataUnit;
+                            ++loadSize;
+                        }
+                        else{
+                            loadSize=0;
+                            sourceDataSet.fromSourceData(sourceDataUnits);
+                            ///
+                        }
+
+                        ++itemsNumber;
+                        ++localItemsNumber;
+
+                        currentTime=System.currentTimeMillis();
+                        itemsPreSecond=localItemsNumber/((currentTime-localStartTime)/1000);///注意计算结果
+
+                        if(localItemsNumber>500){
+                            localItemsNumber=0;
+                            localStartTime=currentTime;
+                        }
+
+                        //Log.d(TAG,"currentTime=="+currentTime);
+                        //Log.d(TAG,"startTime=="+startTime);
+                        //Log.d(TAG,"itemsNumber=="+itemsNumber);
+                        //Log.d(TAG,"itemsPreSecond=="+itemsPreSecond);
+
+                        Message message=new Message();
+                        message.what= Conditions.MESSAGE_BLUETOOTH_TEST;
+
+                        bundle.putDouble(Conditions.JSON_KEY_ITEMS_PRE_SECOND,itemsPreSecond);
+                        bundle.putString(Conditions.TIME, sourceDataUnit.getTime());
+                        bundle.putDouble(Conditions.AX, sourceDataUnit.getAx());
+                        bundle.putDouble(Conditions.AY,sourceDataUnit.getAy());
+                        bundle.putDouble(Conditions.AZ,sourceDataUnit.getAz());
+                        bundle.putDouble(Conditions.GX,sourceDataUnit.getGx());
+                        bundle.putDouble(Conditions.GY,sourceDataUnit.getGy());
+                        bundle.putDouble(Conditions.GZ,sourceDataUnit.getGz());
+                        bundle.putDouble(Conditions.MX,sourceDataUnit.getMx());
+                        bundle.putDouble(Conditions.MY,sourceDataUnit.getMy());
+                        bundle.putDouble(Conditions.MZ,sourceDataUnit.getMz());
+                        bundle.putDouble(Conditions.P1,sourceDataUnit.getP1());
+                        bundle.putDouble(Conditions.P2,sourceDataUnit.getP2());
+                        bundle.putDouble(Conditions.P3,sourceDataUnit.getP3());
+
+                        message.setData(bundle);
+                        handler.sendMessage(message);
+
+                        startOfLineIndex=-1;
+                        endOfLineIndex=-1;
+                    }
+                    else{
+                        Log.d(TAG,"startOfLineIndex != 0 || endOfLineIndex <= 0");
+                    }
+                }
+            }
+            input.close();///close()本身也会引发异常
+            bluetoothSocket.close();
+        }
+
+        /**
+         *
+         * @param what
+         * @param key
+         * @param value
+         */
+        private void sendErrorMessage(int what,String key,String value){
+            Bundle bundle=new Bundle();
+            bundle.putString(key, value);
+            Message errorMessage=new Message();
+            errorMessage.what=what;
+            errorMessage.setData(bundle);
+            handler.sendMessage(errorMessage);
         }
     }
 }
