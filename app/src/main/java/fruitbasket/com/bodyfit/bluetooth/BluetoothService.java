@@ -220,13 +220,14 @@ public class BluetoothService extends Service {
             String name = intent.getStringExtra(BluetoothDevice.EXTRA_NAME);
             Log.d(TAG,"discoeried bluetooth device name:"+name);
 
-            if(name!=null){///会接受到空的名字
-                BluetoothDevice device = intent
-                        .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                deviceArrayList.add(device);
-                deviceNameList.add(name);
-                arrayAdapter.notifyDataSetChanged();
+            if(name==null){
+                name="no name";
             }
+            BluetoothDevice device = intent
+                    .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+            deviceArrayList.add(device);
+            deviceNameList.add(name);
+            arrayAdapter.notifyDataSetChanged();
         }
     };
 
@@ -287,7 +288,7 @@ public class BluetoothService extends Service {
 
             while (Thread.currentThread().isInterrupted() == false) {
                 bytesRead = input.read(buffer);
-                if (bytesRead != -1) {
+                if (bytesRead > 0) {
                     //Log.d(TAG, "bytesRead==" + bytesRead);
                     //Log.d(TAG, "buffer=="+new String(buffer, 0, bytesRead));
                     stringBuilder.append(new String(buffer, 0, bytesRead));
@@ -316,7 +317,7 @@ public class BluetoothService extends Service {
                                     "itemsNumber==" + itemsNumber + "\nstartOfLineIndex!=-1\n" +
                                             stringBuilder.substring(0, stringBuilder.length()));
 
-                            stringBuilder.delete(0, startOfLineIndex + 1);
+                            stringBuilder.delete(0, startOfLineIndex);
                             startOfLineIndex=0;
                         }
                     }
@@ -351,10 +352,8 @@ public class BluetoothService extends Service {
 
                         ++itemsNumber;
                         ++localItemsNumber;
-
                         currentTime=System.currentTimeMillis();
                         itemsPreSecond=localItemsNumber/((currentTime-localStartTime)/1000);///注意计算结果
-
                         if(localItemsNumber>500){
                             localItemsNumber=0;
                             localStartTime=currentTime;
