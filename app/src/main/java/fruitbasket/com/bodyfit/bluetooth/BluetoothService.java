@@ -333,7 +333,7 @@ public class BluetoothService extends Service {
                     }
 
                     endOfLineIndex= stringBuilder.indexOf("}");
-                    Log.d(TAG,"endOfLineIndex=="+endOfLineIndex);
+                    //Log.d(TAG,"endOfLineIndex=="+endOfLineIndex);
                     if(endOfLineIndex > 0){
                         jsonString = stringBuilder.substring(0, endOfLineIndex + 1);
                         //Log.d(TAG,"jsonString=="+jsonString);
