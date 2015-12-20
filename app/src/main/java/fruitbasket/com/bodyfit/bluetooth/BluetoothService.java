@@ -359,7 +359,7 @@ public class BluetoothService extends Service {
                             loadSize=0;
                             sourceDataSet.fromSourceData(sourceDataUnits);
 
-                            /*DataProcessor.filter(sourceDataSet, Conditions.MID_SPAN);
+                            DataProcessor.filter(sourceDataSet, Conditions.MID_SPAN);
                             if(DataProcessor.isbelongSegments(sourceDataSet)==true){
                                 Log.d(TAG,"DataProcessor.isbelongSegments(sourceDataSet)==true");
                                 dataSetBuffer.add(sourceDataSet);
@@ -376,7 +376,7 @@ public class BluetoothService extends Service {
                                     // 进行数据处理
                                     //processExecutor.execute(new ExerciseProcessorTask(dataSet));
                                 }
-                            }*/
+                            }
                         }
 
                         ++itemsNumber;
