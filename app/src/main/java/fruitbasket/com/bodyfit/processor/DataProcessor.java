@@ -1,14 +1,23 @@
 package fruitbasket.com.bodyfit.processor;
 
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.data.SourceDataSet;
 
+import java.io.BufferedInputStream;
+import java.io.DataInput;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Scanner;
 
 public class DataProcessor{
@@ -53,7 +62,11 @@ public class DataProcessor{
 
     private DataProcessor(){}
 
-    public DataProcessor getInstance(){
+    public static void setContext(Context context){
+        DataProcessor.context=context;
+    }
+
+    public static  DataProcessor getInstance(){
         return dataProcessor;
     }
 
@@ -558,200 +571,44 @@ public class DataProcessor{
     }
 
     private static void readSamples(){
+        if(context==null){
+            return;
+        }
+        AssetManager assetManager=context.getResources().getAssets();
+        try {
+            readSameple(assetManager,"sample0",sample0);
+            readSameple(assetManager,"sample1",sample1);
+            readSameple(assetManager,"sample2",sample2);
+            readSameple(assetManager,"sample3",sample3);
+            readSameple(assetManager,"sample4",sample4);
+            readSameple(assetManager,"sample5",sample5);
+            readSameple(assetManager,"sample6",sample6);
+            readSameple(assetManager,"sample7",sample7);
+            readSameple(assetManager,"sample8",sample8);
+            readSameple(assetManager,"sample9",sample9);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-        Scanner input=null;
-        String line;
-        String[] numbers;
-        int i=0,j=0;
-        try{
-            input=new Scanner(context.getResources().getAssets().open("0.txt"));
-        }
-        catch(FileNotFoundException e){
-            System.out.println("READ FILE ERROR");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        j=0;
-        while(input.hasNextLine()){
-            line=input.nextLine();
-            numbers=line.split(" ");
-            System.out.println("# OF THIS LINE:" + numbers.length);
-            for(i=0;i<numbers.length;i++){
-                sample0[j][i]=Double.parseDouble(numbers[i]);
-            }
-            j++;
-        }
-        try{
-            input=new Scanner(context.getResources().getAssets().open("1.txt"));
-        }
-        catch(FileNotFoundException e){
-            System.out.println("READ FILE ERROR");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        j=0;
-        while(input.hasNextLine()){
-            line=input.nextLine();
-            numbers=line.split(" ");
-            System.out.println("# OF THIS LINE:"+numbers.length);
-            for(i=0;i<numbers.length;i++){
-                sample1[j][i]=Double.parseDouble(numbers[i]);
-            }
-            j++;
-        }
+    private static void readSameple(AssetManager assetManager,String fileName,double[][] sample) throws IOException {
+        assetManager=context.getResources().getAssets();
+        InputStream inputStream=null;
+        DataInputStream dataInputStream=null;
 
-        try{
-            input=new Scanner(context.getResources().getAssets().open("2.txt"));
-        }
-        catch(FileNotFoundException e){
-            System.out.println("READ FILE ERROR");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        j=0;
-        while(input.hasNextLine()){
-            line=input.nextLine();
-            numbers=line.split(" ");
-            System.out.println("# OF THIS LINE:"+numbers.length);
-            for(i=0;i<numbers.length;i++){
-                sample2[j][i]=Double.parseDouble(numbers[i]);
+        inputStream=assetManager.open(fileName);
+        dataInputStream=new DataInputStream(
+                new BufferedInputStream(inputStream)
+        );
+        int i,j;
+        while(dataInputStream.available()>0){
+            for(i=0;i<sample.length;++i){
+                for(j=0;j<sample[i].length;++j){
+                    sample[i][j]=dataInputStream.readDouble();
+                    //Log.d("readSamples()", "sample[" + i + "][" + j + "]==" + sample0[i][j]);
+                }
             }
-            j++;
         }
-
-        try{
-            input=new Scanner(context.getResources().getAssets().open("3.txt"));
-        }
-        catch(FileNotFoundException e){
-            System.out.println("READ FILE ERROR");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        j=0;
-        while(input.hasNextLine()){
-            line=input.nextLine();
-            numbers=line.split(" ");
-            System.out.println("# OF THIS LINE:"+numbers.length);
-            for(i=0;i<numbers.length;i++){
-                sample3[j][i]=Double.parseDouble(numbers[i]);
-            }
-            j++;
-        }
-
-        try{
-            input=new Scanner(context.getResources().getAssets().open("4.txt"));
-        }
-        catch(FileNotFoundException e){
-            System.out.println("READ FILE ERROR");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        j=0;
-        while(input.hasNextLine()){
-            line=input.nextLine();
-            numbers=line.split(" ");
-            System.out.println("# OF THIS LINE:"+numbers.length);
-            for(i=0;i<numbers.length;i++){
-                sample4[j][i]=Double.parseDouble(numbers[i]);
-            }
-            j++;
-        }
-
-        try{
-            input=new Scanner(context.getResources().getAssets().open("5.txt"));
-        }
-        catch(FileNotFoundException e){
-            System.out.println("READ FILE ERROR");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        j=0;
-        while(input.hasNextLine()){
-            line=input.nextLine();
-            numbers=line.split(" ");
-            System.out.println("# OF THIS LINE:"+numbers.length);
-            for(i=0;i<numbers.length;i++){
-                sample5[j][i]=Double.parseDouble(numbers[i]);
-            }
-            j++;
-        }
-
-        try{
-            input=new Scanner(context.getResources().getAssets().open("6.txt"));
-        }
-        catch(FileNotFoundException e){
-            System.out.println("READ FILE ERROR");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        j=0;
-        while(input.hasNextLine()){
-            line=input.nextLine();
-            numbers=line.split(" ");
-            System.out.println("# OF THIS LINE:"+numbers.length);
-            for(i=0;i<numbers.length;i++){
-                sample6[j][i]=Double.parseDouble(numbers[i]);
-            }
-            j++;
-        }
-
-        try{
-            input=new Scanner(context.getResources().getAssets().open("7.txt"));
-        }
-        catch(FileNotFoundException e){
-            System.out.println("READ FILE ERROR");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        j=0;
-        while(input.hasNextLine()){
-            line=input.nextLine();
-            numbers=line.split(" ");
-            System.out.println("# OF THIS LINE:"+numbers.length);
-            for(i=0;i<numbers.length;i++){
-                sample7[j][i]=Double.parseDouble(numbers[i]);
-            }
-            j++;
-        }
-
-        try{
-            input=new Scanner(context.getResources().getAssets().open("8.txt"));
-        }
-        catch(FileNotFoundException e){
-            System.out.println("READ FILE ERROR");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        j=0;
-        while(input.hasNextLine()){
-            line=input.nextLine();
-            numbers=line.split(" ");
-            System.out.println("# OF THIS LINE:"+numbers.length);
-            for(i=0;i<numbers.length;i++){
-                sample8[j][i]=Double.parseDouble(numbers[i]);
-            }
-            j++;
-        }
-
-        try{
-            input=new Scanner(context.getResources().getAssets().open("9.txt"));
-        }
-        catch(FileNotFoundException e){
-            System.out.println("READ FILE ERROR");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        j=0;
-        while(input.hasNextLine()){
-            line=input.nextLine();
-            numbers=line.split(" ");
-            System.out.println("# OF THIS LINE:"+numbers.length);
-            for(i=0;i<numbers.length;i++){
-                sample9[j][i]=Double.parseDouble(numbers[i]);
-            }
-            j++;
-        }
-        input.close();
     }
 
     private static int zoomSegment(double[] Acc,double[] Gyo){

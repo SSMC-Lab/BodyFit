@@ -12,9 +12,9 @@ import fruitbasket.com.bodyfit.data.SourceDataSet;
 public class ExerciseProcessorTask implements Runnable{
 
     private static final String TAG="ExerciseProcessorTask";
+    private static int objectCounter=0;
 
     private SourceDataSet sourceDataSet;
-    private DataSetBuffer dataSetBuffer=new DataSetBuffer();
 
     private int[] selectedIndex;
     private double[] selectedDimension1;
@@ -34,6 +34,7 @@ public class ExerciseProcessorTask implements Runnable{
     public ExerciseProcessorTask(SourceDataSet sourceDataSet,Handler handler){
         this(sourceDataSet);
         this.handler=handler;
+
     }
 
     public void setHandler(Handler handler){
@@ -43,49 +44,26 @@ public class ExerciseProcessorTask implements Runnable{
     @Override
     public void run() {
         Log.i(TAG, "run()");
+        //Log.i(TAG,"objectCounter="+(++objectCounter));
         process();
     }
 
     private void process(){
-        if(sourceDataSet==null){
-            return;
-        }
+        selectedIndex =DataProcessor.dataSelect(sourceDataSet);
+        selectedDimension1=sourceDataSet.getDimensionByIndex(selectedIndex[0]);
+        selectedDimension2=sourceDataSet.getDimensionByIndex(selectedIndex[1]);
 
-        while(Thread.currentThread().isInterrupted()==false){
-            DataProcessor.filter(sourceDataSet, Conditions.MID_SPAN);
-            if(DataProcessor.isbelongSegments(sourceDataSet)==true){
-                Log.d(TAG,"DataProcessor.isbelongSegments(sourceDataSet)==true");
-                dataSetBuffer.add(sourceDataSet);
-            }
-            else{
-                Log.d(TAG,"DataProcessor.isbelongSegments(sourceDataSet)==false");
-                if(dataSetBuffer.isEmpty()==true){
-                    Log.d(TAG,"dataSetBuffer.isEmpty()==true");
-                    dataSetBuffer.add(sourceDataSet);
-                }
-                else{
-                    Log.d(TAG,"dataSetBuffer.isEmpty()==false");
-                    sourceDataSet=dataSetBuffer.getSourceDataSet();
-                    dataSetBuffer.clear();
+        exerciseType=DataProcessor.activityRecognition(
+                selectedDimension1,
+                selectedDimension2,
+                selectedIndex[0],
+                selectedIndex[1]);
 
-                    selectedIndex =DataProcessor.dataSelect(sourceDataSet);
-                    selectedDimension1=sourceDataSet.getDimensionByIndex(selectedIndex[0]);
-                    selectedDimension2=sourceDataSet.getDimensionByIndex(selectedIndex[1]);
+        Message message=new Message();
+        message.what=Conditions.MESSAGE_EXERCISE_TYPE;
+        bundle.putInt(Conditions.JSON_KEY_EXERCISE_TYPE,exerciseType);
 
-                    exerciseType=DataProcessor.activityRecognition(
-                            selectedDimension1,
-                            selectedDimension2,
-                            selectedIndex[0],
-                            selectedIndex[1]);
-
-                    Message message=new Message();
-                    message.what=Conditions.MESSAGE_EXERCISE_TYPE;
-                    bundle.putInt(Conditions.JSON_KEY_EXERCISE_TYPE,exerciseType);
-
-                    message.setData(bundle);
-                    handler.sendMessage(message);
-                }
-            }
-        }
+        message.setData(bundle);
+        //handler.sendMessage(message);
     }
 }

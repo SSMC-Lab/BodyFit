@@ -125,11 +125,10 @@ public class BluetoothTestFragment extends BluetoothFragment {
             int counter=0;
             @Override
             public void run() {
-                ++counter;
                 runTime.post(new Runnable() {
                     @Override
                     public void run() {
-                        runTime.setText(String.valueOf(counter));
+                        runTime.setText(String.valueOf(counter++));
                     }
                 });
             }

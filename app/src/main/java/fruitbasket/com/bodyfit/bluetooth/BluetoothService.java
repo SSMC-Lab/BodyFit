@@ -22,12 +22,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.R;
+import fruitbasket.com.bodyfit.data.DataSetBuffer;
 import fruitbasket.com.bodyfit.data.SourceDataSet;
 import fruitbasket.com.bodyfit.data.SourceDataUnit;
 import fruitbasket.com.bodyfit.helper.JSONHelper;
+import fruitbasket.com.bodyfit.processor.DataProcessor;
+import fruitbasket.com.bodyfit.processor.ExerciseProcessorTask;
 
 public class BluetoothService extends Service {
 
@@ -259,6 +264,10 @@ public class BluetoothService extends Service {
         private int loadSize=0;
         private SourceDataUnit[] sourceDataUnits=new SourceDataUnit[Conditions.MAX_SAMPLE_NUMBER];
         private SourceDataSet sourceDataSet=new SourceDataSet();
+        private SourceDataSet dataSet;
+        private DataSetBuffer dataSetBuffer=new DataSetBuffer();
+
+        private ExecutorService processExecutor= Executors.newSingleThreadExecutor();
 
         private BluetoothDataReadTask(BluetoothSocket bluetoothSocket,Handler handler){
             this.bluetoothSocket=bluetoothSocket;
@@ -272,6 +281,7 @@ public class BluetoothService extends Service {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            processExecutor.shutdown();
         }
 
         /**
@@ -323,7 +333,7 @@ public class BluetoothService extends Service {
                     }
 
                     endOfLineIndex= stringBuilder.indexOf("}");
-                    //Log.d(TAG,"endOfLineIndex=="+endOfLineIndex);
+                    Log.d(TAG,"endOfLineIndex=="+endOfLineIndex);
                     if(endOfLineIndex > 0){
                         jsonString = stringBuilder.substring(0, endOfLineIndex + 1);
                         //Log.d(TAG,"jsonString=="+jsonString);
@@ -340,6 +350,7 @@ public class BluetoothService extends Service {
                             e.printStackTrace();
                             continue;
                         }
+
                         if(loadSize<sourceDataUnits.length){
                             sourceDataUnits[loadSize]=sourceDataUnit;
                             ++loadSize;
@@ -347,7 +358,25 @@ public class BluetoothService extends Service {
                         else{
                             loadSize=0;
                             sourceDataSet.fromSourceData(sourceDataUnits);
-                            ///
+
+                            /*DataProcessor.filter(sourceDataSet, Conditions.MID_SPAN);
+                            if(DataProcessor.isbelongSegments(sourceDataSet)==true){
+                                Log.d(TAG,"DataProcessor.isbelongSegments(sourceDataSet)==true");
+                                dataSetBuffer.add(sourceDataSet);
+                            }
+                            else {
+                                Log.d(TAG, "DataProcessor.isbelongSegments(sourceDataSet)==false");
+                                if (dataSetBuffer.isEmpty() == true) {
+                                    Log.d(TAG, "dataSetBuffer.isEmpty()==true");
+                                    dataSetBuffer.add(sourceDataSet);
+                                } else {
+                                    Log.d(TAG, "dataSetBuffer.isEmpty()==false");
+                                    dataSet = dataSetBuffer.getSourceDataSet();
+                                    dataSetBuffer.clear();
+                                    // 进行数据处理
+                                    //processExecutor.execute(new ExerciseProcessorTask(dataSet));
+                                }
+                            }*/
                         }
 
                         ++itemsNumber;
@@ -381,7 +410,6 @@ public class BluetoothService extends Service {
                         bundle.putDouble(Conditions.P1,sourceDataUnit.getP1());
                         bundle.putDouble(Conditions.P2,sourceDataUnit.getP2());
                         bundle.putDouble(Conditions.P3,sourceDataUnit.getP3());
-
                         message.setData(bundle);
                         handler.sendMessage(message);
 
@@ -389,7 +417,7 @@ public class BluetoothService extends Service {
                         endOfLineIndex=-1;
                     }
                     else{
-                        Log.d(TAG,"startOfLineIndex != 0 || endOfLineIndex <= 0");
+                        Log.w(TAG,"endOfLineIndex <= 0");
                     }
                 }
             }
