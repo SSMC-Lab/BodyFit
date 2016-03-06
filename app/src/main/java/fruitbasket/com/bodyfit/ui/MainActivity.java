@@ -15,7 +15,6 @@ import android.widget.TextView;
 import java.io.IOException;
 
 import fruitbasket.com.bodyfit.R;
-import fruitbasket.com.bodyfit.processor.DataProcessor;
 import fruitbasket.com.bodyfit.helper.ExcelHelper;
 
 public class MainActivity extends BaseTabActivity {
@@ -30,7 +29,6 @@ public class MainActivity extends BaseTabActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate()");
         setContentView(R.layout.activity_main);
-        DataProcessor.context=getApplicationContext();
         startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 0);
 
         String [] dataLine=new String[]{"Time","accX", "accY", "accZ", "gyrX", "gyrY", "gyrZ"};
