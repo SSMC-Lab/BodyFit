@@ -8,8 +8,8 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.widget.ImageView;
 import android.widget.TabWidget;
-import android.widget.TextView;
 
 
 import java.io.IOException;
@@ -89,28 +89,28 @@ public class MainActivity extends BaseTabActivity {
         LayoutInflater inflater=getLayoutInflater();
         Resources resources=getResources();
 
-        TextView targetTab=(TextView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
-        targetTab.setText(resources.getString(R.string.tab_target));
+        //使用setImageResource就不会变形，用setBackgroundResource就会
+        ImageView targetTab=(ImageView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
+        targetTab.setImageResource(R.drawable.target_seletor);
 
-        TextView exerciseTab=(TextView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
-        exerciseTab.setText(resources.getString(R.string.tab_exercise));
+        ImageView exerciseTab=(ImageView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
+        exerciseTab.setImageResource(R.drawable.sport_seletor);
 
-        TextView profileTab=(TextView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
-        profileTab.setText(resources.getString(R.string.tab_profile));
+        ImageView profileTab=(ImageView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
+        profileTab.setImageResource(R.drawable.profile_seletor);
 
-        /*addTab(targetTab, targetFragment, "TARGET");
+        addTab(targetTab, targetFragment, "TARGET");
         addTab(exerciseTab,exerciseFragment,"EXERCISE");
         addTab(profileTab, profileFragment, "PROFILE");
 
-        setCurrentTab(1);*/
-
-        //测试代码
+        setCurrentTab(1);
+       /* //测试代码
         Fragment BluetoothTestFragment=new BluetoothTestFragment();
         TextView testTab=(TextView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
         testTab.setText("测试");
         addTab(testTab, BluetoothTestFragment, "TEST");;
 
-        setCurrentTab(0);
+        setCurrentTab(0);*/
     }
 
 }

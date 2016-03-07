@@ -15,5 +15,4 @@ public class DateHelper {
     public static String getTime(String timeString){
         return new SimpleDateFormat(timeString).format(new Date());
     }
-
 }
