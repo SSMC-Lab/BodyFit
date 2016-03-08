@@ -5,8 +5,6 @@ import android.util.Log;
 
 import java.io.File;
 
-import fruitbasket.com.bodyfit.processor.DataProcessor;
-
 
 public class App extends Application {
     private static final String TAG="APP";
@@ -22,8 +20,6 @@ public class App extends Application {
 
         File appDir=new File(Conditions.APP_FILE_DIR);
         appDir.mkdirs();
-
-        DataProcessor.setContext(getBaseContext());
     }
 
 

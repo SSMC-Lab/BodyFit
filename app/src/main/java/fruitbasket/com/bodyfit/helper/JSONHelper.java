@@ -4,7 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import fruitbasket.com.bodyfit.Conditions;
-import fruitbasket.com.bodyfit.data.SourceDataUnit;
+import fruitbasket.com.bodyfit.data.DataUnit;
 
 public class JSONHelper {
     private static final JSONHelper jsonHelper=new JSONHelper();
@@ -15,11 +15,11 @@ public class JSONHelper {
         return jsonHelper;
     }
 
-    public static SourceDataUnit parser(String jsonString)
+    public static DataUnit parser(String jsonString)
             throws JSONException {
         JSONObject jsonObject=new JSONObject(jsonString);
-        SourceDataUnit sourceDataUnit=new SourceDataUnit(
-                jsonObject.getString(Conditions.TIME),
+
+        double[] array={
                 jsonObject.getDouble(Conditions.AX),
                 jsonObject.getDouble(Conditions.AY),
                 jsonObject.getDouble(Conditions.AZ),
@@ -32,7 +32,12 @@ public class JSONHelper {
                 jsonObject.getDouble(Conditions.P1),
                 jsonObject.getDouble(Conditions.P2),
                 jsonObject.getDouble(Conditions.P3)
+        };
+
+        DataUnit dataUnit=new DataUnit(
+                jsonObject.getString(Conditions.TIME),
+                array
         );
-        return sourceDataUnit;
+        return dataUnit;
     }
 }

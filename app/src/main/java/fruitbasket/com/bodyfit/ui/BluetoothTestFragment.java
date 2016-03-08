@@ -6,9 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,7 +21,7 @@ public class BluetoothTestFragment extends BluetoothFragment {
 
     private ToggleButton toggleButtonConnect;
     private TextView itemsPreSecond;
-    private TextView runTime,time, ax, ay, az, gx, gy, gz, mx, my, mz, p1, p2, p3,errorMessages;
+    private TextView runTime,time, ax, ay, az, gx, gy, gz, mx, my, mz, p1, p2, p3,exercise_type,repetition_score,set_score,errorMessages;
 
     private Timer timer;
     private int errorStringNumber=0;
@@ -35,7 +35,7 @@ public class BluetoothTestFragment extends BluetoothFragment {
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
         Log.i(TAG, "onCreateView()");
-        View view=inflater.inflate(R.layout.glove_bluetooth,container,false);
+        View view=inflater.inflate(R.layout.bluetooth_test,container,false);
         initView(view);
         return view;
     }
@@ -84,6 +84,12 @@ public class BluetoothTestFragment extends BluetoothFragment {
                 p3.setText(String.valueOf(bundle.getDouble("p3")));
                 break;
 
+            case Conditions.MESSAGE_EXERCESE_STATUS:
+                exercise_type.setText(String.valueOf(bundle.getString(Conditions.JSON_KEY_EXERCISE_TYPE)));
+                repetition_score.setText(Arrays.toString(bundle.getDoubleArray(Conditions.REPETITION_SCORE)));
+                set_score.setText(String.valueOf(bundle.getDouble(Conditions.SET_SCORE)));
+                break;
+
             case Conditions.MESSAGE_ERROR_JSON:
                 ++errorStringNumber;
                 errorMessages.append("\n\njson error "+errorStringNumber+" :\n"+String.valueOf(bundle.getString(Conditions.JSON_KEY_JOSNERROR)));
@@ -113,6 +119,11 @@ public class BluetoothTestFragment extends BluetoothFragment {
         p1 = (TextView) view.findViewById(R.id.p1);
         p2 = (TextView) view.findViewById(R.id.p2);
         p3 = (TextView) view.findViewById(R.id.p3);
+
+        exercise_type=(TextView) view.findViewById(R.id.exercise_type);
+        repetition_score=(TextView) view.findViewById(R.id.reptition_score);
+        set_score=(TextView) view.findViewById(R.id.set_score);
+
         errorMessages=(TextView) view.findViewById(R.id.error_messages);
 
         toggleButtonConnect.setOnClickListener(toggleClickListener);

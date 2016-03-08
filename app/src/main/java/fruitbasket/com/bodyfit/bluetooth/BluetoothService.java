@@ -27,12 +27,12 @@ import java.util.concurrent.Executors;
 
 import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.R;
-import fruitbasket.com.bodyfit.data.DataSetBuffer;
-import fruitbasket.com.bodyfit.data.SourceDataSet;
-import fruitbasket.com.bodyfit.data.SourceDataUnit;
+import fruitbasket.com.bodyfit.analysis.ExerciseAnalysisTask;
+import fruitbasket.com.bodyfit.analysis.SingleExerciseAnalysis;
+import fruitbasket.com.bodyfit.data.DataSet;
+import fruitbasket.com.bodyfit.data.DataUnit;
 import fruitbasket.com.bodyfit.helper.JSONHelper;
-import fruitbasket.com.bodyfit.processor.DataProcessor;
-import fruitbasket.com.bodyfit.processor.ExerciseProcessorTask;
+
 
 public class BluetoothService extends Service {
 
@@ -41,7 +41,7 @@ public class BluetoothService extends Service {
             .fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     private BluetoothAdapter bluetoothAdapter;
-    private ArrayList<BluetoothDevice> deviceArrayList;
+    private ArrayList<BluetoothDevice> deviceArrayList; //附近的蓝牙设别列表
     private ArrayList<String> deviceNameList;///
     private ArrayAdapter arrayAdapter;
 
@@ -236,6 +236,10 @@ public class BluetoothService extends Service {
         }
     };
 
+
+    /**
+     * 读取蓝牙数据的任务
+     */
     private class BluetoothDataReadTask implements Runnable{
         private static final String TAG="BluetoothDataReadTask";
 
@@ -260,13 +264,11 @@ public class BluetoothService extends Service {
         private double currentTime;
         private double itemsPreSecond;
 
-        private SourceDataUnit sourceDataUnit;
+        private DataUnit dataUnit;
         private int loadSize=0;
-        private SourceDataUnit[] sourceDataUnits=new SourceDataUnit[Conditions.MAX_SAMPLE_NUMBER];
-        private SourceDataSet sourceDataSet=new SourceDataSet();
-        private SourceDataSet dataSet;
-        private DataSetBuffer dataSetBuffer=new DataSetBuffer();
+        private DataUnit[] dataUnits =new DataUnit[Conditions.MAX_SAMPLE_NUMBER];
 
+        private SingleExerciseAnalysis analysis=new SingleExerciseAnalysis();
         private ExecutorService processExecutor= Executors.newSingleThreadExecutor();
 
         private BluetoothDataReadTask(BluetoothSocket bluetoothSocket,Handler handler){
@@ -340,7 +342,7 @@ public class BluetoothService extends Service {
                         stringBuilder.delete(0, endOfLineIndex + 1);
 
                         try {
-                            sourceDataUnit= JSONHelper.parser(jsonString);
+                            dataUnit = JSONHelper.parser(jsonString);
                         } catch (JSONException e) {
                             sendErrorMessage(
                                     Conditions.MESSAGE_ERROR_JSON,
@@ -351,31 +353,19 @@ public class BluetoothService extends Service {
                             continue;
                         }
 
-                        if(loadSize<sourceDataUnits.length){
-                            sourceDataUnits[loadSize]=sourceDataUnit;
+                        if(loadSize< dataUnits.length){
+                            dataUnits[loadSize]= dataUnit;
                             ++loadSize;
                         }
                         else{
                             loadSize=0;
-                            sourceDataSet.fromSourceData(sourceDataUnits);
 
-                            DataProcessor.filter(sourceDataSet, Conditions.MID_SPAN);
-                            if(DataProcessor.isbelongSegments(sourceDataSet)==true){
-                                Log.d(TAG,"DataProcessor.isbelongSegments(sourceDataSet)==true");
-                                dataSetBuffer.add(sourceDataSet);
-                            }
-                            else {
-                                Log.d(TAG, "DataProcessor.isbelongSegments(sourceDataSet)==false");
-                                if (dataSetBuffer.isEmpty() == true) {
-                                    Log.d(TAG, "dataSetBuffer.isEmpty()==true");
-                                    dataSetBuffer.add(sourceDataSet);
-                                } else {
-                                    Log.d(TAG, "dataSetBuffer.isEmpty()==false");
-                                    dataSet = dataSetBuffer.getSourceDataSet();
-                                    dataSetBuffer.clear();
-                                    // 进行数据处理
-                                    //processExecutor.execute(new ExerciseProcessorTask(dataSet));
-                                }
+                            DataSet dataSet=new DataSet(dataUnits);
+
+                            ///这里analysis可能会产生一个处理延迟或处理缺失的问题
+                            if(analysis.addToSet(dataSet)==false){
+                                //这里将数据的处理放到一个新的线程中
+                                processExecutor.execute(new ExerciseAnalysisTask(analysis,handler));
                             }
                         }
 
@@ -396,20 +386,20 @@ public class BluetoothService extends Service {
                         Message message=new Message();
                         message.what= Conditions.MESSAGE_BLUETOOTH_TEST;
 
-                        bundle.putDouble(Conditions.JSON_KEY_ITEMS_PRE_SECOND,itemsPreSecond);
-                        bundle.putString(Conditions.TIME, sourceDataUnit.getTime());
-                        bundle.putDouble(Conditions.AX, sourceDataUnit.getAx());
-                        bundle.putDouble(Conditions.AY,sourceDataUnit.getAy());
-                        bundle.putDouble(Conditions.AZ,sourceDataUnit.getAz());
-                        bundle.putDouble(Conditions.GX,sourceDataUnit.getGx());
-                        bundle.putDouble(Conditions.GY,sourceDataUnit.getGy());
-                        bundle.putDouble(Conditions.GZ,sourceDataUnit.getGz());
-                        bundle.putDouble(Conditions.MX,sourceDataUnit.getMx());
-                        bundle.putDouble(Conditions.MY,sourceDataUnit.getMy());
-                        bundle.putDouble(Conditions.MZ,sourceDataUnit.getMz());
-                        bundle.putDouble(Conditions.P1,sourceDataUnit.getP1());
-                        bundle.putDouble(Conditions.P2,sourceDataUnit.getP2());
-                        bundle.putDouble(Conditions.P3,sourceDataUnit.getP3());
+                        bundle.putDouble(Conditions.JSON_KEY_ITEMS_PRE_SECOND, itemsPreSecond);
+                        bundle.putString(Conditions.TIME, dataUnit.getTime());
+                        bundle.putDouble(Conditions.AX, dataUnit.getAx());
+                        bundle.putDouble(Conditions.AY, dataUnit.getAy());
+                        bundle.putDouble(Conditions.AZ, dataUnit.getAz());
+                        bundle.putDouble(Conditions.GX, dataUnit.getGx());
+                        bundle.putDouble(Conditions.GY, dataUnit.getGy());
+                        bundle.putDouble(Conditions.GZ, dataUnit.getGz());
+                        bundle.putDouble(Conditions.MX, dataUnit.getMx());
+                        bundle.putDouble(Conditions.MY, dataUnit.getMy());
+                        bundle.putDouble(Conditions.MZ, dataUnit.getMz());
+                        bundle.putDouble(Conditions.P1, dataUnit.getP1());
+                        bundle.putDouble(Conditions.P2, dataUnit.getP2());
+                        bundle.putDouble(Conditions.P3, dataUnit.getP3());
                         message.setData(bundle);
                         handler.sendMessage(message);
 

@@ -1,0 +1,17 @@
+package fruitbasket.com.bodyfit.analysis;
+
+/**
+ * 描述运动类型的枚举类
+ */
+public enum ExerciseType {
+    FLAT_BENCH_BRABELL_PASS,
+    FLAT_BENCH_DUMBBELL_FLYE,
+    FLAT_BENCH_DUMBBELL_PRESS,
+    INCLINE_DUMBBELL_FLYE,
+    REVERSE_GRIP_PULLDOWN,
+    MACHINE_GURLS,
+    ALTERNATE_DUMBBELL_CURL,
+    PEC_DECK_FLYE,
+    INCLINE_DUMBBEL_PRESS,
+    CABLE_CROSSOVERS
+}
