@@ -30,6 +30,7 @@
     <string name="default_target_type">未设置</string>
     <string name="default_target_sets">0</string>
     <string name="default_target_times">0</string>
+    <string name="default_target_clicktimes">0</string>  //对应增加，删除图片按钮
 
     <!-- action_type-->
     <string name="T0">未设置</string>

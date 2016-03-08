@@ -43,6 +43,7 @@ public abstract class BaseTabActivity extends FragmentActivity{
             if (vp != null) {
                 vp.setCurrentItem(position);
             }
+
         }
     }
 
