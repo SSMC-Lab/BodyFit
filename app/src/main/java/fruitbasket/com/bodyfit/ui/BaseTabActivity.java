@@ -15,11 +15,11 @@ import java.util.Map;
 
 public abstract class BaseTabActivity extends FragmentActivity{
 
-    Map<String, Fragment> mFragMap;
-    ArrayList<View> mViewList;
-    ArrayList<Fragment> mFragList;
-    PagerAdapter mPagerAdapter;
-    View mLastTab;
+    private Map<String, Fragment> mFragMap;
+    private ArrayList<View> mViewList;
+    private ArrayList<Fragment> mFragList;
+    private PagerAdapter mPagerAdapter;
+    private View mLastTab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

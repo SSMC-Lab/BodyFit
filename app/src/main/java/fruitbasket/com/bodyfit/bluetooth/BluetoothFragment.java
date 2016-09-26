@@ -14,7 +14,7 @@ import android.os.Message;
 import android.util.Log;
 
 public abstract class BluetoothFragment extends Fragment {
-    private static final String TAG="BluetoothFragment";
+//    private static final String TAG="BluetoothFragment";
 
     private Intent intentToBluetootthService;
     private BluetoothService bluetoothService;
@@ -22,10 +22,13 @@ public abstract class BluetoothFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(TAG, "onCreate()");
+//        Log.i(TAG, "onCreate()");
         intentToBluetootthService=new Intent(this.getContext(),BluetoothService.class);
     }
 
+    /**
+     * 点击按钮后，显示蓝牙搜索列表对话框的函数
+     */
     private void getBluetoothAddressByDialog(){
         if(bluetoothService!=null){
             new AlertDialog
@@ -35,10 +38,10 @@ public abstract class BluetoothFragment extends Fragment {
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface arg0, final int which) {
                                     bluetoothService.stopDiscovery();
-                                    bluetoothService.setBluetoothAddress(bluetoothService
-                                            .getDeviceArrayList()
-                                            .get(which)
-                                            .getAddress());
+                                    bluetoothService.setBluetoothAddress(
+                                            bluetoothService.getDeviceArrayList()
+                                                    .get(which)
+                                                    .getAddress());
                                     bluetoothService.connectToDevice();
                                 }
                     })
@@ -81,7 +84,7 @@ public abstract class BluetoothFragment extends Fragment {
     private ServiceConnection serviceConnection=new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.i(TAG, "onServiceConnected()");
+//            Log.i(TAG, "onServiceConnected()");
             bluetoothService=((BluetoothService.MyBinder)service).getService();
             bluetoothService.setHandler(handler);
             getBluetoothAddressByDialog();
@@ -89,14 +92,14 @@ public abstract class BluetoothFragment extends Fragment {
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            Log.i(TAG,"onServiceDisconnected()");
+//            Log.i(TAG,"onServiceDisconnected()");
             bluetoothService=null;
         }
     };
 
     final Handler handler= new Handler() {
         public void handleMessage(Message msg) {
-            Log.i(TAG,"handleMessage()");
+//            Log.i(TAG,"handleMessage()");
             updateUI(msg.what,msg.getData());
         }
     };

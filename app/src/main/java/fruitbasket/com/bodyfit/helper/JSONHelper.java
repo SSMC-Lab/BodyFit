@@ -15,12 +15,18 @@ public class JSONHelper {
         return jsonHelper;
     }
 
-    public static DataUnit parser(String jsonString)
-            throws JSONException {
+    /**
+     * 将json格式的字符串转化成double数组，储存在DataUnit对象中，并返回对象
+     * @param jsonString
+     * @return
+     * @throws JSONException
+     */
+    public static DataUnit parser(String jsonString) throws JSONException {
+
         JSONObject jsonObject=new JSONObject(jsonString);
 
         double[] array={
-                jsonObject.getDouble(Conditions.AX),
+                jsonObject.getDouble(Conditions.AX),//即jsonObject.getDouble("ax"),
                 jsonObject.getDouble(Conditions.AY),
                 jsonObject.getDouble(Conditions.AZ),
                 jsonObject.getDouble(Conditions.GX),
@@ -34,10 +40,8 @@ public class JSONHelper {
                 jsonObject.getDouble(Conditions.P3)
         };
 
-        DataUnit dataUnit=new DataUnit(
-                jsonObject.getString(Conditions.TIME),
-                array
-        );
+        DataUnit dataUnit=new DataUnit(jsonObject.getString(Conditions.TIME), array);
+
         return dataUnit;
     }
 }

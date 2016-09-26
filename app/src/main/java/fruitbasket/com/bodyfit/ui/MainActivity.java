@@ -10,12 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TabWidget;
-
-
 import java.io.IOException;
-
 import fruitbasket.com.bodyfit.R;
-import fruitbasket.com.bodyfit.helper.ExcelHelper;
+import fruitbasket.com.bodyfit.data.StorageData;
 
 public class MainActivity extends BaseTabActivity {
 
@@ -31,10 +28,10 @@ public class MainActivity extends BaseTabActivity {
         setContentView(R.layout.activity_main);
         startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 0);
 
-        String [] dataLine=new String[]{"Time","accX", "accY", "accZ", "gyrX", "gyrY", "gyrZ"};
+/*        String [] dataLine=new String[]{"Time","accX", "accY", "accZ", "gyrX", "gyrY", "gyrZ"};
         try {
             ExcelHelper.createFileWithHeader(dataLine);
-        } catch (IOException e) {}
+        } catch (IOException e) {}*/
     }
 
     @Override
@@ -80,15 +77,15 @@ public class MainActivity extends BaseTabActivity {
         mViewPager = (ViewPager) findViewById(R.id.viewpager_bodyfit);
         mTabWidget.setStripEnabled(false);
 
-        Fragment targetFragment=new TargetFragment();
+        /*Fragment targetFragment=new TargetFragment();
         Fragment exerciseFragment=new ExerciseFragment();
-        Fragment profileFragment=new ProfileFragment();
+        Fragment profileFragment=new ProfileFragment();*/
 
         LayoutInflater inflater=getLayoutInflater();
         Resources resources=getResources();
 
         //使用setImageResource就不会变形，用setBackgroundResource就会
-        ImageView targetTab=(ImageView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
+        /*ImageView targetTab=(ImageView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
         targetTab.setImageResource(R.drawable.target_seletor);
 
         ImageView exerciseTab=(ImageView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
@@ -101,14 +98,21 @@ public class MainActivity extends BaseTabActivity {
         addTab(exerciseTab,exerciseFragment,"EXERCISE");
         addTab(profileTab, profileFragment, "PROFILE");
 
-        setCurrentTab(1);
-       /* //测试代码
+        setCurrentTab(1);*/
+
+        //测试代码
         Fragment BluetoothTestFragment=new BluetoothTestFragment();
-        TextView testTab=(TextView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
-        testTab.setText("测试");
+        ImageView testTab=(ImageView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
+//        testTab.setText("测试");
         addTab(testTab, BluetoothTestFragment, "TEST");;
 
-        setCurrentTab(0);*/
+//        setCurrentTab(0);
+
+        //测试DataSetBuffer
+        /*Fragment test=new TestDataSetFragment();
+        ImageView testTab=(ImageView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
+        addTab(testTab,test,"test");
+        setCurrentTab(3);*/
     }
 
 }

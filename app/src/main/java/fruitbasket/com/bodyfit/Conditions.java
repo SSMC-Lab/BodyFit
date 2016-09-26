@@ -11,6 +11,9 @@ public class Conditions {
     public static final int MID_SPAN=MAX_SAMPLE_NUMBER/2+1;
 
     public static final int NUM_PRE_EXERCISE=15;    //规定每组动作的最大次数
+    public static final double VALUE_OF_VARTHRESHOLD=0.002;   //判断切割时方差的阈值
+    public static final double VALUE_OF_AVRTHRESHOLD=0.15+0.8;   //判断切割时平均值的阈值
+    public static final int MAX_SAMPLES_OF_ACTIONS=1000; //单个动作中最大的samples数
 
     //Massage.what
     public static final int MESSAGE_BLUETOOTH_TEST =0x100;

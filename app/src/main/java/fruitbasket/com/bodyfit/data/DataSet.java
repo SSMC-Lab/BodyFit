@@ -1,10 +1,15 @@
 package fruitbasket.com.bodyfit.data;
 
 
+import android.util.Log;
+
 /**
  * 数据记录集合，用于存储多条记录。本类会将多条记录中同一维度数据整合到一起。
  */
 public class DataSet {
+
+    final String TAG="DataSet";
+
     private int size;
 
     private double[] axSet;
@@ -24,30 +29,35 @@ public class DataSet {
         fromSourceData(dataUnits);
     }
 
-    public DataSet(double[] axSet,
-                   double[] aySet,
-                   double[] azSet,
-                   double[] gxSet,
-                   double[] gySet,
-                   double[] gzSet,
-                   double[] mxSet,
-                   double[] mySet,
-                   double[] mzSet,
-                   double[] p1Set,
-                   double[] p2Set,
-                   double[] p3Set){
-        this.axSet=axSet;
-        this.aySet=aySet;
-        this.azSet=azSet;
-        this.gxSet=gxSet;
-        this.gySet=gySet;
-        this.gzSet=gzSet;
-        this.mxSet=mxSet;
-        this.mySet=mySet;
-        this.mzSet=mzSet;
-        this.p1Set=p1Set;
-        this.p2Set=p2Set;
-        this.p3Set=p3Set;
+    /**
+     * 此函数被DataSet中的toDataSet()调用，但是toDataSet()没有被调用过
+     */
+    public DataSet(double[] axSet,double[] aySet,double[] azSet,double[] gxSet,double[] gySet,double[] gzSet,
+                   double[] mxSet, double[] mySet,double[] mzSet,double[] p1Set,double[] p2Set,double[] p3Set){
+        int length=axSet.length;
+        if(length== aySet.length && length== azSet.length &&
+            length==gxSet.length && length== gySet.length && length== gzSet.length &&
+                length==mxSet.length && length== mySet.length && length== mzSet.length &&
+                length==p3Set.length && length== p2Set.length && length== p1Set.length){
+
+            size=length;
+            this.axSet=axSet;
+            this.aySet=aySet;
+            this.azSet=azSet;
+            this.gxSet=gxSet;
+            this.gySet=gySet;
+            this.gzSet=gzSet;
+            this.mxSet=mxSet;
+            this.mySet=mySet;
+            this.mzSet=mzSet;
+            this.p1Set=p1Set;
+            this.p2Set=p2Set;
+            this.p3Set=p3Set;
+        }
+        else{
+            Log.e(TAG,"error:param of construct function");
+            return;
+        }
     }
 
     /**
@@ -187,7 +197,7 @@ public class DataSet {
     /**
      * 返回指定的传感器数据
      * @param index 指定传感器
-     * @return
+     * @return 返回类型：double数组
      */
     public double[] getDataByIndex(int index){
         switch(index){

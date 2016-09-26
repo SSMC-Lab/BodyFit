@@ -28,14 +28,16 @@ import fruitbasket.com.bodyfit.R;
 public class TargetFragment extends Fragment {
     public static final String TAG="TargetFragment";
     public static final int maxClickTimes = 2;
-    SharedPreferences preferences ;
-    SharedPreferences.Editor editor ;
-    String []target_array;
-    String []target_array_default;
-    int clickTimes;
-    ListView list1;
-    ListView list2;
-    ListView list3;
+
+    private SharedPreferences preferences ;
+    private SharedPreferences.Editor editor ;
+    private String []target_array;
+    private String []target_array_default;
+    private int clickTimes;
+    private ListView list1;
+    private ListView list2;
+    private ListView list3;
+
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.layout_target, container, false);
@@ -250,7 +252,7 @@ public class TargetFragment extends Fragment {
                                     Integer.parseInt(getContext().getResources().getString(R.string.default_target_sets)));
 
                             final NumberPicker mTimePicker = new NumberPicker(getContext());
-                            mTimePicker.setMinValue(10);
+                            mTimePicker.setMinValue(8);
                             mTimePicker.setMaxValue(15);
                             mTimePicker.setValue(times);
 
@@ -277,16 +279,3 @@ public class TargetFragment extends Fragment {
 
     }
 }
-/*长按先不实现
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                new AlertDialog.Builder(getContext()).setTitle("长按删除").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getContext(),"已删除",Toast.LENGTH_SHORT).show();
-                    }
-                }).setNegativeButton("取消", null).create().show();
-                return  true;
-            }
-        });*/

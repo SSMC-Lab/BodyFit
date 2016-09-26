@@ -6,14 +6,17 @@ package fruitbasket.com.bodyfit.data;
 public class DataUnit {
     public static final int SENSER_NUMBER=12;//传感器的数据的数量
 
-    private String time;
+    private String time=null;
+
     /*
     这个数组中各个元素的值代表了：ax,ay,az,gx,gy,gz,mx,my,mz,p1,p2,p3
-     */
+    */
     private double dataUnit[];
 
     public DataUnit(double dataUnit[]){
+
         this.dataUnit =new double[SENSER_NUMBER];
+
         if(dataUnit!=null&&dataUnit.length==SENSER_NUMBER){
             this.dataUnit[0]=dataUnit[0];
             this.dataUnit[1]=dataUnit[1];

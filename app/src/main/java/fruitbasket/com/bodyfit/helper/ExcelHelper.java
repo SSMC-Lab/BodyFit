@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
+/**
+ * 这个类在程序中没有用到
+ */
 public class ExcelHelper {
 	private static final ExcelHelper mExcelProcesser=new ExcelHelper();
 	

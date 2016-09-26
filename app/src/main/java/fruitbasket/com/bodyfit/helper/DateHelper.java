@@ -3,6 +3,9 @@ package fruitbasket.com.bodyfit.helper;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * 这个类在程序中没有用到
+ */
 public class DateHelper {
     private static final DateHelper dateHelper=new DateHelper();
 

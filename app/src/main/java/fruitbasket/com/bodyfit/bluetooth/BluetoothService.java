@@ -31,6 +31,7 @@ import fruitbasket.com.bodyfit.analysis.ExerciseAnalysisTask;
 import fruitbasket.com.bodyfit.analysis.SingleExerciseAnalysis;
 import fruitbasket.com.bodyfit.data.DataSet;
 import fruitbasket.com.bodyfit.data.DataUnit;
+import fruitbasket.com.bodyfit.data.StorageData;
 import fruitbasket.com.bodyfit.helper.JSONHelper;
 
 
@@ -41,7 +42,7 @@ public class BluetoothService extends Service {
             .fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     private BluetoothAdapter bluetoothAdapter;
-    private ArrayList<BluetoothDevice> deviceArrayList; //附近的蓝牙设别列表
+    private ArrayList<BluetoothDevice> deviceArrayList; //附近的蓝牙设备列表
     private ArrayList<String> deviceNameList;///
     private ArrayAdapter arrayAdapter;
 
@@ -50,6 +51,7 @@ public class BluetoothService extends Service {
     private Thread bluetoothDataReadThread;
 
     private Handler handler;
+//    private StorageData writeData=new StorageData();
 
     public BluetoothService(){}
 
@@ -60,8 +62,7 @@ public class BluetoothService extends Service {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         deviceArrayList=new ArrayList<BluetoothDevice>();
         deviceNameList=new ArrayList<String>();
-        arrayAdapter=new ArrayAdapter<String>(this,
-                R.layout.bluetooth_device_list_item, deviceNameList);
+        arrayAdapter=new ArrayAdapter<String>(this,R.layout.bluetooth_device_list_item, deviceNameList);
     }
 
     @Override
@@ -114,7 +115,7 @@ public class BluetoothService extends Service {
         }
         if(bluetoothAdapter.isEnabled()==false) {
             ///应修改提示
-            //请求用户开启蓝牙。
+            //若蓝牙没开，则会执行这里，请求用户开启蓝牙。
             Intent intent=new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
@@ -136,8 +137,7 @@ public class BluetoothService extends Service {
             deviceNameList.clear();
             arrayAdapter.notifyDataSetChanged();
 
-            registerReceiver(discoveryResult, new IntentFilter(
-                    BluetoothDevice.ACTION_FOUND));
+            registerReceiver(discoveryResult, new IntentFilter(BluetoothDevice.ACTION_FOUND));
             bluetoothAdapter.startDiscovery();
         }
     }
@@ -199,10 +199,11 @@ public class BluetoothService extends Service {
         }*/
     }
 
+    /**
+     * 从蓝牙中读取数据
+     */
     public void readData(){
-        //从蓝牙中读取数据
-        if(handler!=null
-                &&bluetoothSocket.isConnected()==true){
+        if(handler!=null && bluetoothSocket.isConnected()==true){
             bluetoothDataReadThread=new Thread(new BluetoothDataReadTask(bluetoothSocket,handler));
             bluetoothDataReadThread.start();
         }
@@ -238,7 +239,7 @@ public class BluetoothService extends Service {
 
 
     /**
-     * 读取蓝牙数据的任务
+     * BluetoothDataReadTask类，读取蓝牙数据
      */
     private class BluetoothDataReadTask implements Runnable{
         private static final String TAG="BluetoothDataReadTask";
@@ -266,10 +267,10 @@ public class BluetoothService extends Service {
 
         private DataUnit dataUnit;
         private int loadSize=0;
-        private DataUnit[] dataUnits =new DataUnit[Conditions.MAX_SAMPLE_NUMBER];
+        private DataUnit[] dataUnits =new DataUnit[Conditions.MAX_SAMPLE_NUMBER];//5组数据
 
         private SingleExerciseAnalysis analysis=new SingleExerciseAnalysis();
-        private ExecutorService processExecutor= Executors.newSingleThreadExecutor();
+        private ExecutorService processExecutor= Executors.newSingleThreadExecutor();//创建线程池
 
         private BluetoothDataReadTask(BluetoothSocket bluetoothSocket,Handler handler){
             this.bluetoothSocket=bluetoothSocket;
@@ -338,11 +339,14 @@ public class BluetoothService extends Service {
                     //Log.d(TAG,"endOfLineIndex=="+endOfLineIndex);
                     if(endOfLineIndex > 0){
                         jsonString = stringBuilder.substring(0, endOfLineIndex + 1);
+//                        writeData.outputData(jsonString); 储存为json格式
+//                        Log.e("ExerciseData","ExerciseDate="+jsonString);
                         //Log.d(TAG,"jsonString=="+jsonString);
                         stringBuilder.delete(0, endOfLineIndex + 1);
 
                         try {
                             dataUnit = JSONHelper.parser(jsonString);
+//                            writeData.outputData(dataUnit);
                         } catch (JSONException e) {
                             sendErrorMessage(
                                     Conditions.MESSAGE_ERROR_JSON,
@@ -365,6 +369,7 @@ public class BluetoothService extends Service {
                             ///这里analysis可能会产生一个处理延迟或处理缺失的问题
                             if(analysis.addToSet(dataSet)==false){
                                 //这里将数据的处理放到一个新的线程中
+                                Log.e("TAG","将数据的处理放到一个新的线程中");
                                 processExecutor.execute(new ExerciseAnalysisTask(analysis,handler));
                             }
                         }
@@ -411,6 +416,7 @@ public class BluetoothService extends Service {
                     }
                 }
             }
+//            writeData.closeOutputStream();
             input.close();///close()本身也会引发异常
             bluetoothSocket.close();
         }

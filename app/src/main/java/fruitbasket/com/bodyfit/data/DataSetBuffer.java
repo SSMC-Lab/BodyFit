@@ -1,9 +1,13 @@
 package fruitbasket.com.bodyfit.data;
 
+import android.util.Log;
+
 public class DataSetBuffer {
-    private static int DEFAULT_CAPACITY=50;
+    private static final String TAG="DataSetBuffer";
+
+    private static final int DEFAULT_CAPACITY=50;
     private int factor=0;//容量因子
-    private int capacity;//缓冲区初始容量
+    private int capacity;//缓冲区容量
 
     private int items =0;//记录缓冲区DataUnit的数量
 
@@ -35,7 +39,12 @@ public class DataSetBuffer {
 
     private void resetCapacity(){
         factor=0;
+        items=0;
         updateCapacity();
+    }
+
+    public int getCapacity(){
+        return capacity;
     }
 
     private void createBuffer(){
@@ -57,10 +66,17 @@ public class DataSetBuffer {
 
     public void add(DataSet dataSet){
         if(capacity<=0){
+            Log.i(TAG,"capacity<=0");
             createBuffer();
         }
         if(items +dataSet.size()>capacity){
+            Log.i(TAG,"items+dataSet.size()>capacity");
+            Log.i(TAG,"items="+items+",dataSet.size()="+dataSet.size());
+            Log.i(TAG, "before addCapacity(): capacity=" + capacity);
             addCapacity();
+
+            Log.i(TAG,"after addCapacity(): capacity="+capacity);
+            Log.i(TAG,"axBuffer.length="+axBuffer.length);
             double[] newAxBuffer=new double[capacity];
             for(int i=0;i<axBuffer.length;i++){
                 newAxBuffer[i]=axBuffer[i];
@@ -107,7 +123,7 @@ public class DataSetBuffer {
             for(int i=0;i<myBuffer.length;i++){
                 newMyBuffer[i]=myBuffer[i];
             }
-            mxBuffer=newMyBuffer;
+            myBuffer=newMyBuffer;
 
             double[] newMzBuffer=new double[capacity];
             for(int i=0;i<mzBuffer.length;i++){
@@ -139,6 +155,8 @@ public class DataSetBuffer {
 
         set=dataSet.getAxSet();
         for(i=0;i<set.length;i++){
+            ///这里有一个错误 ArrayIndexOutOfBoundsException:length=100,index=115/120/105...
+            Log.i(TAG,"add(): capacity="+capacity+",axBuffer.length="+axBuffer.length+", items="+items+",i="+i+",set.length="+set.length);
             axBuffer[items +i]=set[i];
         }
 
@@ -174,7 +192,7 @@ public class DataSetBuffer {
 
         set=dataSet.getMySet();
         for(i=0;i<set.length;i++){
-            myBuffer[items +i]=set[i];
+            myBuffer[items +i]=set[i];///
         }
 
         set=dataSet.getMzSet();
@@ -200,6 +218,9 @@ public class DataSetBuffer {
         items +=dataSet.size();
     }
 
+    /**
+     * 将缓冲区清空
+     */
     public void clear(){
         resetCapacity();
         axBuffer=null;
@@ -226,7 +247,6 @@ public class DataSetBuffer {
                 ayBuffer,
                 azBuffer,
                 gxBuffer,
-
                 gyBuffer,
                 gzBuffer,
                 mxBuffer,

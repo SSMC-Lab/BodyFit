@@ -9,9 +9,7 @@ public class SelectedDataSet {
 
 
     public SelectedDataSet(DataSet dataSet, int... selectedSensorData){
-        if(dataSet==null
-                ||selectedSensorData==null
-                ||selectedSensorData.length>dataSet.size()){
+        if(dataSet==null || selectedSensorData==null || selectedSensorData.length>dataSet.size()){
             return;
         }
         else{
@@ -24,9 +22,7 @@ public class SelectedDataSet {
     }
 
     public SelectedDataSet(double[]...selectedDatas){
-        if(selectedDatas!=null
-                &&selectedDatas.length>0
-                &&selectedDatas.length<=DataUnit.SENSER_NUMBER){
+        if(selectedDatas!=null && selectedDatas.length>0 && selectedDatas.length<=DataUnit.SENSER_NUMBER){
             selectSensorsNumber=selectedDatas.length;
             this.selectedDatas =new double[selectSensorsNumber][];
             for(int i=0;i<selectSensorsNumber;i++){
