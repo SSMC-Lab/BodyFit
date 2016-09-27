@@ -19,25 +19,12 @@ public class DataUnit {
     */
     private double dataUnit[];
 
-    public static int getIntFromByteArray(byte[] data, int start, int len) {
-        int i = start + len - 1;
-        int val = data[i];
-        for (i-- ; i >= start; i--) {
-            val <<= 8;
-            val += (data[i] & 0xFF) ;
-        }
-        return val;
-    }
-
-    private static double convertPress(int val) {
-        double r = (val * REF * 1.0) / (8192 - val);
-        return COEFFICIENT_A * Math.pow(r, COEFFICIENT_B);
-    }
-
     public DataUnit(byte[] data) {
         dataUnit = new double[SENSER_NUMBER];
+        ///以下获取的两个整数，还未明确其作用
         //getIntFromByteArray(data, 0, 2);
         //getIntFromByteArray(data, 2, 2);
+
         dataUnit[0] = getIntFromByteArray(data, 10, 2) * SensorManager.GRAVITY_EARTH / 16384.0;
         dataUnit[1] = getIntFromByteArray(data, 12, 2) * SensorManager.GRAVITY_EARTH / 16384.0;
         dataUnit[2] = getIntFromByteArray(data, 14, 2) * SensorManager.GRAVITY_EARTH / 16384.0;
@@ -78,6 +65,28 @@ public class DataUnit {
     public DataUnit(String time, double dataUnit[]){
         this(dataUnit);
         this.time=time;
+    }
+
+    /**
+     * 从一个字节数组中获取一个Int类型的值
+     * @param data 字节数组
+     * @param start 起始元素（字节）的下标
+     * @param len 将要获取的元素（字节）数量
+     * @return
+     */
+    public static int getIntFromByteArray(byte[] data, int start, int len) {
+        int i = start + len - 1;
+        int val = data[i];
+        for (i-- ; i >= start; i--) {
+            val <<= 8;
+            val += (data[i] & 0xFF) ;
+        }
+        return val;
+    }
+
+    private static double convertPress(int val) {
+        double r = (val * REF * 1.0) / (8192 - val);
+        return COEFFICIENT_A * Math.pow(r, COEFFICIENT_B);
     }
 
     public String getTime(){
