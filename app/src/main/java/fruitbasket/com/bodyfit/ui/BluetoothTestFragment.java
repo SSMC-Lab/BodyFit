@@ -21,7 +21,7 @@ public class BluetoothTestFragment extends BluetoothFragment {
 
     private ToggleButton toggleButtonConnect;
     private TextView itemsPreSecond;
-    private TextView runTime,time, ax, ay, az, gx, gy, gz, mx, my, mz, p1, p2, p3,exercise_type,repetition_score,set_score,errorMessages;
+    private TextView runTime,time, ax, ay, az, gx, gy, gz, mx, my, mz, p1, p2, p3,exercise_type,exercise_num,repetition_score,set_score,errorMessages;
 
     private Timer timer;
     private int errorStringNumber=0;
@@ -86,6 +86,7 @@ public class BluetoothTestFragment extends BluetoothFragment {
 
             case Conditions.MESSAGE_EXERCESE_STATUS:
                 exercise_type.setText(String.valueOf(bundle.getString(Conditions.JSON_KEY_EXERCISE_TYPE)));
+                exercise_num.setText(String.valueOf(bundle.getInt(Conditions.ACTION_NUM)));
                 repetition_score.setText(Arrays.toString(bundle.getDoubleArray(Conditions.REPETITION_SCORE)));
                 set_score.setText(String.valueOf(bundle.getDouble(Conditions.SET_SCORE)));
                 break;
@@ -121,6 +122,7 @@ public class BluetoothTestFragment extends BluetoothFragment {
         p3 = (TextView) view.findViewById(R.id.p3);
 
         exercise_type=(TextView) view.findViewById(R.id.exercise_type);
+        exercise_num= (TextView) view.findViewById(R.id.exercise_num);
         repetition_score=(TextView) view.findViewById(R.id.reptition_score);
         set_score=(TextView) view.findViewById(R.id.set_score);
 

@@ -13,7 +13,8 @@ public class Conditions {
     public static final int NUM_PRE_EXERCISE=15;    //规定每组动作的最大次数
     public static final double VALUE_OF_VARTHRESHOLD=0.002;   //判断切割时方差的阈值
     public static final double VALUE_OF_AVRTHRESHOLD=0.15+0.8;   //判断切割时平均值的阈值
-    public static final int MAX_SAMPLES_OF_ACTIONS=1000; //单个动作中最大的samples数
+    public static final int MAX_SAMPLES_OF_ACTIONS=500; //单个动作中最大的samples数
+    public static final int MIN_SAMPLES_OF_ACTIONS=110; //单个动作中最小的samples数
 
     //Massage.what
     public static final int MESSAGE_BLUETOOTH_TEST =0x100;
@@ -27,6 +28,7 @@ public class Conditions {
     public static final String JSON_KEY_EXERCISE_TYPE="exercise_type";
     public static final String REPETITION_SCORE="repetition_score";
     public static final String SET_SCORE="set_score";
+    public static final String ACTION_NUM="action_num"; //动作次数
 
     //json keys
     public static final String TIME="time";

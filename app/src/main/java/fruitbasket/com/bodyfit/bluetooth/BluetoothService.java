@@ -9,11 +9,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
-import android.bluetooth.BluetoothSocket;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,10 +18,7 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
-import org.json.JSONException;
-
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
@@ -38,7 +31,6 @@ import fruitbasket.com.bodyfit.analysis.SingleExerciseAnalysis;
 import fruitbasket.com.bodyfit.data.DataSet;
 import fruitbasket.com.bodyfit.data.DataUnit;
 import fruitbasket.com.bodyfit.data.StorageData;
-import fruitbasket.com.bodyfit.helper.JSONHelper;
 
 
 public class BluetoothService extends Service {
@@ -77,7 +69,7 @@ public class BluetoothService extends Service {
     private String bluetoothAddress;
 
     private Handler handler;
-//    private StorageData writeData=new StorageData();
+    private StorageData writeData=new StorageData();
 
     public BluetoothService() {
     }
@@ -254,6 +246,13 @@ public class BluetoothService extends Service {
                 System.arraycopy(data, 0, dataBuf, 16, data.length);
                 dataUnit = new DataUnit(dataBuf);
 
+                //储存数据到储存卡
+                try {
+                    writeData.outputData(dataUnit);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 if (loadSize < dataUnits.length) {
                     dataUnits[loadSize] = dataUnit;
                     ++loadSize;
@@ -266,7 +265,9 @@ public class BluetoothService extends Service {
                     if (analysis.addToSet(dataSet) == false) {
                         //这里将数据的处理放到一个新的线程中
                         Log.e(TAG, "将数据的处理放到一个新的线程中");
-                        processExecutor.execute(new ExerciseAnalysisTask(analysis, handler));
+                        ExerciseAnalysisTask exerciseAnalysisTask=new ExerciseAnalysisTask(analysis, handler);
+                        exerciseAnalysisTask.setContext(BluetoothService.this);
+                        processExecutor.execute(exerciseAnalysisTask);
                     }
                 }
 

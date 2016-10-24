@@ -7,7 +7,6 @@ public class SelectedDataSet {
     private int selectSensorsNumber;
     private double[][] selectedDatas;
 
-
     public SelectedDataSet(DataSet dataSet, int... selectedSensorData){
         if(dataSet==null || selectedSensorData==null || selectedSensorData.length>dataSet.size()){
             return;

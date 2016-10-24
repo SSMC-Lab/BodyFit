@@ -1,8 +1,6 @@
 package fruitbasket.com.bodyfit.data;
 
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 
 import java.io.File;
@@ -10,10 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by cielwu on 2016/6/2.
@@ -78,11 +72,11 @@ public class StorageData {
             isfirst=false;
         }
         end=System.currentTimeMillis();
-        time=(end-start)/1000.0;
-        temp=time+" "+data.getAx()+" "+data.getAy()+" "+data.getAz()
-                            +" "+data.getGx() +" "+data.getGy()+" "+data.getGz()
-                            +" "+data.getMx()+" "+data.getMy()+" "+data.getMz()
-                            +" "+data.getP1()+" "+data.getP2()+" "+data.getP3()+"\r";
+        time=(end-start)/1000.0;//0.123456789 12.3456789
+        temp=time+" "+(int)((data.getAx()*100))/100.0+" "+(int)((data.getAy()*100))/100.0+" "+(int)((data.getAz()*100))/100.0
+                            +" "+(int)((data.getGx()*100))/100.0 +" "+(int)((data.getGy()*100))/100.0+" "+(int)((data.getGz()*100))/100.0
+                            +" "+(int)((data.getMx()*100))/100.0+" "+(int)((data.getMy()*100))/100.0+" "+(int)((data.getMz()*100))/100.0
+                            +" "+(int)((data.getP1()*100))/100.0+" "+(int)((data.getP2()*100))/100.0+" "+(int)((data.getP3()*100))/100.0+"\r";
 
         out.write(temp.getBytes());
     }
@@ -128,7 +122,7 @@ public class StorageData {
         }
     }
 
-    public void outputDoubleData(double data[]) throws IOException {
+    public void outputDoubleDataArray(double data[]) throws IOException {
         String temp="";
         int i,len;
         len=data.length;
