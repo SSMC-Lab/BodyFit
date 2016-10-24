@@ -13,7 +13,6 @@ public class DataUnit {
     static final float COEFFICIENT_B = -0.511f;
 
     private String time=null;
-
     /*
     这个数组中各个元素的值代表了：ax,ay,az,gx,gy,gz,mx,my,mz,p1,p2,p3
     */

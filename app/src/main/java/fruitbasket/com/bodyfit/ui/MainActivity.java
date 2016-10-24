@@ -3,16 +3,15 @@ package fruitbasket.com.bodyfit.ui;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TabWidget;
-import java.io.IOException;
+
 import fruitbasket.com.bodyfit.R;
-import fruitbasket.com.bodyfit.data.StorageData;
 
 public class MainActivity extends BaseTabActivity {
 
@@ -100,11 +99,11 @@ public class MainActivity extends BaseTabActivity {
 
         setCurrentTab(1);*/
 
-        //测试代码
+        //测试页面
         Fragment BluetoothTestFragment=new BluetoothTestFragment();
         ImageView testTab=(ImageView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
 //        testTab.setText("测试");
-        addTab(testTab, BluetoothTestFragment, "TEST");;
+        addTab(testTab, BluetoothTestFragment, "TEST");
 
 //        setCurrentTab(0);
 

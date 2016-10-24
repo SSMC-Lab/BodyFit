@@ -1,5 +1,6 @@
 package fruitbasket.com.bodyfit.analysis;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -25,6 +26,10 @@ public class ExerciseAnalysisTask implements Runnable {
         this.handler=handler;
     }
 
+    public void setContext(Context context){
+        analysis.setContext(context);
+    }
+
     @Override
     public void run() {
         Log.i(this.toString(), "run()");
@@ -34,11 +39,12 @@ public class ExerciseAnalysisTask implements Runnable {
         message.what=Conditions.MESSAGE_EXERCESE_STATUS;
 
         Bundle data=new Bundle();
-        if(analysis.getExerciseType()!=null){
+        if(analysis.getExerciseType()!=null){//判断出运动类型之后传到UI
             data.putString(Conditions.JSON_KEY_EXERCISE_TYPE, analysis.getExerciseType().toString());
         }
         data.putDoubleArray(Conditions.REPETITION_SCORE, analysis.getRepetitionScore());
         data.putDouble(Conditions.SET_SCORE, analysis.getSetScore());
+        data.putInt(Conditions.ACTION_NUM,analysis.getActionNum());
 
         message.setData(data);
         if(handler!=null){

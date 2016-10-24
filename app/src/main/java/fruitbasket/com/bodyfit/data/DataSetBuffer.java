@@ -66,17 +66,17 @@ public class DataSetBuffer {
 
     public void add(DataSet dataSet){
         if(capacity<=0){
-            Log.i(TAG,"capacity<=0");
+            Log.i(TAG,"capacity<=0,createBuffer()");
             createBuffer();
         }
         if(items +dataSet.size()>capacity){
-            Log.i(TAG,"items+dataSet.size()>capacity");
-            Log.i(TAG,"items="+items+",dataSet.size()="+dataSet.size());
-            Log.i(TAG, "before addCapacity(): capacity=" + capacity);
+//            Log.i(TAG,"items+dataSet.size()>capacity");
+//            Log.i(TAG,"items="+items+",dataSet.size()="+dataSet.size());
+//            Log.i(TAG, "before addCapacity(): capacity=" + capacity);
             addCapacity();
 
-            Log.i(TAG,"after addCapacity(): capacity="+capacity);
-            Log.i(TAG,"axBuffer.length="+axBuffer.length);
+//            Log.i(TAG,"after addCapacity(): capacity="+capacity);
+//            Log.i(TAG,"axBuffer.length="+axBuffer.length);
             double[] newAxBuffer=new double[capacity];
             for(int i=0;i<axBuffer.length;i++){
                 newAxBuffer[i]=axBuffer[i];
@@ -156,7 +156,7 @@ public class DataSetBuffer {
         set=dataSet.getAxSet();
         for(i=0;i<set.length;i++){
             ///这里有一个错误 ArrayIndexOutOfBoundsException:length=100,index=115/120/105...
-            Log.i(TAG,"add(): capacity="+capacity+",axBuffer.length="+axBuffer.length+", items="+items+",i="+i+",set.length="+set.length);
+//            Log.i(TAG,"add(): capacity="+capacity+",axBuffer.length="+axBuffer.length+", items="+items+",i="+i+",set.length="+set.length);
             axBuffer[items +i]=set[i];
         }
 

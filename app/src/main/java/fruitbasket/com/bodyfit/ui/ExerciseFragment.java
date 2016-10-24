@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.R;
 import fruitbasket.com.bodyfit.bluetooth.BluetoothFragment;
 
@@ -18,6 +19,8 @@ public class ExerciseFragment extends BluetoothFragment {
     private TextView timesNumber;
     private TextView exerciseType;
     private ToggleButton toggleButton;
+    private String type;
+    private int num;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -59,18 +62,71 @@ public class ExerciseFragment extends BluetoothFragment {
 
     @Override
     public void onDestroy(){
-        Log.i(TAG,"onDestroy()");
+        Log.i(TAG, "onDestroy()");
         super.onDestroy();
     }
 
     @Override
     protected void updateUI(int what, Bundle bundle) {
+        switch(what){
+            case Conditions.MESSAGE_BLUETOOTH_TEST:
+                break;
 
+            case Conditions.MESSAGE_EXERCESE_STATUS:
+                type=String.valueOf(bundle.getString(Conditions.JSON_KEY_EXERCISE_TYPE));
+                num=bundle.getInt(Conditions.ACTION_NUM);
+                setExerciseType(type);
+                setActionNum(num);
+                break;
+
+            case Conditions.MESSAGE_ERROR_JSON:
+                break;
+
+            default:
+        }
+    }
+
+    private void setActionNum(int num) {
+        timesNumber.setText(num+"");
     }
 
     private void showExerciseType(int type){
     }
 
+    private void setExerciseType(String type){
+        if(type.equals("FLAT_BENCH_BRABELL_PASS_1")){
+            exerciseType.setText("运动类型: 平板杠铃卧推_1");
+        }
+        else if(type.equals("FLAT_BENCH_DUMBBELL_FLYE_2")){
+            exerciseType.setText("运动类型: 平板哑铃飞鸟_2");
+        }
+        else if(type.equals("FLAT_BENCH_DUMBBELL_PRESS_3")){
+            exerciseType.setText("运动类型: 平板哑铃卧推");
+        }
+        else if(type.equals("INCLINE_DUMBBELL_FLYE_4")){
+            exerciseType.setText("运动类型: 上斜板哑铃飞鸟");
+        }
+        else if(type.equals("REVERSE_GRIP_PULLDOWN_5")){
+            exerciseType.setText("运动类型: 阔背肌下拉");
+        }
+        else if(type.equals("MACHINE_GURLS_6")){
+            exerciseType.setText("运动类型: 器械弯举_3");
+        }
+        else if(type.equals("ALTERNATE_DUMBBELL_CURL_7")){
+            exerciseType.setText("运动类型: 哑铃交替弯举_4");
+        }
+        else if(type.equals("PEC_DECK_FLYE_8")){
+            exerciseType.setText("运动类型: 器械夹胸_5");
+        }
+        else if(type.equals("INCLINE_DUMBBEL_PRESS_9")){
+            exerciseType.setText("运动类型: 上斜板哑铃卧推_6");
+        }
+        else if(type.equals("CABLE_CROSSOVERS_10")){
+            exerciseType.setText("运动类型: 十字夹胸_7");
+        }
+        else
+            exerciseType.setText("运动类型: 无");
+    }
 
 
 
