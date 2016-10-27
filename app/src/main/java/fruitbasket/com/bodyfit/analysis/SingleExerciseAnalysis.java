@@ -4,12 +4,14 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.data.DataSet;
 import fruitbasket.com.bodyfit.data.DataSetBuffer;
 import fruitbasket.com.bodyfit.data.SelectedDataSet;
+import fruitbasket.com.bodyfit.data.StorageData;
 
 
 public class SingleExerciseAnalysis implements ExerciseAnalysis {
@@ -43,7 +45,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
     private double temp1[]=new double[5];
     private double temp2[]=new double[5];
     private double temp3[]=new double[5];
-//    private StorageData out=new StorageData();
+    private StorageData out=new StorageData();
     private boolean isEndTimeFirst=true;
     private double start,end,time;
     private final static double INTERVAL_OF_ONE_ACTION=500; //单位ms
@@ -403,6 +405,15 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
     public boolean addToSet(DataSet dataSet){
 //        Log.i(this.toString(), "addToSet(),before add");
 
+        //储存过滤后的数据
+        filter(dataSet);
+        try {
+            out.outputData(dataSet);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
+/*
         //若dataBuffer太长，则说明不是一个标准动作，所以清空
         if(dataBuffer.getCapacity()>MaxSamples)
             dataBuffer.clear();
@@ -442,7 +453,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
         else{
 //            notBeginProcess();
             return false;
-        }
+        }*/
     }
 
     @Override

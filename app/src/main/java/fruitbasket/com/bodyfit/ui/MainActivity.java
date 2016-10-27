@@ -76,34 +76,37 @@ public class MainActivity extends BaseTabActivity {
         mViewPager = (ViewPager) findViewById(R.id.viewpager_bodyfit);
         mTabWidget.setStripEnabled(false);
 
-        /*Fragment targetFragment=new TargetFragment();
+        Fragment targetFragment=new TargetFragment();
         Fragment exerciseFragment=new ExerciseFragment();
-        Fragment profileFragment=new ProfileFragment();*/
+//        Fragment profileFragment=new ProfileFragment();
+        Fragment personalFagment=new PersonalFragment();
 
         LayoutInflater inflater=getLayoutInflater();
         Resources resources=getResources();
 
         //使用setImageResource就不会变形，用setBackgroundResource就会
-        /*ImageView targetTab=(ImageView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
+        ImageView targetTab=(ImageView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
         targetTab.setImageResource(R.drawable.target_seletor);
 
         ImageView exerciseTab=(ImageView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
         exerciseTab.setImageResource(R.drawable.sport_seletor);
 
-        ImageView profileTab=(ImageView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
-        profileTab.setImageResource(R.drawable.profile_seletor);
+//        ImageView profileTab=(ImageView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
+//        profileTab.setImageResource(R.drawable.profile_seletor);
+        ImageView personalTab= (ImageView) inflater.inflate(R.layout.layout_tab,mTabWidget,false);
+        personalTab.setImageResource(R.drawable.profile_seletor);
 
         addTab(targetTab, targetFragment, "TARGET");
         addTab(exerciseTab,exerciseFragment,"EXERCISE");
-        addTab(profileTab, profileFragment, "PROFILE");
+//        addTab(profileTab, profileFragment, "PROFILE");
+        addTab(personalTab,personalFagment,"PERSONAL");
 
-        setCurrentTab(1);*/
+        setCurrentTab(2);
 
         //测试页面
-        Fragment BluetoothTestFragment=new BluetoothTestFragment();
+        /*Fragment BluetoothTestFragment=new BluetoothTestFragment();
         ImageView testTab=(ImageView)inflater.inflate(R.layout.layout_tab,mTabWidget,false);
-//        testTab.setText("测试");
-        addTab(testTab, BluetoothTestFragment, "TEST");
+        addTab(testTab, BluetoothTestFragment, "TEST");*/
 
 //        setCurrentTab(0);
 
