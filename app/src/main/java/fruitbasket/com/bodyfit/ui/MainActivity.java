@@ -57,7 +57,7 @@ public class MainActivity extends BaseTabActivity {
                 finish();
             //else 关闭整个程序
         }
-
+        super.onActivityResult(requestCode,resultCode,data);
     }
 
 
@@ -76,7 +76,7 @@ public class MainActivity extends BaseTabActivity {
         mViewPager = (ViewPager) findViewById(R.id.viewpager_bodyfit);
         mTabWidget.setStripEnabled(false);
 
-        Fragment targetFragment=new TargetFragment();
+        Fragment exerciseSociety=new ExerciseSocietyFragment();
         Fragment exerciseFragment=new ExerciseFragment();
 //        Fragment profileFragment=new ProfileFragment();
         Fragment personalFagment=new PersonalFragment();
@@ -96,12 +96,12 @@ public class MainActivity extends BaseTabActivity {
         ImageView personalTab= (ImageView) inflater.inflate(R.layout.layout_tab,mTabWidget,false);
         personalTab.setImageResource(R.drawable.profile_seletor);
 
-        addTab(targetTab, targetFragment, "TARGET");
+        addTab(targetTab, exerciseSociety, "TARGET");
         addTab(exerciseTab,exerciseFragment,"EXERCISE");
 //        addTab(profileTab, profileFragment, "PROFILE");
         addTab(personalTab,personalFagment,"PERSONAL");
 
-        setCurrentTab(2);
+        setCurrentTab(1);
 
         //测试页面
         /*Fragment BluetoothTestFragment=new BluetoothTestFragment();

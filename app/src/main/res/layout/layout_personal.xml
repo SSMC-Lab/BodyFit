@@ -3,11 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/behind_background"
     android:scrollbars="none">
 <LinearLayout
-    android:layout_marginTop="10dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
+    android:isScrollContainer="true"
     android:background="@drawable/behind_background"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
@@ -16,15 +15,17 @@
 
 
         <RelativeLayout
+            android:layout_marginTop="20dp"
             android:id="@+id/personalInformation"
             android:background="@drawable/flow_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
-                android:src="@drawable/headsculpture"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:src="@drawable/touxiang"
+                android:layout_margin="5dp"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 android:id="@+id/headCulpture"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true" />
@@ -62,9 +63,10 @@
 
 
     <Button
-        android:drawableLeft="@drawable/button_picture"
+        android:drawableLeft="@drawable/history"
+
         android:drawableRight="@drawable/button_picture"
-        android:drawablePadding="20dp"
+        android:drawablePadding="10dp"
         android:gravity="center_vertical"
         style="?android:attr/borderlessButtonStyle"
         android:layout_marginTop="20dp"

@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/behind_background"
     android:scrollbars="none">
 <RelativeLayout
     android:isScrollContainer="true"
@@ -13,14 +14,11 @@
 
 
     <LinearLayout
-        android:layout_margin="5dp"
         android:id="@+id/demonstration"
         android:background="@drawable/flow_background"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:layout_centerHorizontal="true">
         <TextView
             android:textColor="@color/black"
@@ -40,9 +38,7 @@
         android:id="@+id/info_layout"
         android:layout_below="@+id/demonstration"
         android:background="@drawable/flow_background"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginTop="15dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -98,7 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/finish"
+                android:id="@+id/finish_text"
                 android:text="完成"
                 android:textSize="12dp"
                 android:layout_marginLeft="10dp"
@@ -109,8 +105,8 @@
                 android:text="0"
                 android:textSize="30dp"
                 android:textColor="@color/black"
-                android:layout_below="@+id/finish"
-                android:layout_alignLeft="@+id/finish"
+                android:layout_below="@+id/finish_text"
+                android:layout_alignLeft="@+id/finish_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -127,25 +123,25 @@
             <TextView
                 android:text="得分"
                 android:textSize="12dp"
-                android:id="@+id/total"
+                android:id="@+id/grade_text"
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:text="0"
                 android:textColor="@color/black"
-                android:id="@+id/total_num"
+                android:id="@+id/action_grade"
                 android:textSize="30dp"
-                android:layout_below="@+id/total"
-                android:layout_alignLeft="@+id/total"
+                android:layout_below="@+id/grade_text"
+                android:layout_alignLeft="@+id/grade_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:text="分"
                 android:textSize="12dp"
                 android:textColor="@color/black"
-                android:layout_toRightOf="@+id/total_num"
-                android:layout_alignBottom="@+id/total_num"
+                android:layout_toRightOf="@+id/action_grade"
+                android:layout_alignBottom="@+id/action_grade"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -154,26 +150,26 @@
                 android:text="累计"
                 android:textSize="12dp"
                 android:layout_marginRight="10dp"
-                android:id="@+id/spend"
+                android:id="@+id/total_text"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/spend_num"
+                android:id="@+id/total_num"
                 android:textColor="@color/black"
                 android:text="0"
                 android:textSize="30dp"
-                android:layout_toLeftOf="@+id/energy"
-                android:layout_below="@+id/spend"
+                android:layout_toLeftOf="@+id/ci"
+                android:layout_below="@+id/total_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/ci"
                 android:textColor="@color/black"
                 android:text="次"
                 android:textSize="12dp"
-                android:id="@+id/energy"
-                android:layout_alignBottom="@+id/spend_num"
-                android:layout_alignRight="@+id/spend"
+                android:layout_alignRight="@+id/total_text"
+                android:layout_alignBottom="@+id/total_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </RelativeLayout>
@@ -182,20 +178,16 @@
 
     <LinearLayout
         android:layout_marginTop="0.1dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginBottom="5dp"
         android:background="@drawable/flow_background"
         android:id="@+id/showExerciseType"
         android:layout_below="@id/info_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="23dp"
-            android:height="3dp"
-            android:width="10dp"
-            android:background="@drawable/before_exerciseType"
+        <ImageView
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/button_picture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
@@ -219,27 +211,67 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_below="@+id/showExerciseType"
+    <LinearLayout
+        android:layout_marginTop="0.1dp"
         android:background="@drawable/flow_background"
+        android:id="@+id/actionAssessment"
+        android:layout_below="@id/showExerciseType"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/button_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="15dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="15dp"
+            android:text="动作评价"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/exercise_assess"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="10dp"
+            android:text="无"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <Button
+        android:layout_below="@+id/actionAssessment"
+        android:id="@+id/setExercise"
+        android:drawableLeft="@drawable/button_picture"
+        android:drawableRight="@drawable/button_picture"
+        android:drawablePadding="20dp"
+        android:gravity="center_vertical"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_marginTop="20dp"
+        android:text="健身选择"
+        android:background="@drawable/button_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 
         <ToggleButton
             android:id="@+id/start_doing"
+            android:layout_below="@+id/setExercise"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:background="@drawable/togglebutton"
-            android:textOff=""
-            android:textOn=""
+            android:textOff="START"
+            android:textOn="STOP"
             android:text=""/>
-
-    </RelativeLayout>
 
 
 </RelativeLayout>

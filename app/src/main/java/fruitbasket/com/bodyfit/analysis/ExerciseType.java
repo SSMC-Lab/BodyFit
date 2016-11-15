@@ -4,14 +4,21 @@ package fruitbasket.com.bodyfit.analysis;
  * 描述运动类型的枚举类
  */
 public enum ExerciseType {
-    FLAT_BENCH_BRABELL_PASS_1,
-    FLAT_BENCH_DUMBBELL_FLYE_2,
-    FLAT_BENCH_DUMBBELL_PRESS_3,
-    INCLINE_DUMBBELL_FLYE_4,
-    REVERSE_GRIP_PULLDOWN_5,
-    MACHINE_GURLS_6,
-    ALTERNATE_DUMBBELL_CURL_7,
-    PEC_DECK_FLYE_8,
-    INCLINE_DUMBBEL_PRESS_9,
-    CABLE_CROSSOVERS_10
+    Alternate_Dumbbell_Curl_1,
+    Cable_Crossovers_2,
+    Dumbbells_Alternate_Aammer_Curls_3,
+    Data_4,
+    Flat_Bench_Barbell_Press_5,
+    Flat_Bench_Dumbbell_Flye_6,
+    Bent_Over_Lateral_Raise_7,
+    Barbell_Bent_Over_Row_8,
+    Barbell_Neck_After_Bending_9,
+    Machine_Curls_10,
+    Pec_Deck_Flye_11,
+    Instruments_Made_Thoracic_Mobility_12,
+    Reverse_Grip_Pulldown_13,
+    One_Arm_Dumbell_Row_14,
+    Dumbbell_Is_The_Shoulder_15,
+    Birds_Standing_16,
+    Sitting_On_Shoulder_17,
 }

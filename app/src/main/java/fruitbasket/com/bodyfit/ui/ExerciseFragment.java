@@ -1,10 +1,13 @@
 package fruitbasket.com.bodyfit.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,13 +20,17 @@ import fruitbasket.com.bodyfit.bluetooth.BluetoothFragment;
 public class ExerciseFragment extends BluetoothFragment {
     public static final String TAG="ExerciseFragment";
 
-//    private TextView groupNumber;
-    private TextView timesNumber;
-    private TextView exerciseType;
+    private TextView exerciseNumber;    //显示动作次数
+    private TextView exerciseType;  //显示运动类型
+    private TextView exerciseTotalNumber;   //累计次数
     private LinearLayout infoLayout;
-    private ToggleButton toggleButton;
-    private String type;
-    private int num;
+    private ToggleButton toggleButton;  //连接按钮
+    private Button selectExercise;
+    private String type;    //运动类型
+    private int singleNum;    //运动次数
+    private static int totalNum=0;  //累计运动次数
+
+    private Context context;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -39,14 +46,18 @@ public class ExerciseFragment extends BluetoothFragment {
         initView(view);
 
         toggleButton.setOnClickListener(new ToggleClickListener());
-        infoLayout.setOnClickListener(new LayoutOnClickListener());
+        infoLayout.setOnClickListener(new myOnClickListener());
+        selectExercise.setOnClickListener(new myOnClickListener());
         return view;
     }
 
-    private void initView(View view){
+     private void initView(View view){
+         context=this.getContext();
         exerciseType=(TextView)view.findViewById(R.id.exercise_type);
         toggleButton=(ToggleButton)view.findViewById(R.id.start_doing);
-        timesNumber= (TextView) view.findViewById(R.id.exercise_num);
+        selectExercise= (Button) view.findViewById(R.id.setExercise);
+        exerciseNumber= (TextView) view.findViewById(R.id.exercise_num);
+        exerciseTotalNumber= (TextView) view.findViewById(R.id.total_num);
         infoLayout= (LinearLayout) view.findViewById(R.id.info_layout);
     }
 
@@ -82,9 +93,9 @@ public class ExerciseFragment extends BluetoothFragment {
 
             case Conditions.MESSAGE_EXERCESE_STATUS:
                 type=String.valueOf(bundle.getString(Conditions.JSON_KEY_EXERCISE_TYPE));
-                num=bundle.getInt(Conditions.ACTION_NUM);
+                singleNum=bundle.getInt(Conditions.ACTION_NUM);
                 setExerciseType(type);
-                setActionNum(num);
+                setActionNum(singleNum);
                 break;
 
             case Conditions.MESSAGE_ERROR_JSON:
@@ -95,45 +106,67 @@ public class ExerciseFragment extends BluetoothFragment {
     }
 
     private void setActionNum(int num) {
-        timesNumber.setText(num+"");
+        exerciseNumber.setText(num+"");
+        exerciseTotalNumber.setText(totalNum+"");
     }
 
     private void showExerciseType(int type){
     }
 
     private void setExerciseType(String type){
-        if(type.equals("FLAT_BENCH_BRABELL_PASS_1")){
-            exerciseType.setText("平板杠铃卧推_1");
+        if(type.equals("Alternate_Dumbbell_Curl_1")){
+            exerciseType.setText(Conditions.exercise_1);
         }
-        else if(type.equals("FLAT_BENCH_DUMBBELL_FLYE_2")){
-            exerciseType.setText("平板哑铃飞鸟_2");
+        else if(type.equals("Cable_Crossovers_2")){
+            exerciseType.setText(Conditions.exercise_2);
         }
-        else if(type.equals("FLAT_BENCH_DUMBBELL_PRESS_3")){
-            exerciseType.setText("平板哑铃卧推");
+        else if(type.equals("Dumbbells_Alternate_Aammer_Curls_3")){
+            exerciseType.setText(Conditions.exercise_3);
         }
-        else if(type.equals("INCLINE_DUMBBELL_FLYE_4")){
-            exerciseType.setText("上斜板哑铃飞鸟");
+        else if(type.equals("Data_4")){
+            exerciseType.setText(Conditions.exercise_4);
         }
-        else if(type.equals("REVERSE_GRIP_PULLDOWN_5")){
-            exerciseType.setText("阔背肌下拉");
+        else if(type.equals("Flat_Bench_Barbell_Press_5")){
+            exerciseType.setText(Conditions.exercise_5);
         }
-        else if(type.equals("MACHINE_GURLS_6")){
-            exerciseType.setText("器械弯举_3");
+        else if(type.equals("Flat_Bench_Dumbbell_Flye_6")){
+            exerciseType.setText(Conditions.exercise_6);
         }
-        else if(type.equals("ALTERNATE_DUMBBELL_CURL_7")){
-            exerciseType.setText("哑铃交替弯举_4");
+        else if(type.equals("Bent_Over_Lateral_Raise_7")){
+            exerciseType.setText(Conditions.exercise_7);
         }
-        else if(type.equals("PEC_DECK_FLYE_8")){
-            exerciseType.setText("器械夹胸_5");
+        else if(type.equals("Barbell_Bent_Over_Row_8")){
+            exerciseType.setText(Conditions.exercise_8);
         }
-        else if(type.equals("INCLINE_DUMBBEL_PRESS_9")){
-            exerciseType.setText("上斜板哑铃卧推_6");
+        else if(type.equals("Barbell_Neck_After_Bending_9")){
+            exerciseType.setText(Conditions.exercise_9);
         }
-        else if(type.equals("CABLE_CROSSOVERS_10")){
-            exerciseType.setText("十字夹胸_7");
+        else if(type.equals("Machine_Curls_10")){
+            exerciseType.setText(Conditions.exercise_10);
+        }
+        else if(type.equals("Pec_Deck_Flye_11")){
+            exerciseType.setText(Conditions.exercise_11);
+        }
+        else if(type.equals("Instruments_Made_Thoracic_Mobility_12")){
+            exerciseType.setText(Conditions.exercise_12);
+        }
+        else if(type.equals("Reverse_Grip_Pulldown_13")){
+            exerciseType.setText(Conditions.exercise_13);
+        }
+        else if(type.equals("One_Arm_Dumbell_Row_14")){
+            exerciseType.setText(Conditions.exercise_14);
+        }
+        else if(type.equals("Dumbbell_Is_The_Shoulder_15")){
+            exerciseType.setText(Conditions.exercise_15);
+        }
+        else if(type.equals("Birds_Standing_16")){
+            exerciseType.setText(Conditions.exercise_16);
+        }
+        else if(type.equals("Sitting_On_Shoulder_17")){
+            exerciseType.setText(Conditions.exercise_17);
         }
         else
-            exerciseType.setText("无");
+            exerciseType.setText("无动作");
     }
 
 
@@ -155,12 +188,26 @@ public class ExerciseFragment extends BluetoothFragment {
         }
     }
 
-    private class LayoutOnClickListener implements View.OnClickListener{
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==Conditions.EXERCISE_R_CODE && resultCode==0){
+            Toast.makeText(context,"return from select exercise type",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class myOnClickListener implements View.OnClickListener{
 
         @Override
         public void onClick(View v) {
-            //这里跳转到另一个展示运动信息详情的页面
-            Toast.makeText(getContext(),"click on info_layout",Toast.LENGTH_SHORT).show();
+            switch (v.getId()){
+                case R.id.info_layout:
+                    Toast.makeText(context, "click on info_layout", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.setExercise:
+                    Intent intent=new Intent(context,SelectExeActivity.class);
+                    startActivityForResult(intent, Conditions.EXERCISE_R_CODE);
+                    break;
+            }
         }
     }
 }
