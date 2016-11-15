@@ -16,6 +16,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
     private Context context;
     private SelectedDataSet selectedDataSet;
     private DataSetBuffer dataBuffer;  //用于收集存储单个完整动作的数据
+    private SingleExerciseScore score;
 
     private int currentTimes=-1;   //指示用户当前做了多少个健身动作
     private int Nsamples=0;   //传进来的数组的长度
@@ -48,7 +49,8 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
     private int ONE_OR_TWO=0;  //区分1 2
     private int EIGHT_OR_FOURTEEN=0;    //区分8 14
     private int NUM_OF_ACTION=0;
-    private DynamicTimeWarping dtw=new DynamicTimeWarping();
+    private DynamicTimeWarping dtw;
+    private int exerciseTypeNum=-1;
 
     /*
     1.用户未开始做健身动作：hasBegin=false,hasCollected=false；
@@ -62,7 +64,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
     private boolean isDoing=false;  //指示是否正处于做动作期间
     private boolean hasCollectedStaticData=false;   //指示是否已经在一开始收集了静止时的数据
     //存储模板数据
-    private static final int exercise_num=17;
+    private static final int exercise_num=Conditions.EXERCISE_NUM;
     private static double[][]ax_mol;
     private static double[][]ay_mol;
     private static double[][]az_mol;
@@ -95,6 +97,8 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
 
     public SingleExerciseAnalysis(){
         dataBuffer=new DataSetBuffer();
+        dtw=new DynamicTimeWarping();
+        score=new SingleExerciseScore();
     }
 
     private void notBeginExercise(){
@@ -221,7 +225,6 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
      * 从exerciseDataSet中筛选有效的数据,选择需要用到的维度的数据
      */
     private boolean dataSelect(){
-        Log.i(TAG,"dataSelect()");
         Log.i(TAG,"beforeSelect,dataBuffer.capacity="+dataBuffer.getCapacity());
 
         //若收到的一个动作的数据小于MinSamples，则丢弃，即清空dataBuffer
@@ -229,8 +232,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
             dataBuffer.clear();
 
         if(dataBuffer.isEmpty()==false){
-
-            ///筛选指定维度的数据，然后存放在selectedDataSet,筛选呢些维度较好？
+            ///筛选指定维度的数据，然后存放在selectedDataSet,
             selectedDataSet=new SelectedDataSet(dataBuffer.toDataSet(),0,1,2,3,4,5,6,7,8,9,10,11);
             dataBuffer.clear();
             Log.i(TAG, "afterSelect,dataBuffer.capacity=" + dataBuffer.getCapacity());
@@ -327,6 +329,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
             minDis1=Dist[EIGHT_OR_FOURTEEN-1];
         }
 
+        exerciseTypeNum=minIndex1;
         setExerciseType(minIndex1);
         setActionNum();
         Log.e(TAG,"ExerciseRecognition,ExerciseType="+minIndex1+" minDis="+minDis1);
@@ -338,14 +341,11 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
      * @return
      */
     private void repetitionScore() {
-        if(selectedDataSet==null){
-            if(dataBuffer.isEmpty()==true){
-
-                return;
-            }
-            else{
-                dataSelect();
-            }
+        if(selectedDataSet!=null && exerciseTypeNum>0 && exerciseTypeNum<=exercise_num){
+            setScore=score.calculateScore(selectedDataSet,exerciseTypeNum);
+        }
+        else{
+            Log.e(TAG,"repetitionScore()->selectedDataSet=null");
         }
 
         ///这里需根据selectedDataSet填充算法
@@ -461,30 +461,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
     }
 
     /**
-     * 方差
-     * @param a
-     * @return
-     */
-    private double absVar(double a[]){
-        double sum=0,var;
-        int i;
-        for(i=0;i<a.length;i++)
-        {
-            sum+=a[i];
-        }
-        sum=sum/a.length;
-        double result=0.0;
-        for(i=0;i<a.length;i++)
-        {
-            double temp=a[i]-sum;
-            result+=temp*temp;
-        }
-        var=result/a.length;
-        return var;
-    }
-
-    /**
-     * 平均值
+     * 绝对值的平均值
      * @param a
      * @return
      */
@@ -521,20 +498,6 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
         double res=0;
         for(i=0;i<a.length;i++)
             res+=a[i];
-        return res;
-    }
-
-    /**
-     * 最小值
-     * @param a
-     * @return
-     */
-    private double min(double[] a){
-        int i;
-        double res=10000000;
-        for(i=0;i<a.length;i++)
-            if(a[i]<res)
-                res=a[i];
         return res;
     }
 
@@ -583,6 +546,9 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
                 gx_mol!=null&&gy_mol!=null&&gz_mol!=null&&
                 mx_mol!=null&&my_mol!=null&&mz_mol!=null&&
                 p1_mol!=null&&p2_mol!=null&&p3_mol!=null){
+            score.setModelLength(ax_mol);
+            score.setModelData(ax_mol,ay_mol,az_mol,gx_mol,gy_mol,gz_mol,
+                                mx_mol,my_mol,mz_mol,p1_mol,p2_mol,p3_mol);
             return true;
         }
         else

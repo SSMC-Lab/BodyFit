@@ -16,7 +16,7 @@ public class ModelData {
     public static final String TAG="ModelData";
 
     private Context context;
-    private static final int exercise_num=17;       //模板数（动作数）
+    private static final int exercise_num=Conditions.EXERCISE_NUM;       //模板数（动作数）
     private static final int MaxSamples= Conditions.MAX_SAMPLES_OF_ACTIONS;    //单个动作中允许的最大samples
 
     //所有模板文件
@@ -26,18 +26,18 @@ public class ModelData {
     };
 
     //储存模板的空间
-    private static double[][]ax_mol;
-    private static double[][]ay_mol;
-    private static double[][]az_mol;
-    private static double[][]gx_mol;
-    private static double[][]gy_mol;
-    private static double[][]gz_mol;
-    private static double[][]mx_mol;
-    private static double[][]my_mol;
-    private static double[][]mz_mol;
-    private static double[][]p1_mol;
-    private static double[][]p2_mol;
-    private static double[][]p3_mol;
+    private double[][]ax_mol;
+    private double[][]ay_mol;
+    private double[][]az_mol;
+    private double[][]gx_mol;
+    private double[][]gy_mol;
+    private double[][]gz_mol;
+    private double[][]mx_mol;
+    private double[][]my_mol;
+    private double[][]mz_mol;
+    private double[][]p1_mol;
+    private double[][]p2_mol;
+    private double[][]p3_mol;
 
      public ModelData(Context con){
          context=con;

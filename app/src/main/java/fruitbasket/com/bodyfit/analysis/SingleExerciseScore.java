@@ -1,0 +1,147 @@
+package fruitbasket.com.bodyfit.analysis;
+
+import android.util.Log;
+
+import fruitbasket.com.bodyfit.Conditions;
+import fruitbasket.com.bodyfit.data.SelectedDataSet;
+
+/**
+ * Created by Administrator on 2016/11/15.
+ */
+public class SingleExerciseScore {
+    public static final String TAG="SingleExerciseScore";
+
+    private static final int TOO_SLOW=0;
+    private static final int NORMAL=1;
+    private static final int TOO_FAST=2;
+
+    private int score;
+    private static final int exercise_num= Conditions.EXERCISE_NUM;       //模板数（动作数）
+
+    //保存每一个动作每一个维度的模板的长度，用于判断太快或者太慢
+    private static int []mol_length;
+    private double []ax_test;
+    private double []ay_test;
+    private double []az_test;
+    private double []gx_test;
+    private double []gy_test;
+    private double []gz_test;
+    private double []mx_test;
+    private double []my_test;
+    private double []mz_test;
+    private double []p1_test;
+    private double []p2_test;
+    private double []p3_test;
+
+    //储存模板的空间
+    private double[][]ax_mol;
+    private double[][]ay_mol;
+    private double[][]az_mol;
+    private double[][]gx_mol;
+    private double[][]gy_mol;
+    private double[][]gz_mol;
+    private double[][]mx_mol;
+    private double[][]my_mol;
+    private double[][]mz_mol;
+    private double[][]p1_mol;
+    private double[][]p2_mol;
+    private double[][]p3_mol;
+
+    SingleExerciseScore(){
+        mol_length=new int[exercise_num];
+    }
+
+    /**
+     * 设置每一个模板动作的长度
+     * @param data
+     */
+    public void setModelLength(double[][] data){
+
+        for(int i=0;i<exercise_num;i++)
+        {
+            mol_length[i]=getRealLength(data[i]);
+            Log.i(TAG,"mol_length["+i+"]="+mol_length[i]);
+        }
+    }
+
+    /**
+     * 设置模板数据
+     * @param ax
+     * @param ay
+     * @param az
+     * @param gx
+     * @param gy
+     * @param gz
+     * @param mx
+     * @param my
+     * @param mz
+     * @param p1
+     * @param p2
+     * @param p3
+     */
+    public void setModelData(double [][]ax,double [][]ay,double [][]az,
+                             double [][]gx,double [][]gy,double [][]gz,
+                             double [][]mx,double [][]my,double [][]mz,
+                             double [][]p1,double [][]p2,double [][]p3)
+    {
+        ax_mol=ax;
+        ay_mol=ay;
+        ay_mol=az;
+        gx_mol=gx;
+        gy_mol=gy;
+        gy_mol=gz;
+        mx_mol=mx;
+        my_mol=my;
+        my_mol=mz;
+        p1_mol=p1;
+        p2_mol=p2;
+        p3_mol=p3;
+
+    }
+
+    public double calculateScore(SelectedDataSet selectedData,int exerciseType){
+        ax_test=selectedData.getDataByIndex(0);
+        ay_test=selectedData.getDataByIndex(1);
+        az_test=selectedData.getDataByIndex(2);
+        gx_test=selectedData.getDataByIndex(3);
+        gy_test=selectedData.getDataByIndex(4);
+        gz_test=selectedData.getDataByIndex(5);
+        mx_test=selectedData.getDataByIndex(6);
+        my_test=selectedData.getDataByIndex(7);
+        mz_test=selectedData.getDataByIndex(8);
+        p1_test=selectedData.getDataByIndex(9);
+        p2_test=selectedData.getDataByIndex(10);
+        p3_test=selectedData.getDataByIndex(11);
+
+        int model_length,test_length;
+        model_length=mol_length[exerciseType-1];
+        test_length=getRealLength(ax_test);
+        Log.i(TAG,"model_length="+model_length+" test_length="+test_length);
+        if((test_length-model_length)<-40){///区间需要重新设置
+            return TOO_FAST;
+        }
+        else if((test_length-model_length)>40){
+            return TOO_SLOW;
+        }else{
+            return NORMAL;
+        }
+
+
+    }
+
+    private int getRealLength(double data[]){
+        int count=5;
+        int flag=0;
+        int len=0;
+        for(int i=0;i<data.length;i++){
+            if(flag==count)
+                break;
+            if(data[i]==0)
+                flag++;
+            len++;
+        }
+
+        return len-count;
+    }
+
+}

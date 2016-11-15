@@ -69,6 +69,9 @@ public class Conditions {
     public final static int EXERCISE_R_CODE=2; //运动界面请求码
     public final static int PERSON_R_CODE=3;   //个人信息界面请求码
 
+    //模板数（动作数）
+    public final static int EXERCISE_NUM=17;
+
 
     private Conditions(){}
 

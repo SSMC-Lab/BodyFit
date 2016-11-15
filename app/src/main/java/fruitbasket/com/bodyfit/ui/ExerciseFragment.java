@@ -23,12 +23,15 @@ public class ExerciseFragment extends BluetoothFragment {
     private TextView exerciseNumber;    //显示动作次数
     private TextView exerciseType;  //显示运动类型
     private TextView exerciseTotalNumber;   //累计次数
+    private TextView exerciseAssess;
     private LinearLayout infoLayout;
     private ToggleButton toggleButton;  //连接按钮
     private Button selectExercise;
+
     private String type;    //运动类型
     private int singleNum;    //运动次数
     private static int totalNum=0;  //累计运动次数
+    private double assess;
 
     private Context context;
 
@@ -53,7 +56,8 @@ public class ExerciseFragment extends BluetoothFragment {
 
      private void initView(View view){
          context=this.getContext();
-        exerciseType=(TextView)view.findViewById(R.id.exercise_type);
+         exerciseAssess= (TextView) view.findViewById(R.id.exercise_assess);
+         exerciseType=(TextView)view.findViewById(R.id.exercise_type);
         toggleButton=(ToggleButton)view.findViewById(R.id.start_doing);
         selectExercise= (Button) view.findViewById(R.id.setExercise);
         exerciseNumber= (TextView) view.findViewById(R.id.exercise_num);
@@ -94,6 +98,8 @@ public class ExerciseFragment extends BluetoothFragment {
             case Conditions.MESSAGE_EXERCESE_STATUS:
                 type=String.valueOf(bundle.getString(Conditions.JSON_KEY_EXERCISE_TYPE));
                 singleNum=bundle.getInt(Conditions.ACTION_NUM);
+                assess=bundle.getDouble(Conditions.SET_SCORE);
+                setExerciseAssess();
                 setExerciseType(type);
                 setActionNum(singleNum);
                 break;
@@ -109,8 +115,8 @@ public class ExerciseFragment extends BluetoothFragment {
         exerciseNumber.setText(num+"");
         exerciseTotalNumber.setText(totalNum+"");
     }
-
-    private void showExerciseType(int type){
+    private void setExerciseAssess(){
+        exerciseAssess.setText(assess+"");
     }
 
     private void setExerciseType(String type){
