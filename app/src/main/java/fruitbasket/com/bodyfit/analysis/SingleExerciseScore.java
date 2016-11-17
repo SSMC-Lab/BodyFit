@@ -18,6 +18,8 @@ public class SingleExerciseScore {
     private int score;
     private static final int exercise_num= Conditions.EXERCISE_NUM;       //模板数（动作数）
 
+    DynamicTimeWarping dtw;
+
     //保存每一个动作每一个维度的模板的长度，用于判断太快或者太慢
     private static int []mol_length;
     private double []ax_test;
@@ -49,6 +51,7 @@ public class SingleExerciseScore {
 
     SingleExerciseScore(){
         mol_length=new int[exercise_num];
+        dtw=new DynamicTimeWarping();
     }
 
     /**
@@ -86,13 +89,13 @@ public class SingleExerciseScore {
     {
         ax_mol=ax;
         ay_mol=ay;
-        ay_mol=az;
+        az_mol=az;
         gx_mol=gx;
         gy_mol=gy;
-        gy_mol=gz;
+        gz_mol=gz;
         mx_mol=mx;
         my_mol=my;
-        my_mol=mz;
+        mz_mol=mz;
         p1_mol=p1;
         p2_mol=p2;
         p3_mol=p3;
@@ -100,24 +103,44 @@ public class SingleExerciseScore {
     }
 
     public double calculateScore(SelectedDataSet selectedData,int exerciseType){
-        ax_test=selectedData.getDataByIndex(0);
-        ay_test=selectedData.getDataByIndex(1);
-        az_test=selectedData.getDataByIndex(2);
-        gx_test=selectedData.getDataByIndex(3);
-        gy_test=selectedData.getDataByIndex(4);
-        gz_test=selectedData.getDataByIndex(5);
-        mx_test=selectedData.getDataByIndex(6);
-        my_test=selectedData.getDataByIndex(7);
-        mz_test=selectedData.getDataByIndex(8);
-        p1_test=selectedData.getDataByIndex(9);
-        p2_test=selectedData.getDataByIndex(10);
-        p3_test=selectedData.getDataByIndex(11);
 
+        //test_data存放需要判断的动作的每一维度的测试数据
+        double [][]test_data=new double[12][];
+        test_data[0]=selectedData.getDataByIndex(0);
+        test_data[1]=selectedData.getDataByIndex(1);
+        test_data[2]=selectedData.getDataByIndex(2);
+        test_data[3]=selectedData.getDataByIndex(3);
+        test_data[4]=selectedData.getDataByIndex(4);
+        test_data[5]=selectedData.getDataByIndex(5);
+        test_data[6]=selectedData.getDataByIndex(6);
+        test_data[7]=selectedData.getDataByIndex(7);
+        test_data[8]=selectedData.getDataByIndex(8);
+        test_data[9]=selectedData.getDataByIndex(9);
+        test_data[10]=selectedData.getDataByIndex(10);
+        test_data[11]=selectedData.getDataByIndex(11);
+
+
+        //mol_data存放需要判断的动作的每一个维度的模板数据
+        double [][]mol_data=new double[12][];
+        mol_data[0]=ax_mol[exerciseType-1];
+        mol_data[1]=ay_mol[exerciseType-1];
+        mol_data[2]=az_mol[exerciseType-1];
+        mol_data[3]=gx_mol[exerciseType-1];
+        mol_data[4]=gy_mol[exerciseType-1];
+        mol_data[5]=gz_mol[exerciseType-1];
+        mol_data[6]=mx_mol[exerciseType-1];
+        mol_data[7]=my_mol[exerciseType-1];
+        mol_data[8]=mz_mol[exerciseType-1];
+        mol_data[9]=p1_mol[exerciseType-1];
+        mol_data[10]=p2_mol[exerciseType-1];
+        mol_data[11]=p3_mol[exerciseType-1];
+
+        /////简单粗暴，需要改善
         int model_length,test_length;
         model_length=mol_length[exerciseType-1];
         test_length=getRealLength(ax_test);
         Log.i(TAG,"model_length="+model_length+" test_length="+test_length);
-        if((test_length-model_length)<-40){///区间需要重新设置
+        if((test_length-model_length)<-40){/////区间需要重新设置
             return TOO_FAST;
         }
         else if((test_length-model_length)>40){

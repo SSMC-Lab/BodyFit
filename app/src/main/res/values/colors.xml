@@ -7,4 +7,7 @@
     <drawable name="flow_background">#FFFFFF</drawable>
     <drawable name="before_exerciseType">#00F5FF</drawable>
     <color name="black">#000000</color>
+    <color name="society_name">#4F4F4F</color>
+    <color name="society_content">#828282</color>
+    <drawable name="society_background">#F5F5F5</drawable>
 </resources>
