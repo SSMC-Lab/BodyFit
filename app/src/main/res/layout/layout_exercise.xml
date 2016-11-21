@@ -1,76 +1,278 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/behind_background"
+    android:scrollbars="none">
 <RelativeLayout
+    android:isScrollContainer="true"
+    android:background="@drawable/behind_background"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
 
+
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/demonstration"
+        android:background="@drawable/flow_background"
         android:orientation="vertical"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true">
-
-        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true">
+        <TextView
+            android:textColor="@color/black"
+            android:layout_margin="10dp"
+            android:text="动作演示"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/group"/>
-            <TextView
-                android:id="@+id/group_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:background="@drawable/demonstration"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/times"/>
-            <TextView
-                android:id="@+id/times_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
+        android:clickable="true"
+        android:id="@+id/info_layout"
+        android:layout_below="@+id/demonstration"
+        android:background="@drawable/flow_background"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/black"
+                android:layout_margin="10dp"
+                android:text="总共训练"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textColor="@color/black"
+                android:text=">"
+                android:textSize="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_weight="0.4"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:layout_marginLeft="150dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/black"
+                android:textSize="50dp"
+                android:id="@+id/textView3" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="分钟"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:id="@+id/textView4" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="0.4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/finish_text"
+                android:text="完成"
+                android:textSize="12dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/exercise_num"
+                android:text="0"
+                android:textSize="30dp"
+                android:textColor="@color/black"
+                android:layout_below="@+id/finish_text"
+                android:layout_alignLeft="@+id/finish_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="次"
+                android:textSize="12dp"
+                android:textColor="@color/black"
+                android:layout_toRightOf="@+id/exercise_num"
+                android:layout_alignBottom="@+id/exercise_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+            <TextView
+                android:text="得分"
+                android:textSize="12dp"
+                android:id="@+id/grade_text"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="0"
+                android:textColor="@color/black"
+                android:id="@+id/action_grade"
+                android:textSize="30dp"
+                android:layout_below="@+id/grade_text"
+                android:layout_alignLeft="@+id/grade_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="分"
+                android:textSize="12dp"
+                android:textColor="@color/black"
+                android:layout_toRightOf="@+id/action_grade"
+                android:layout_alignBottom="@+id/action_grade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+            <TextView
+                android:text="累计"
+                android:textSize="12dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/total_text"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/total_num"
+                android:textColor="@color/black"
+                android:text="0"
+                android:textSize="30dp"
+                android:layout_toLeftOf="@+id/ci"
+                android:layout_below="@+id/total_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/ci"
+                android:textColor="@color/black"
+                android:text="次"
+                android:textSize="12dp"
+                android:layout_alignRight="@+id/total_text"
+                android:layout_alignBottom="@+id/total_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginTop="0.1dp"
+        android:background="@drawable/flow_background"
+        android:id="@+id/showExerciseType"
+        android:layout_below="@id/info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/button_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="15dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="15dp"
+            android:text="动作类型"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/exercise_type"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="10dp"
+            android:text="无"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/exercise_type"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="37dp" />
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="0.1dp"
+        android:background="@drawable/flow_background"
+        android:id="@+id/actionAssessment"
+        android:layout_below="@id/showExerciseType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/button_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="15dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="15dp"
+            android:text="动作评价"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/exercise_assess"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="10dp"
+            android:text="无"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <Button
+        android:layout_below="@+id/actionAssessment"
+        android:id="@+id/setExercise"
+        android:drawableLeft="@drawable/button_picture"
+        android:drawableRight="@drawable/button_picture"
+        android:drawablePadding="20dp"
+        android:gravity="center_vertical"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_marginTop="20dp"
+        android:text="健身选择"
+        android:background="@drawable/button_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 
         <ToggleButton
             android:id="@+id/start_doing"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/setExercise"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:layout_centerHorizontal="true"
-            android:text="@string/start_doing"/>
+            android:background="@drawable/togglebutton"
+            android:textOff="START"
+            android:textOn="STOP"
+            android:text=""/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="动画演示"
-            android:id="@+id/textView"
-            android:layout_below="@+id/exercise_type"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="132dp" />
 
-    </RelativeLayout>
 </RelativeLayout>
+</ScrollView>

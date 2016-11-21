@@ -5,7 +5,7 @@ import android.util.Log;
 public class DataSetBuffer {
     private static final String TAG="DataSetBuffer";
 
-    private static final int DEFAULT_CAPACITY=50;
+    private static final int DEFAULT_CAPACITY=30;
     private int factor=0;//容量因子
     private int capacity;//缓冲区容量
 
