@@ -27,6 +27,7 @@ import java.util.concurrent.Executors;
 import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.R;
 import fruitbasket.com.bodyfit.analysis.ExerciseAnalysisTask;
+import fruitbasket.com.bodyfit.analysis.GroupExerciseScore;
 import fruitbasket.com.bodyfit.analysis.SingleExerciseAnalysis;
 import fruitbasket.com.bodyfit.data.DataSet;
 import fruitbasket.com.bodyfit.data.DataUnit;
@@ -58,6 +59,7 @@ public class BluetoothService extends Service {
     private DataUnit[] dataUnits = new DataUnit[Conditions.MAX_SAMPLE_NUMBER];//5组数据
 
     private SingleExerciseAnalysis analysis = new SingleExerciseAnalysis();
+    private GroupExerciseScore groupExerciseScore=new GroupExerciseScore();
     private ExecutorService processExecutor = Executors.newSingleThreadExecutor();//创建线程池
 
     private BluetoothAdapter bluetoothAdapter;
@@ -265,7 +267,7 @@ public class BluetoothService extends Service {
                     if (analysis.addToSet(dataSet) == false) {
                         //这里将数据的处理放到一个新的线程中
                         Log.e(TAG, "将数据的处理放到一个新的线程中");
-                        ExerciseAnalysisTask exerciseAnalysisTask=new ExerciseAnalysisTask(analysis, handler);
+                        ExerciseAnalysisTask exerciseAnalysisTask=new ExerciseAnalysisTask(analysis,groupExerciseScore, handler);
                         exerciseAnalysisTask.setContext(BluetoothService.this);
                         processExecutor.execute(exerciseAnalysisTask);
                     }

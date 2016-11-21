@@ -10,15 +10,17 @@ import fruitbasket.com.bodyfit.Conditions;
 
 public class ExerciseAnalysisTask implements Runnable {
 
-    private SingleExerciseAnalysis analysis;
+    private SingleExerciseAnalysis singleAnalysis;
+    private GroupExerciseScore groupAnalysis;
     private Handler handler;
 
-    public ExerciseAnalysisTask(SingleExerciseAnalysis analysis){
-        this.analysis=analysis;
+    public ExerciseAnalysisTask(SingleExerciseAnalysis analysis,GroupExerciseScore groupAnalysis){
+        this.singleAnalysis=analysis;
+        this.groupAnalysis=groupAnalysis;
     }
 
-    public ExerciseAnalysisTask(SingleExerciseAnalysis analysis,Handler handler){
-        this(analysis);
+    public ExerciseAnalysisTask(SingleExerciseAnalysis analysis,GroupExerciseScore groupAnalysis,Handler handler){
+        this(analysis,groupAnalysis);
         this.handler=handler;
     }
 
@@ -27,24 +29,27 @@ public class ExerciseAnalysisTask implements Runnable {
     }
 
     public void setContext(Context context){
-        analysis.setContext(context);
+        singleAnalysis.setContext(context);
     }
 
     @Override
     public void run() {
         Log.i(this.toString(), "run()");
-        analysis.analysis();
+        singleAnalysis.analysis();
 
         Message message=new Message();
         message.what=Conditions.MESSAGE_EXERCESE_STATUS;
 
         Bundle data=new Bundle();
-        if(analysis.getExerciseType()!=null){//判断出运动类型之后传到UI
-            data.putString(Conditions.JSON_KEY_EXERCISE_TYPE, analysis.getExerciseType().toString());
+        if(singleAnalysis.getExerciseType()!=null){//判断出运动类型之后传到UI
+            data.putString(Conditions.JSON_KEY_EXERCISE_TYPE, singleAnalysis.getExerciseType().toString());
         }
-        data.putDoubleArray(Conditions.REPETITION_SCORE, analysis.getRepetitionScore());
-        data.putDouble(Conditions.SET_SCORE, analysis.getSetScore());
-        data.putInt(Conditions.ACTION_NUM,analysis.getActionNum());
+        if(groupAnalysis.getExerciseAssess()!=null){
+            data.putString(Conditions.GROUP_EXERCISE_ASSESS,groupAnalysis.getExerciseAssess());
+        }
+        data.putDoubleArray(Conditions.REPETITION_SCORE, singleAnalysis.getRepetitionScore());
+        data.putDouble(Conditions.SET_SCORE, singleAnalysis.getSetScore());
+        data.putInt(Conditions.ACTION_NUM,singleAnalysis.getActionNum());
 
         message.setData(data);
         if(handler!=null){

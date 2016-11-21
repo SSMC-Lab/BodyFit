@@ -27,6 +27,7 @@ public class Conditions {
     public static final String JSON_KEY_JOSNERROR ="error_json_string";
     public static final String JSON_KEY_EXERCISE_TYPE="exercise_type";
     public static final String REPETITION_SCORE="repetition_score";
+    public static final String GROUP_EXERCISE_ASSESS="group_exercise_assess";
     public static final String SET_SCORE="set_score";
     public static final String ACTION_NUM="action_num"; //动作次数
 
