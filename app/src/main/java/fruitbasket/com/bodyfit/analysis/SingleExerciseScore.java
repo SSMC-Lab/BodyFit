@@ -22,18 +22,6 @@ public class SingleExerciseScore {
 
     //保存每一个动作每一个维度的模板的长度，用于判断太快或者太慢
     private static int []mol_length;
-    private double []ax_test;
-    private double []ay_test;
-    private double []az_test;
-    private double []gx_test;
-    private double []gy_test;
-    private double []gz_test;
-    private double []mx_test;
-    private double []my_test;
-    private double []mz_test;
-    private double []p1_test;
-    private double []p2_test;
-    private double []p3_test;
 
     //储存模板的空间
     private double[][]ax_mol;
@@ -138,7 +126,7 @@ public class SingleExerciseScore {
         /////简单粗暴，需要改善
         int model_length,test_length;
         model_length=mol_length[exerciseType-1];
-        test_length=getRealLength(ax_test);
+        test_length=getRealLength(test_data[0]);
         Log.i(TAG,"model_length="+model_length+" test_length="+test_length);
         if((test_length-model_length)<-40){/////区间需要重新设置
             return TOO_FAST;
@@ -153,6 +141,10 @@ public class SingleExerciseScore {
     }
 
     private int getRealLength(double data[]){
+        if(data==null || data.length==0) {
+            Log.e(TAG,"getRealLength()->data=null");
+            return 0;
+        }
         int count=5;
         int flag=0;
         int len=0;

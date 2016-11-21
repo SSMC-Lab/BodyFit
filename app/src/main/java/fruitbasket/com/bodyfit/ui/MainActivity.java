@@ -101,7 +101,7 @@ public class MainActivity extends BaseTabActivity {
 //        addTab(profileTab, profileFragment, "PROFILE");
         addTab(personalTab,personalFagment,"PERSONAL");
 
-        setCurrentTab(0);
+        setCurrentTab(1);
 
         //测试页面
         /*Fragment BluetoothTestFragment=new BluetoothTestFragment();

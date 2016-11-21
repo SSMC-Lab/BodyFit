@@ -58,7 +58,7 @@ public class ExerciseSocietyFragment extends Fragment {
 
         for(int i=0;i<20;i++) {
             ArrayList<Map<String,Object>> imagelist=new ArrayList<Map<String,Object>>();
-            headID=(Integer)R.drawable.touxiang;
+            headID=(Integer)R.drawable.society_head;
             name="张三"+i;
             content="";
             for(int j=0;j<i+1;j++){
@@ -68,7 +68,7 @@ public class ExerciseSocietyFragment extends Fragment {
                 if(j==9)
                     break;
                 Map<String,Object> map=new HashMap<String,Object>();
-                map.put("image",R.drawable.touxiang);
+                map.put("image",R.drawable.society_head);
                 imagelist.add(map);
             }
             ItemContainer itemContainer=new ItemContainer(headID,name,content,imagelist);

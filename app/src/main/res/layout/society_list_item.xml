@@ -38,12 +38,13 @@
         android:layout_toEndOf="@+id/society_headcul" />
 
     <fruitbasket.com.bodyfit.ui.MyGridView
+
         android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:numColumns="3"
-        android:horizontalSpacing="1.5dp"
-        android:verticalSpacing="1.5dp"
+        android:horizontalSpacing="2dp"
+        android:verticalSpacing="4dp"
         android:id="@+id/picture"
         android:layout_below="@+id/content"
         android:layout_alignLeft="@+id/content"

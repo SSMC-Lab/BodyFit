@@ -29,7 +29,7 @@ public class ExerciseFragment extends BluetoothFragment {
     private Button selectExercise;
 
     private String type;    //运动类型
-    private int singleNum;    //运动次数
+    private int singleNum,oldNum=0;    //运动次数
     private static int totalNum=0;  //累计运动次数
     private double assess;
 
@@ -113,7 +113,10 @@ public class ExerciseFragment extends BluetoothFragment {
 
     private void setActionNum(int num) {
         exerciseNumber.setText(num+"");
-        exerciseTotalNumber.setText(totalNum+"");
+        /*if(num!=oldNum || num==1) {
+            oldNum=num;
+            exerciseTotalNumber.setText((++totalNum) + "");
+        }*/
     }
     private void setExerciseAssess(){
         exerciseAssess.setText(assess+"");

@@ -44,9 +44,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
     private double start,end,time;
     private final static double INTERVAL_OF_ONE_ACTION=500; //单位ms
 
-    private int SIX_OR_SEVEN=0;//表示属于动作6还是动作7，因为6和7很容易搞混，但在ay数据有很大区别，故以此区分
-    private int TWO_OR_SIX=0;   //区分2和6
-    private int ONE_OR_TWO=0;  //区分1 2
+    private int ONE_OR_TEN=0;  //区分1 10
     private int EIGHT_OR_FOURTEEN=0;    //区分8 14
     private int NUM_OF_ACTION=0;
     private DynamicTimeWarping dtw;
@@ -284,8 +282,8 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
         int minIndex1=1,minIndex2=1;
       for(int i=0;i<exercise_num;i++)
       {
-          //第5 6 9 13 17种动作暂时不判断
-          if(i==4 || i==5 || i==8 || i==12 || i==16)
+          //第4 5 6 9 13 14 17 种动作暂时不判断
+          if(i==3 || i==4 || i==5 || i==8 || i==12 ||i==13 ||  i==16)
               continue;
 
           Dist[i]=0;
@@ -327,6 +325,18 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
 
             minIndex1=EIGHT_OR_FOURTEEN;
             minDis1=Dist[EIGHT_OR_FOURTEEN-1];
+        }
+        if(minIndex1==1&&minIndex2==10 || minIndex1==10&&minIndex2==1){
+            ONE_OR_TEN=10;
+            int len=ay_test.length;
+            for(int i=0;i<len;i++){
+                if(ay_test[i]>0){
+                    ONE_OR_TEN=1;
+                    break;
+                }
+            }
+            minIndex1=ONE_OR_TEN;
+            minDis1=Dist[ONE_OR_TEN-1];
         }
 
         exerciseTypeNum=minIndex1;
