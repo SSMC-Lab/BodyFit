@@ -36,6 +36,7 @@ public class ExerciseAnalysisTask implements Runnable {
     public void run() {
         Log.i(this.toString(), "run()");
         singleAnalysis.analysis();
+        groupAnalysis.analysis();
 
         Message message=new Message();
         message.what=Conditions.MESSAGE_EXERCESE_STATUS;
@@ -44,8 +45,8 @@ public class ExerciseAnalysisTask implements Runnable {
         if(singleAnalysis.getExerciseType()!=null){//判断出运动类型之后传到UI
             data.putString(Conditions.JSON_KEY_EXERCISE_TYPE, singleAnalysis.getExerciseType().toString());
         }
-        if(groupAnalysis.getExerciseAssess()!=null){
-            data.putString(Conditions.GROUP_EXERCISE_ASSESS,groupAnalysis.getExerciseAssess());
+        if(groupAnalysis.getGroupExerciseAssess()!=null){//将一组动作的评分传到UI
+            data.putString(Conditions.GROUP_EXERCISE_ASSESS,groupAnalysis.getGroupExerciseAssess());
         }
         data.putDoubleArray(Conditions.REPETITION_SCORE, singleAnalysis.getRepetitionScore());
         data.putDouble(Conditions.SET_SCORE, singleAnalysis.getSetScore());

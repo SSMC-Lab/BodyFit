@@ -23,7 +23,7 @@ public class GroupDataSetBuffer {
         dataSetBufArray=new DataSetBuffer[size];
     }
 
-    private void reset(){
+    public void reset(){
         size=0;
         index=0;
         dataSetBufArray=null;

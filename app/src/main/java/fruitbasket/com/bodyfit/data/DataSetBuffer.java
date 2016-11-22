@@ -64,6 +64,10 @@ public class DataSetBuffer {
         p3Buffer=new double[capacity];
     }
 
+    private double cutDecimal(double data){
+        return ((int)(data*1000))/1000.0;
+    }
+
     public void add(DataSet dataSet){
         if(capacity<=0){
             Log.i(TAG,"capacity<=0,createBuffer()");
@@ -79,73 +83,73 @@ public class DataSetBuffer {
 //            Log.i(TAG,"axBuffer.length="+axBuffer.length);
             double[] newAxBuffer=new double[capacity];
             for(int i=0;i<axBuffer.length;i++){
-                newAxBuffer[i]=axBuffer[i];
+                newAxBuffer[i]=cutDecimal(axBuffer[i]);
             }
             axBuffer=newAxBuffer;
 
             double[] newAyBuffer=new double[capacity];
             for(int i=0;i<ayBuffer.length;i++){
-                newAyBuffer[i]=ayBuffer[i];
+                newAyBuffer[i]=cutDecimal(ayBuffer[i]);
             }
             ayBuffer=newAyBuffer;
 
             double[] newAzBuffer=new double[capacity];
             for(int i=0;i<azBuffer.length;i++){
-                newAzBuffer[i]=azBuffer[i];
+                newAzBuffer[i]=cutDecimal(azBuffer[i]);
             }
             azBuffer=newAzBuffer;
 
             double[] newGxBuffer=new double[capacity];
             for(int i=0;i<gxBuffer.length;i++){
-                newGxBuffer[i]=gxBuffer[i];
+                newGxBuffer[i]=cutDecimal(gxBuffer[i]);
             }
             gxBuffer=newGxBuffer;
 
             double[] newGyBuffer=new double[capacity];
             for(int i=0;i<gyBuffer.length;i++){
-                newGyBuffer[i]=gyBuffer[i];
+                newGyBuffer[i]=cutDecimal(gyBuffer[i]);
             }
             gyBuffer=newGyBuffer;
 
             double[] newGzBuffer=new double[capacity];
             for(int i=0;i<gzBuffer.length;i++){
-                newGzBuffer[i]=gzBuffer[i];
+                newGzBuffer[i]=cutDecimal(gzBuffer[i]);
             }
             gzBuffer=newGzBuffer;
 
             double[] newMxBuffer=new double[capacity];
             for(int i=0;i<mxBuffer.length;i++){
-                newMxBuffer[i]=mxBuffer[i];
+                newMxBuffer[i]=cutDecimal(mxBuffer[i]);
             }
             mxBuffer=newMxBuffer;
 
             double[] newMyBuffer=new double[capacity];
             for(int i=0;i<myBuffer.length;i++){
-                newMyBuffer[i]=myBuffer[i];
+                newMyBuffer[i]=cutDecimal(myBuffer[i]);
             }
             myBuffer=newMyBuffer;
 
             double[] newMzBuffer=new double[capacity];
             for(int i=0;i<mzBuffer.length;i++){
-                newMzBuffer[i]=mzBuffer[i];
+                newMzBuffer[i]=cutDecimal(mzBuffer[i]);
             }
             mzBuffer=newMzBuffer;
 
             double[] newP1Buffer=new double[capacity];
             for(int i=0;i<p1Buffer.length;i++){
-                newP1Buffer[i]=p1Buffer[i];
+                newP1Buffer[i]=cutDecimal(p1Buffer[i]);
             }
             p1Buffer=newP1Buffer;
 
             double[] newP2Buffer=new double[capacity];
             for(int i=0;i<p2Buffer.length;i++){
-                newP2Buffer[i]=p2Buffer[i];
+                newP2Buffer[i]=cutDecimal(p2Buffer[i]);
             }
             p2Buffer=newP2Buffer;
 
             double[] newP3Buffer=new double[capacity];
             for(int i=0;i<p3Buffer.length;i++){
-                newP3Buffer[i]=p3Buffer[i];
+                newP3Buffer[i]=cutDecimal(p3Buffer[i]);
             }
             p3Buffer=newP3Buffer;
         }
@@ -157,62 +161,62 @@ public class DataSetBuffer {
         for(i=0;i<set.length;i++){
             ///这里有一个错误 ArrayIndexOutOfBoundsException:length=100,index=115/120/105...
 //            Log.i(TAG,"add(): capacity="+capacity+",axBuffer.length="+axBuffer.length+", items="+items+",i="+i+",set.length="+set.length);
-            axBuffer[items +i]=set[i];
+            axBuffer[items +i]=cutDecimal(set[i]);
         }
 
         set=dataSet.getAySet();
         for(i=0;i<set.length;i++){
-            ayBuffer[items +i]=set[i];
+            ayBuffer[items +i]=cutDecimal(set[i]);
         }
 
         set=dataSet.getAzSet();
         for(i=0;i<set.length;i++){
-            azBuffer[items +i]=set[i];
+            azBuffer[items +i]=cutDecimal(set[i]);
         }
 
         set=dataSet.getGxSet();
         for(i=0;i<set.length;i++){
-            gxBuffer[items +i]=set[i];
+            gxBuffer[items +i]=cutDecimal(set[i]);
         }
 
         set=dataSet.getGySet();
         for(i=0;i<set.length;i++){
-            gyBuffer[items +i]=set[i];
+            gyBuffer[items +i]=cutDecimal(set[i]);
         }
 
         set=dataSet.getGzSet();
         for(i=0;i<set.length;i++){
-            gzBuffer[items +i]=set[i];
+            gzBuffer[items +i]=cutDecimal(set[i]);
         }
 
         set=dataSet.getMxSet();
         for(i=0;i<set.length;i++){
-            mxBuffer[items +i]=set[i];
+            mxBuffer[items +i]=cutDecimal(set[i]);
         }
 
         set=dataSet.getMySet();
         for(i=0;i<set.length;i++){
-            myBuffer[items +i]=set[i];///
+            myBuffer[items +i]=cutDecimal(set[i]);///
         }
 
         set=dataSet.getMzSet();
         for(i=0;i<set.length;i++){
-            mzBuffer[items +i]=set[i];
+            mzBuffer[items +i]=cutDecimal(set[i]);
         }
 
         set=dataSet.getP1Set();
         for(i=0;i<set.length;i++){
-            p1Buffer[items +i]=set[i];
+            p1Buffer[items +i]=cutDecimal(set[i]);
         }
 
         set=dataSet.getP2Set();
         for(i=0;i<set.length;i++){
-            p2Buffer[items +i]=set[i];
+            p2Buffer[items +i]=cutDecimal(set[i]);
         }
 
         set=dataSet.getP3Set();
         for(i=0;i<set.length;i++){
-            p3Buffer[items +i]=set[i];
+            p3Buffer[items +i]=cutDecimal(set[i]);
         }
 
         items +=dataSet.size();

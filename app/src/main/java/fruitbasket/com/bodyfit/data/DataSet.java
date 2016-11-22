@@ -8,7 +8,7 @@ import android.util.Log;
  */
 public class DataSet {
 
-    final String TAG="DataSet";
+    public static final String TAG="DataSet";
 
     private int size;
 

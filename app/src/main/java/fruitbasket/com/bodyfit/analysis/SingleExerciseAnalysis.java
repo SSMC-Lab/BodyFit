@@ -44,8 +44,8 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
     private double start,end,time;
     private final static double INTERVAL_OF_ONE_ACTION=500; //单位ms
 
-    private int ONE_OR_TEN=0;  //区分1 10
     private int EIGHT_OR_FOURTEEN=0;    //区分8 14
+    private int NINE_OR_TEN=0;  //区分9 10
     private int NUM_OF_ACTION=0;
     private DynamicTimeWarping dtw;
     private int exerciseTypeNum=-1;
@@ -211,7 +211,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
             }
             end=System.currentTimeMillis();
             time=end-start;
-            Log.i(TAG,"interval_of_one_action="+time);
+            Log.i(TAG,"interval_of_every_action="+time);
             if(time<INTERVAL_OF_ONE_ACTION)
                 return true;
         }
@@ -261,10 +261,9 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
         gx_test=selectedDataSet.getDataByIndex(3);
         gy_test=selectedDataSet.getDataByIndex(4);
         gz_test=selectedDataSet.getDataByIndex(5);
-
-        /*for(int i=0;i<ax_test.length;i++){
-            Log.i(TAG,"ax_test[i]="+ax_test[i]+" ay_test[i]="+ay_test[i]+" az_test[i]="+az_test[i]);
-        }*/
+        mx_test=selectedDataSet.getDataByIndex(6);
+        my_test=selectedDataSet.getDataByIndex(7);
+        mz_test=selectedDataSet.getDataByIndex(8);
 
         if(hasReadModelData==false) {
             if(loadModelData()==true) {
@@ -276,14 +275,19 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
             }
         }
 
+        /*for(int i=0;i<ax_test.length && i<ax_mol[0].length;i++){
+            Log.i(TAG,"ax_test[i]="+ax_test[i]+" ay_test[i]="+ay_test[i]+" az_test[i]="+az_test[i]);
+            Log.e(TAG,"ax_mol[i]="+ax_mol[0][i]+" ay_mol[i]="+ay_mol[0][i]+" az_mol[i]="+az_mol[0][i]);
+        }*/
+
         ///这里需根据selectedDataSet填充算法
         //exerciseType=null;
         double minDis1=10000000.0,minDis2=10000000.0;//记录Dist最小的动作标号
         int minIndex1=1,minIndex2=1;
       for(int i=0;i<exercise_num;i++)
       {
-          //第4 5 6 9 13 14 17 种动作暂时不判断
-          if(i==3 || i==4 || i==5 || i==8 || i==12 ||i==13 ||  i==16)
+          //第1 4 5 6 13 14 17 种动作暂时不判断
+          if(i==0 || i==3 || i==4 || i==5|| i==12 ||i==13 ||  i==16)
               continue;
 
           Dist[i]=0;
@@ -292,7 +296,10 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
           Dist[i]+=dtw.getDtwValue(az_mol[i], az_test);
           Dist[i]+=dtw.getDtwValue(gx_mol[i], gx_test);
           Dist[i]+=dtw.getDtwValue(gy_mol[i], gy_test);
-          Dist[i]+=dtw.getDtwValue(gz_mol[i],gz_test);
+          Dist[i]+=dtw.getDtwValue(gz_mol[i], gz_test);
+          Dist[i]+=dtw.getDtwValue(mx_mol[i], mx_test);
+          Dist[i]+=dtw.getDtwValue(my_mol[i], my_test);
+          Dist[i]+=dtw.getDtwValue(mz_mol[i], mz_test);
 
           Log.i(TAG, "Dist[" + (i+1) + "]=" + Dist[i]);
           //同时找出两个最小的dtw值，并且记录下对应的动作
@@ -326,17 +333,17 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
             minIndex1=EIGHT_OR_FOURTEEN;
             minDis1=Dist[EIGHT_OR_FOURTEEN-1];
         }
-        if(minIndex1==1&&minIndex2==10 || minIndex1==10&&minIndex2==1){
-            ONE_OR_TEN=10;
+        if(minIndex1==9&&minIndex2==10 || minIndex1==10&&minIndex2==9){
+            NINE_OR_TEN=10;
             int len=ay_test.length;
             for(int i=0;i<len;i++){
                 if(ay_test[i]>0){
-                    ONE_OR_TEN=1;
+                    NINE_OR_TEN=9;
                     break;
                 }
             }
-            minIndex1=ONE_OR_TEN;
-            minDis1=Dist[ONE_OR_TEN-1];
+            minIndex1=NINE_OR_TEN;
+            minDis1=Dist[NINE_OR_TEN-1];
         }
 
         exerciseTypeNum=minIndex1;

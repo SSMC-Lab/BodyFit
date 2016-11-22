@@ -1,6 +1,8 @@
 package fruitbasket.com.bodyfit.analysis;
 
 import android.util.Log;
+
+import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.data.DataSet;
 import fruitbasket.com.bodyfit.data.DataSetBuffer;
 import fruitbasket.com.bodyfit.data.GroupDataSetBuffer;
@@ -9,17 +11,21 @@ import fruitbasket.com.bodyfit.data.SelectedDataSet;
 /**
  * Created by Administrator on 2016/11/21.
  */
-public class GroupExerciseScore {
+public class GroupExerciseScore implements ExerciseAnalysis{
     public static final String TAG="GroupExerciseScore";
 
-    GroupDataSetBuffer groupBuffer; //一整组运动，多个运动，运动+静止+运动+静止+...,第一个动作之前的数据不会储存
+    private GroupDataSetBuffer groupBuffer; //一整组运动，多个运动，运动+静止+运动+静止+...,第一个动作之前的数据不会储存
     private DataSetBuffer dataBuffer;   //储存运动数据
     private SelectedDataSet selectedData;   //选择需要的维度之后储存
     private DynamicTimeWarping dtw;     //模式匹配算法类对象
 
     private boolean hasFinishFirst=false;   //是否已经完成第一个动作
+    private boolean hasFinishGroupAction=false; //是否已经完成一组动作，若为true，则开始进行一组的分析，否则不进行
 
-    private String exerciseAssess;
+    private String exerciseAssess;  //一组运动的评价
+    private int currentExerciseType;   //运动类型，范围从1-Conditions.EXERCISE_NUM
+    private int exerciseNum= Conditions.EXERCISE_NUM;
+    private int selectedAxisData[];
 
     //运动模板
     private static double[][]ax_mol;
@@ -40,6 +46,18 @@ public class GroupExerciseScore {
         dataBuffer=new DataSetBuffer();
         selectedData=new SelectedDataSet();
         dtw=new DynamicTimeWarping();
+    }
+
+    public void analysis(){
+        if(hasFinishGroupAction){
+            Log.i(TAG, "finish a group of action,begin to analysis");
+            hasFinishGroupAction=false;
+            GroupDataSetBuffer temp=groupBuffer;
+            groupBuffer.reset();
+            //调用组运动的分析函数
+
+
+        }
     }
 
     /**
@@ -63,6 +81,7 @@ public class GroupExerciseScore {
     public void finishAction(){
         groupBuffer.add(dataBuffer);
         hasFinishFirst=true;
+        dataBuffer.clear();
     }
 
     /**
@@ -71,6 +90,7 @@ public class GroupExerciseScore {
     public void finishStatic(){
         if(hasFinishFirst==true) {
             groupBuffer.add(dataBuffer);
+            dataBuffer.clear();
         }
     }
 
@@ -97,8 +117,32 @@ public class GroupExerciseScore {
 
     }
 
-    public String getExerciseAssess(){
+    public void calGroupAssess(){
+
+    }
+
+
+    public String getGroupExerciseAssess(){
         return exerciseAssess;
+    }
+
+    /**
+     * 设置当前所做的是哪一个运动，从而对这个运动每个维度的的数据进行一一匹配
+     * @param type
+     */
+    public void setCurrentExerciseType(int type){
+        if(type<1 || type>exerciseNum){
+            Log.e(TAG,"error exercise type");
+            return;
+        }
+        currentExerciseType=type;
+    }
+
+    /**
+     * 改变动作时调用，调用后才会开始进行组运动的分析
+     */
+    public void changeAction(){
+        hasFinishGroupAction=true?false:true;
     }
 
 }
