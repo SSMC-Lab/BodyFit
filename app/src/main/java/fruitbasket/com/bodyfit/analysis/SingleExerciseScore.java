@@ -112,19 +112,7 @@ public class SingleExerciseScore {
         mol_data[11]=p3_mol[exerciseType-1];
 
         /////简单粗暴，需要改善
-        int model_length,test_length;
-        model_length=mol_length[exerciseType-1]-50;
-        test_length=getRealLength(test_data[0]);
-        Log.i(TAG,"model_length="+model_length+" test_length="+test_length);
-        if((test_length-model_length)<-50){/////区间需要重新设置
-            return TOO_FAST;
-        }
-        else if((test_length-model_length)>50){
-            return TOO_SLOW;
-        }else{
-            return NORMAL;
-        }
-
+        return 100;
 
     }
 

@@ -64,6 +64,8 @@ public class Conditions {
     public final static String exercise_15="哑铃提肩_15";
     public final static String exercise_16="站姿飞鸟_16";
     public final static String exercise_17="坐姿推肩_17";
+    public final static String too_slow="太慢";
+    public final static String too_fast="太快";
 
     //requestCode
     public final static int SOCIETY_R_CODE=1;  //运动圈请求码

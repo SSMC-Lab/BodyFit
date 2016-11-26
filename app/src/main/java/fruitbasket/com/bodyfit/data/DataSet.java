@@ -12,6 +12,7 @@ public class DataSet {
 
     private int size;
 
+    private double[] time;
     private double[] axSet;
     private double[] aySet;
     private double[] azSet;
@@ -32,7 +33,7 @@ public class DataSet {
     /**
      * 此函数被DataSet中的toDataSet()调用，但是toDataSet()没有被调用过
      */
-    public DataSet(double[] axSet,double[] aySet,double[] azSet,double[] gxSet,double[] gySet,double[] gzSet,
+    public DataSet(double[] time,double[] axSet,double[] aySet,double[] azSet,double[] gxSet,double[] gySet,double[] gzSet,
                    double[] mxSet, double[] mySet,double[] mzSet,double[] p1Set,double[] p2Set,double[] p3Set){
         int length=axSet.length;
         if(length== aySet.length && length== azSet.length &&
@@ -41,6 +42,7 @@ public class DataSet {
                 length==p3Set.length && length== p2Set.length && length== p1Set.length){
 
             size=length;
+            this.time=time;
             this.axSet=axSet;
             this.aySet=aySet;
             this.azSet=azSet;
@@ -67,6 +69,7 @@ public class DataSet {
     private void fromSourceData(DataUnit[] dataUnits){
         size=dataUnits.length;
 
+        time=new double[dataUnits.length];
         axSet=new double[dataUnits.length];
         aySet=new double[dataUnits.length];
         azSet=new double[dataUnits.length];
@@ -81,6 +84,7 @@ public class DataSet {
         p3Set=new double[dataUnits.length];
 
         for(int i=0;i<dataUnits.length;++i){
+            time[i]=dataUnits[i].getTime();
             axSet[i]=dataUnits[i].getAx();
             aySet[i]=dataUnits[i].getAy();
             azSet[i]=dataUnits[i].getAz();
@@ -97,6 +101,14 @@ public class DataSet {
     }
 
     public int size(){return size;}
+
+    public double[] getTime(){
+        return time;
+    }
+
+    public void setTime(double time[]){
+        this.time=time;
+    }
 
     public double[] getAxSet(){
         return axSet;
@@ -225,6 +237,8 @@ public class DataSet {
                 return p2Set;
             case 11:
                 return p3Set;
+            case 12:
+                return time;
             default:
                 return null;
         }

@@ -291,7 +291,7 @@ public class BluetoothService extends Service {
                 message.what = Conditions.MESSAGE_BLUETOOTH_TEST;
 
                 bundle.putDouble(Conditions.JSON_KEY_ITEMS_PRE_SECOND, itemsPreSecond);
-                bundle.putString(Conditions.TIME, dataUnit.getTime());
+                bundle.putDouble(Conditions.TIME, dataUnit.getTime());
                 bundle.putDouble(Conditions.AX, dataUnit.getAx());
                 bundle.putDouble(Conditions.AY, dataUnit.getAy());
                 bundle.putDouble(Conditions.AZ, dataUnit.getAz());

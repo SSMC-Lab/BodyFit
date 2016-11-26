@@ -40,7 +40,7 @@ public class JSONHelper {
                 jsonObject.getDouble(Conditions.P3)
         };
 
-        DataUnit dataUnit=new DataUnit(jsonObject.getString(Conditions.TIME), array);
+        DataUnit dataUnit=new DataUnit(jsonObject.getDouble(Conditions.TIME), array);
 
         return dataUnit;
     }

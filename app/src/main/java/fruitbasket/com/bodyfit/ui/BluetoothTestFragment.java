@@ -69,7 +69,7 @@ public class BluetoothTestFragment extends BluetoothFragment {
         switch(what){
             case Conditions.MESSAGE_BLUETOOTH_TEST:
                 itemsPreSecond.setText(String.valueOf(bundle.getDouble(Conditions.JSON_KEY_ITEMS_PRE_SECOND)));
-                time.setText(String.valueOf(bundle.getString("time")));
+                time.setText(String.valueOf(bundle.getDouble("time")));
                 ax.setText(String.valueOf(bundle.getDouble("ax")));
                 ay.setText(String.valueOf(bundle.getDouble("ay")));
                 az.setText(String.valueOf(bundle.getDouble("az")));

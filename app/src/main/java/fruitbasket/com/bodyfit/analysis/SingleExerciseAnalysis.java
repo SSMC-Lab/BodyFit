@@ -30,7 +30,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
     private double dataBuf[]=new double[span];  ///会随着firstrun的没设置好而发错误
     private ExerciseType exerciseType,lastType;
     private double[][] repetitionScore=new double[Conditions.NUM_PRE_EXERCISE][];
-    private double setScore;
+    private double singleScore;
 
     private int tempLength=50;
     private int tempIndex=0;
@@ -82,12 +82,12 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
     private double gx_test[]=new double[MaxSamples];
     private double gy_test[]=new double[MaxSamples];
     private double gz_test[]=new double[MaxSamples];
-    private double mx_test[]=new double[MaxSamples];
-    private double my_test[]=new double[MaxSamples];
+//    private double mx_test[]=new double[MaxSamples];
+//    private double my_test[]=new double[MaxSamples];
     private double mz_test[]=new double[MaxSamples];
-    private double p1_test[]=new double[MaxSamples];
-    private double p2_test[]=new double[MaxSamples];
-    private double p3_test[]=new double[MaxSamples];
+//    private double p1_test[]=new double[MaxSamples];
+//    private double p2_test[]=new double[MaxSamples];
+//    private double p3_test[]=new double[MaxSamples];
     private double Dist[]=new double[exercise_num];
 
     //此标志使得程序只读取一次模板数据
@@ -231,7 +231,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
 
         if(dataBuffer.isEmpty()==false){
             ///筛选指定维度的数据，然后存放在selectedDataSet,
-            selectedDataSet=new SelectedDataSet(dataBuffer.toDataSet(),0,1,2,3,4,5,6,7,8,9,10,11);
+            selectedDataSet=new SelectedDataSet(dataBuffer.toDataSet(),0,1,2,3,4,5,6,7,8,9,10,11,12);
             dataBuffer.clear();
             Log.i(TAG, "afterSelect,dataBuffer.capacity=" + dataBuffer.getCapacity());
             return true;
@@ -261,9 +261,6 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
         gx_test=selectedDataSet.getDataByIndex(3);
         gy_test=selectedDataSet.getDataByIndex(4);
         gz_test=selectedDataSet.getDataByIndex(5);
-        mx_test=selectedDataSet.getDataByIndex(6);
-        my_test=selectedDataSet.getDataByIndex(7);
-        mz_test=selectedDataSet.getDataByIndex(8);
 
         if(hasReadModelData==false) {
             if(loadModelData()==true) {
@@ -280,14 +277,12 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
             Log.e(TAG,"ax_mol[i]="+ax_mol[0][i]+" ay_mol[i]="+ay_mol[0][i]+" az_mol[i]="+az_mol[0][i]);
         }*/
 
-        ///这里需根据selectedDataSet填充算法
-        //exerciseType=null;
         double minDis1=10000000.0,minDis2=10000000.0;//记录Dist最小的动作标号
         int minIndex1=1,minIndex2=1;
       for(int i=0;i<exercise_num;i++)
       {
-          //第1 4 5 6 13 14 17 种动作暂时不判断
-          if(i==0 || i==3 || i==4 || i==5|| i==12 ||i==13 ||  i==16)
+          //第4 5 6 9 13 14 17 种动作暂时不判断
+          if(i==3 || i==4 || i==5 || i==8 || i==12 ||i==13 ||  i==16)
               continue;
 
           Dist[i]=0;
@@ -297,9 +292,6 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
           Dist[i]+=dtw.getDtwValue(gx_mol[i], gx_test);
           Dist[i]+=dtw.getDtwValue(gy_mol[i], gy_test);
           Dist[i]+=dtw.getDtwValue(gz_mol[i], gz_test);
-          Dist[i]+=dtw.getDtwValue(mx_mol[i], mx_test);
-          Dist[i]+=dtw.getDtwValue(my_mol[i], my_test);
-          Dist[i]+=dtw.getDtwValue(mz_mol[i], mz_test);
 
           Log.i(TAG, "Dist[" + (i+1) + "]=" + Dist[i]);
           //同时找出两个最小的dtw值，并且记录下对应的动作
@@ -333,25 +325,11 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
             minIndex1=EIGHT_OR_FOURTEEN;
             minDis1=Dist[EIGHT_OR_FOURTEEN-1];
         }
-        if(minIndex1==9&&minIndex2==10 || minIndex1==10&&minIndex2==9){
-            NINE_OR_TEN=10;
-            int len=ay_test.length;
-            for(int i=0;i<len;i++){
-                if(ay_test[i]>0){
-                    NINE_OR_TEN=9;
-                    break;
-                }
-            }
-            minIndex1=NINE_OR_TEN;
-            minDis1=Dist[NINE_OR_TEN-1];
-        }
-
         exerciseTypeNum=minIndex1;
         setExerciseType(minIndex1);
         setActionNum();
         Log.e(TAG,"ExerciseRecognition,ExerciseType="+minIndex1+" minDis="+minDis1);
     }
-
 
     /**
      * 计算单个动作的评分
@@ -359,7 +337,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
      */
     private void repetitionScore() {
         if(selectedDataSet!=null && exerciseTypeNum>0 && exerciseTypeNum<=exercise_num){
-            setScore=score.calculateScore(selectedDataSet,exerciseTypeNum);
+            singleScore=score.calculateScore(selectedDataSet,exerciseTypeNum);
         }
         else{
             Log.e(TAG,"repetitionScore()->selectedDataSet=null");
@@ -441,16 +419,72 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
 
         if(hasCollected==true) {
             if(dataSelect()==true) {
-
-                ExerciseRecognition();
-                repetitionScore();
-                setScore();
-                notBeginExercise();
+                if(ExerciseSpeed()==0) {//速度正常
+                    ExerciseRecognition();
+                    repetitionScore();
+                    setScore();
+                    notBeginExercise();
+                }
+                else if (ExerciseSpeed()==-1){//速度太慢
+                    setExerciseType(18);
+                }
+                else if (ExerciseSpeed()==1){//速度太快
+                    setExerciseType(19);
+                }
             }
             else{
                 notBeginExercise();
             }
         }
+    }
+
+    /**
+     *返回值代表运动速度是否正常，-1太慢，0正常，1太快
+     */
+    private int ExerciseSpeed() {
+        double []ax=selectedDataSet.getDataByIndex(0);
+        double []ay=selectedDataSet.getDataByIndex(1);
+        double []az=selectedDataSet.getDataByIndex(2);
+        double []time=selectedDataSet.getDataByIndex(12);
+        double ax_vm,ay_vm,az_vm,maxSpeed;
+        int timeLen=time.length;
+
+        ax_vm=(int)(absAvg(ax)*(1.0/timeLen)*1000);
+        ay_vm=(int)(absAvg(ay)*(1.0/timeLen)*1000);
+        az_vm=(int)(absAvg(az)*(1.0/timeLen)*1000);
+
+        if(ax_vm>=ay_vm && ax_vm>=az_vm)
+            maxSpeed=ax_vm;
+        else if(ay_vm>=ax_vm && ay_vm>=az_vm)
+            maxSpeed=ay_vm;
+        else
+            maxSpeed=az_vm;
+        //maxSpeed 0-20:太慢，20-35:正常，35-:太快
+        Log.i(TAG,"maxSpeed="+maxSpeed);
+        if(maxSpeed<=20)
+            return -1;
+        else if(maxSpeed>20 && maxSpeed<40)
+            return 0;
+        else
+            return 1;
+    }
+
+    /**
+     *获取一个数组中的最大值
+     */
+    private int getMaxIndex(double t[]){
+        int i,len,maxIndex;
+        double max;
+        len=t.length;
+        max=abs(t[0]);
+        maxIndex=0;
+        for(i=0;i<len;i++) {
+            if(abs(t[i])>max){
+                max=abs(t[i]);
+                maxIndex=i;
+            }
+        }
+        return maxIndex;
     }
 
     /**
@@ -474,7 +508,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
     }
 
     public double getSetScore(){
-        return setScore;
+        return singleScore;
     }
 
     /**
@@ -574,7 +608,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
 
 
     private void setExerciseType(int type){
-        if(type<1 || type>17){
+        if(type<1 || type>19){
             Log.e(TAG,"setExerciseType(),enter wrong type,type<1 or typr>17");
             return;
         }
@@ -629,6 +663,11 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
                 break;
             case 17:
                 exerciseType=ExerciseType.Sitting_On_Shoulder_17;
+            case 18:
+                exerciseType=ExerciseType.TOO_SLOW;
+                break;
+            case 19:
+                exerciseType=ExerciseType.TOO_FAST;
                 break;
         }
     }

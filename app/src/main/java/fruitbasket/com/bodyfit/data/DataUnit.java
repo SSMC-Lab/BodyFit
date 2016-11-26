@@ -6,13 +6,15 @@ import android.hardware.SensorManager;
  * 用于存储一条数据记录
  */
 public class DataUnit {
+    public static final String TAG="DataUnit";
+
     public static final int SENSER_NUMBER=12;//传感器的数据的数量
 
     static final int REF = 10;
     static final float COEFFICIENT_A = 13.2447f;
     static final float COEFFICIENT_B = -0.511f;
 
-    private String time=null;
+    private double time;
     /*
     这个数组中各个元素的值代表了：ax,ay,az,gx,gy,gz,mx,my,mz,p1,p2,p3
     */
@@ -21,9 +23,9 @@ public class DataUnit {
     public DataUnit(byte[] data) {
         dataUnit = new double[SENSER_NUMBER];
         ///以下获取的两个整数，还未明确其作用
-        //getIntFromByteArray(data, 0, 2);
+        //getIntFromByteArray(data, 0, 2); 时间
         //getIntFromByteArray(data, 2, 2);
-
+        time=getIntFromByteArray(data,0,2)/100.0;
         dataUnit[0] = getIntFromByteArray(data, 10, 2) * SensorManager.GRAVITY_EARTH / 16384.0;
         dataUnit[1] = getIntFromByteArray(data, 12, 2) * SensorManager.GRAVITY_EARTH / 16384.0;
         dataUnit[2] = getIntFromByteArray(data, 14, 2) * SensorManager.GRAVITY_EARTH / 16384.0;
@@ -61,7 +63,7 @@ public class DataUnit {
         }
     }
 
-    public DataUnit(String time, double dataUnit[]){
+    public DataUnit(double time, double dataUnit[]){
         this(dataUnit);
         this.time=time;
     }
@@ -88,7 +90,7 @@ public class DataUnit {
         return COEFFICIENT_A * Math.pow(r, COEFFICIENT_B);
     }
 
-    public String getTime(){
+    public double getTime(){
         return time;
     }
 

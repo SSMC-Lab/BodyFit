@@ -121,13 +121,16 @@ public class ExerciseFragment extends BluetoothFragment {
     private void setExerciseAssess(){
         switch((int)assess){
             case 0:
-                exerciseAssess.setText("速度太慢");
+                exerciseAssess.setText(assess+"");
                 break;
             case 1:
-                exerciseAssess.setText("速度正常");
+                exerciseAssess.setText(assess+"");
                 break;
             case 2:
-                exerciseAssess.setText("动作太快");
+                exerciseAssess.setText(assess+"");
+                break;
+            default:
+                exerciseAssess.setText("空");
                 break;
         }
     }
@@ -183,6 +186,12 @@ public class ExerciseFragment extends BluetoothFragment {
         }
         else if(type.equals("Sitting_On_Shoulder_17")){
             exerciseType.setText(Conditions.exercise_17);
+        }
+        else if(type.equals("TOO_SLOW")){
+            exerciseType.setText(Conditions.too_slow);
+        }
+        else if(type.equals("TOO_FAST")){
+            exerciseType.setText(Conditions.too_fast);
         }
         else
             exerciseType.setText("无动作");

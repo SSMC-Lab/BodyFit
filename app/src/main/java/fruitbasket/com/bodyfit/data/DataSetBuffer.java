@@ -11,6 +11,7 @@ public class DataSetBuffer {
 
     private int items =0;//记录缓冲区DataUnit的数量
 
+    private double[] timeBuf;
     private double[] axBuffer;
     private double[] ayBuffer;
     private double[] azBuffer;
@@ -50,6 +51,7 @@ public class DataSetBuffer {
     private void createBuffer(){
         resetCapacity();
         addCapacity();
+        timeBuf=new double[capacity];
         axBuffer=new double[capacity];
         ayBuffer=new double[capacity];
         azBuffer=new double[capacity];
@@ -81,6 +83,13 @@ public class DataSetBuffer {
 
 //            Log.i(TAG,"after addCapacity(): capacity="+capacity);
 //            Log.i(TAG,"axBuffer.length="+axBuffer.length);
+
+            double[] newTimeBuf=new double[capacity];
+            for(int i=0;i<timeBuf.length;i++){
+                newTimeBuf[i]=cutDecimal(timeBuf[i]);
+            }
+            timeBuf=newTimeBuf;
+
             double[] newAxBuffer=new double[capacity];
             for(int i=0;i<axBuffer.length;i++){
                 newAxBuffer[i]=cutDecimal(axBuffer[i]);
@@ -157,9 +166,13 @@ public class DataSetBuffer {
         int i;
         double[] set;
 
+        set=dataSet.getTime();
+        for(i=0;i<set.length;i++){
+            timeBuf[items+i]=cutDecimal(set[i]);
+        }
+
         set=dataSet.getAxSet();
         for(i=0;i<set.length;i++){
-            ///这里有一个错误 ArrayIndexOutOfBoundsException:length=100,index=115/120/105...
 //            Log.i(TAG,"add(): capacity="+capacity+",axBuffer.length="+axBuffer.length+", items="+items+",i="+i+",set.length="+set.length);
             axBuffer[items +i]=cutDecimal(set[i]);
         }
@@ -227,6 +240,7 @@ public class DataSetBuffer {
      */
     public void clear(){
         resetCapacity();
+        timeBuf=null;
         axBuffer=null;
         ayBuffer=null;
         azBuffer=null;
@@ -247,6 +261,7 @@ public class DataSetBuffer {
 
     public DataSet toDataSet(){
         return new DataSet(
+                timeBuf,
                 axBuffer,
                 ayBuffer,
                 azBuffer,

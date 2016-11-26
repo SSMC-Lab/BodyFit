@@ -21,4 +21,6 @@ public enum ExerciseType {
     Dumbbell_Is_The_Shoulder_15,
     Birds_Standing_16,
     Sitting_On_Shoulder_17,
+    TOO_FAST,
+    TOO_SLOW
 }
