@@ -45,7 +45,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
     private final static double INTERVAL_OF_ONE_ACTION=500; //单位ms
 
     private int EIGHT_OR_FOURTEEN=0;    //区分8 14
-    private int NINE_OR_TEN=0;  //区分9 10
+    private int ONE_OR_TEN=0;  //区分1 10
     private int NUM_OF_ACTION=0;
     private DynamicTimeWarping dtw;
     private int exerciseTypeNum=-1;
@@ -325,6 +325,20 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
             minIndex1=EIGHT_OR_FOURTEEN;
             minDis1=Dist[EIGHT_OR_FOURTEEN-1];
         }
+        if(minIndex1==1&&minIndex2==10 || minIndex1==10&&minIndex2==1){
+            ONE_OR_TEN=10;
+            int i,len=ay_test.length;
+            for(i=0;i<len;i++){
+                if(ay_test[i]>0){
+                    ONE_OR_TEN=1;
+                    break;
+                }
+            }
+
+            minIndex1=ONE_OR_TEN;
+            minDis1=Dist[ONE_OR_TEN-1];
+        }
+
         exerciseTypeNum=minIndex1;
         setExerciseType(minIndex1);
         setActionNum();
@@ -337,7 +351,6 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
      */
     private void repetitionScore() {
         if(selectedDataSet!=null && exerciseTypeNum>0 && exerciseTypeNum<=exercise_num){
-            singleScore=score.calculateScore(selectedDataSet,exerciseTypeNum);
         }
         else{
             Log.e(TAG,"repetitionScore()->selectedDataSet=null");
@@ -419,16 +432,16 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
 
         if(hasCollected==true) {
             if(dataSelect()==true) {
-                if(ExerciseSpeed()==0) {//速度正常
+                if((singleScore=ExerciseSpeed())==0) {//速度正常
                     ExerciseRecognition();
                     repetitionScore();
                     setScore();
                     notBeginExercise();
                 }
-                else if (ExerciseSpeed()==-1){//速度太慢
+                else if ((singleScore=ExerciseSpeed())==-1){//速度太慢
                     setExerciseType(18);
                 }
-                else if (ExerciseSpeed()==1){//速度太快
+                else if ((singleScore=ExerciseSpeed())==1){//速度太快
                     setExerciseType(19);
                 }
             }
@@ -461,7 +474,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
             maxSpeed=az_vm;
         //maxSpeed 0-20:太慢，20-35:正常，35-:太快
         Log.i(TAG,"maxSpeed="+maxSpeed);
-        if(maxSpeed<=20)
+        if(maxSpeed<25)
             return -1;
         else if(maxSpeed>20 && maxSpeed<40)
             return 0;

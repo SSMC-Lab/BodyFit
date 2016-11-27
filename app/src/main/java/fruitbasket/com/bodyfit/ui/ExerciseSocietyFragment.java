@@ -64,7 +64,7 @@ public class ExerciseSocietyFragment extends Fragment {
             for(int j=0;j<i+1;j++){
                 content+="我爱学习 ";
             }
-            for(int j=0;j<i+1;j++) {
+            for(int j=0;j<i;j++) {
                 if(j==9)
                     break;
                 Map<String,Object> map=new HashMap<String,Object>();

@@ -120,14 +120,14 @@ public class ExerciseFragment extends BluetoothFragment {
     }
     private void setExerciseAssess(){
         switch((int)assess){
+            case -1:
+                exerciseAssess.setText("动作太慢");
+                break;
             case 0:
-                exerciseAssess.setText(assess+"");
+                exerciseAssess.setText("合格");
                 break;
             case 1:
-                exerciseAssess.setText(assess+"");
-                break;
-            case 2:
-                exerciseAssess.setText(assess+"");
+                exerciseAssess.setText("动作太快");
                 break;
             default:
                 exerciseAssess.setText("空");
