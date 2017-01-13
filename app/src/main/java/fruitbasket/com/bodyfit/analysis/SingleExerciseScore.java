@@ -7,6 +7,7 @@ import fruitbasket.com.bodyfit.data.SelectedDataSet;
 
 /**
  * Created by Administrator on 2016/11/15.
+ * 用于计算每一个动作的分数,或者是对每一个动作评价
  */
 public class SingleExerciseScore {
     public static final String TAG="SingleExerciseScore";
