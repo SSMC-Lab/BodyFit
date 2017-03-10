@@ -38,7 +38,6 @@
         android:layout_toEndOf="@+id/society_headcul" />
 
     <fruitbasket.com.bodyfit.ui.MyGridView
-
         android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:gravity="center"

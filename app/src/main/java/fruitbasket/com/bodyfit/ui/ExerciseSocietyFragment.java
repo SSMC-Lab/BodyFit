@@ -4,8 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,8 +59,8 @@ public class ExerciseSocietyFragment extends Fragment {
             headID=(Integer)R.drawable.society_head;
             name="张三"+i;
             content="";
-            for(int j=0;j<i+1;j++){
-                content+="我爱学习 ";
+            for(int j=0;j<3;j++){
+                content+="测试 ";
             }
             for(int j=0;j<i;j++) {
                 if(j==9)
@@ -171,24 +169,3 @@ class SocietyAdapter extends BaseAdapter{
 
 
 
-class MyGridView extends GridView{
-    public static final String TAG="MyGridView";
-    public MyGridView(Context context) {
-        super(context);
-    }
-
-    public MyGridView(Context con,AttributeSet attrs){
-        super(con, attrs);
-    }
-
-    public MyGridView(Context con,AttributeSet attrs,int defStyle){
-        super(con,attrs,defStyle);
-    }
-
-    protected void onMeasure(int widthMeasureSpec,int heightMeasureSpec){
-        Log.i(TAG,"onMeasure");
-        int expandSpec=MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2,
-                MeasureSpec.AT_MOST);
-        super.onMeasure(widthMeasureSpec, expandSpec);
-    }
-}

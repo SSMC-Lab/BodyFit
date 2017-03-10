@@ -281,7 +281,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
         int minIndex1=1,minIndex2=1;
       for(int i=0;i<exercise_num;i++)
       {
-          //第4 5 6 9 13 14 17 种动作暂时不判断
+          //第2 4 5 6 9 13 14 17 种动作暂时不判断,还有9种
           if(i==1 || i==3 || i==4 || i==5 || i==8 || i==12 ||i==13 ||  i==16)
               continue;
 
@@ -308,23 +308,6 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
       }
         Log.i(TAG,"ExerciseRecognition,ExerciseType,minIndex1="+minIndex1+" minIndex2="+minIndex2);
         /*以下用于处理容易混淆的两种动作*/
-        /*if(minIndex1==8&&minIndex2==14 || minIndex1==14&&minIndex2==8){
-            mz_test=selectedDataSet.getDataByIndex(8);
-            EIGHT_OR_FOURTEEN=0;
-            double sum=0,avg;
-            for(int i=0;i<50;i++){
-                sum+=mz_test[i];
-            }
-            avg=sum/50;
-            Log.i(TAG,"ExerciseRecognition,ExerciseType,avg="+avg);
-            if(avg>100)
-                EIGHT_OR_FOURTEEN=14;
-            else
-                EIGHT_OR_FOURTEEN=8;
-
-            minIndex1=EIGHT_OR_FOURTEEN;
-            minDis1=Dist[EIGHT_OR_FOURTEEN-1];
-        }*/
         if(minIndex1==1&&minIndex2==10 || minIndex1==10&&minIndex2==1){
             ONE_OR_TEN=10;
             int i,len=ay_test.length;
