@@ -7,7 +7,7 @@ public enum ExerciseType {
     Alternate_Dumbbell_Curl_1,
     Cable_Crossovers_2,
     Dumbbells_Alternate_Aammer_Curls_3,
-    Data_4,
+    Bent_over_lateral_raise_4,
     Flat_Bench_Barbell_Press_5,
     Flat_Bench_Dumbbell_Flye_6,
     Bent_Over_Lateral_Raise_7,

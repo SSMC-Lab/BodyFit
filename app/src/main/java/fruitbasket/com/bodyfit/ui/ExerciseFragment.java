@@ -145,7 +145,7 @@ public class ExerciseFragment extends BluetoothFragment {
         else if(type.equals("Dumbbells_Alternate_Aammer_Curls_3")){
             exerciseType.setText(Conditions.exercise_3);
         }
-        else if(type.equals("Data_4")){
+        else if(type.equals("Bent_over_lateral_raise_4")){
             exerciseType.setText(Conditions.exercise_4);
         }
         else if(type.equals("Flat_Bench_Barbell_Press_5")){
@@ -162,30 +162,6 @@ public class ExerciseFragment extends BluetoothFragment {
         }
         else if(type.equals("Barbell_Neck_After_Bending_9")){
             exerciseType.setText(Conditions.exercise_9);
-        }
-        else if(type.equals("Machine_Curls_10")){
-            exerciseType.setText(Conditions.exercise_10);
-        }
-        else if(type.equals("Pec_Deck_Flye_11")){
-            exerciseType.setText(Conditions.exercise_11);
-        }
-        else if(type.equals("Instruments_Made_Thoracic_Mobility_12")){
-            exerciseType.setText(Conditions.exercise_12);
-        }
-        else if(type.equals("Reverse_Grip_Pulldown_13")){
-            exerciseType.setText(Conditions.exercise_13);
-        }
-        else if(type.equals("One_Arm_Dumbell_Row_14")){
-            exerciseType.setText(Conditions.exercise_14);
-        }
-        else if(type.equals("Dumbbell_Is_The_Shoulder_15")){
-            exerciseType.setText(Conditions.exercise_15);
-        }
-        else if(type.equals("Birds_Standing_16")){
-            exerciseType.setText(Conditions.exercise_16);
-        }
-        else if(type.equals("Sitting_On_Shoulder_17")){
-            exerciseType.setText(Conditions.exercise_17);
         }
         else if(type.equals("TOO_SLOW")){
             exerciseType.setText(Conditions.too_slow);

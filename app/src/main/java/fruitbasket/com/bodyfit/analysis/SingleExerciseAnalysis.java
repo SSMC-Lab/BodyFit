@@ -45,7 +45,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
     private final static double INTERVAL_OF_ONE_ACTION=500; //单位ms
 
     private int EIGHT_OR_FOURTEEN=0;    //区分8 14
-    private int ONE_OR_TEN=0;  //区分1 10
+    private int ONE_OR_FIVE=0;  //区分1 10
     private int NUM_OF_ACTION=0;
     private DynamicTimeWarping dtw;
     private int exerciseTypeNum=-1;
@@ -281,9 +281,6 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
         int minIndex1=1,minIndex2=1;
       for(int i=0;i<exercise_num;i++)
       {
-          //第2 4 5 6 9 13 14 17 种动作暂时不判断,还有9种
-          if(i==1 || i==3 || i==4 || i==5 || i==8 || i==12 ||i==13 ||  i==16)
-              continue;
 
           Dist[i]=0;
           Dist[i]+=dtw.getDtwValue(ax_mol[i], ax_test);
@@ -308,18 +305,18 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
       }
         Log.i(TAG,"ExerciseRecognition,ExerciseType,minIndex1="+minIndex1+" minIndex2="+minIndex2);
         /*以下用于处理容易混淆的两种动作*/
-        if(minIndex1==1&&minIndex2==10 || minIndex1==10&&minIndex2==1){
-            ONE_OR_TEN=10;
+        if(minIndex1==1&&minIndex2==5 || minIndex1==5&&minIndex2==1){
+            ONE_OR_FIVE=5;
             int i,len=ay_test.length;
             for(i=0;i<len;i++){
                 if(ay_test[i]>0){
-                    ONE_OR_TEN=1;
+                    ONE_OR_FIVE=1;
                     break;
                 }
             }
 
-            minIndex1=ONE_OR_TEN;
-            minDis1=Dist[ONE_OR_TEN-1];
+            minIndex1=ONE_OR_FIVE;
+            minDis1=Dist[ONE_OR_FIVE-1];
         }
 
         exerciseTypeNum=minIndex1;
@@ -619,7 +616,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
                 exerciseType=ExerciseType.Dumbbells_Alternate_Aammer_Curls_3;
                 break;
             case 4:
-                exerciseType=ExerciseType.Data_4;
+                exerciseType=ExerciseType.Bent_over_lateral_raise_4;
                 break;
             case 5:
                 exerciseType=ExerciseType.Flat_Bench_Barbell_Press_5;
@@ -675,6 +672,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
             lastType=exerciseType;
             NUM_OF_ACTION=1;
         }
+        Log.i(TAG,"exerciseType="+exerciseType+" lastType="+lastType);
     }
     public int getActionNum(){
         return NUM_OF_ACTION;
