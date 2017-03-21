@@ -2,6 +2,9 @@ package fruitbasket.com.bodyfit.data;
 
 import android.util.Log;
 
+/**
+ * 储存一个完整动作的所有维度的数据
+ */
 public class DataSetBuffer {
     private static final String TAG="DataSetBuffer";
 

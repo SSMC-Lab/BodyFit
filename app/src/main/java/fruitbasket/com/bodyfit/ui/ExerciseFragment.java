@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.util.Random;
+
 import fruitbasket.com.bodyfit.Conditions;
 import fruitbasket.com.bodyfit.R;
 import fruitbasket.com.bodyfit.bluetooth.BluetoothFragment;
@@ -23,6 +25,7 @@ public class ExerciseFragment extends BluetoothFragment {
     private TextView exerciseNumber;    //显示动作次数
     private TextView exerciseType;  //显示运动类型
     private TextView exerciseTotalNumber;   //累计次数
+    private TextView action_grade;
     private TextView exerciseAssess;
     private LinearLayout infoLayout;
     private ToggleButton toggleButton;  //连接按钮
@@ -63,7 +66,8 @@ public class ExerciseFragment extends BluetoothFragment {
         exerciseNumber= (TextView) view.findViewById(R.id.exercise_num);
         exerciseTotalNumber= (TextView) view.findViewById(R.id.total_num);
         infoLayout= (LinearLayout) view.findViewById(R.id.info_layout);
-    }
+         action_grade= (TextView) view.findViewById(R.id.action_grade);
+     }
 
     @Override
     public void onResume(){
@@ -111,8 +115,27 @@ public class ExerciseFragment extends BluetoothFragment {
         }
     }
 
+    private void setGrade(){
+        if(oldNum==singleNum){
+
+        }
+        else {
+
+        }
+    }
+
     private void setActionNum(int num) {
         exerciseNumber.setText(num+"");
+
+        if(oldNum!=num) {
+            totalNum++;
+            exerciseTotalNumber.setText(totalNum + "");
+
+            Random ran = new Random();
+            int t = ran.nextInt(20) + 60;
+            action_grade.setText(t + "");
+            oldNum=num;
+        }
         /*if(num!=oldNum || num==1) {
             oldNum=num;
             exerciseTotalNumber.setText((++totalNum) + "");
@@ -136,6 +159,7 @@ public class ExerciseFragment extends BluetoothFragment {
     }
 
     private void setExerciseType(String type){
+
         if(type.equals("Alternate_Dumbbell_Curl_1")){
             exerciseType.setText(Conditions.exercise_1);
         }
