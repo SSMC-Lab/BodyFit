@@ -71,9 +71,10 @@ public class BluetoothService extends Service {
     private String bluetoothAddress;
 
     private Handler handler;
-    private StorageData writeData=new StorageData();
+    private StorageData writeData;
 
     public BluetoothService() {
+        writeData=new StorageData();
     }
 
     public static int getIntFromByteArrayRaw(byte[] data, int start, int len) {
@@ -98,6 +99,7 @@ public class BluetoothService extends Service {
     @Override
     public void onDestroy() {
         Log.i(TAG, "onDestroy()");
+        writeData.closeOutputStream();
         super.onDestroy();
     }
 

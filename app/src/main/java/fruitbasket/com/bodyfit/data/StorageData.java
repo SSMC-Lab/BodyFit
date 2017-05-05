@@ -16,7 +16,7 @@ public class StorageData {
 
     private String tag="storageData";
     private String savePath="";
-    private File saveFile;
+    private File saveFile=null;
     private OutputStream out;
     private int amount=1;
     private double time;
@@ -49,7 +49,9 @@ public class StorageData {
 
     private void createFile(){
         do {
+            saveFile=null;
             saveFile=new File(savePath,"Data"+amount+".txt");
+            Log.i(tag,"createFile()->amount="+amount);
             amount++;
         }while(saveFile.exists());
     }
@@ -79,6 +81,7 @@ public class StorageData {
                             +" "+(int)((data.getP1()*100))/100.0+" "+(int)((data.getP2()*100))/100.0+" "+(int)((data.getP3()*100))/100.0+"\r";
 
         out.write(temp.getBytes());
+        out.flush();
     }
 
     public void outputData(DataSet data) throws IOException {
@@ -147,6 +150,8 @@ public class StorageData {
     public void closeOutputStream(){
         try {
             out.close();
+            out=null;
+            saveFile=null;
         } catch (IOException e) {
             e.printStackTrace();
         }
