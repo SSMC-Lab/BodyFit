@@ -159,39 +159,52 @@ public class ExerciseFragment extends BluetoothFragment {
     }
 
     private void setExerciseType(String type){
+<<<<<<< HEAD
 
         if(type.equals("Alternate_Dumbbell_Curl_1")){
+=======
+        if(type.equals("Flat_bench_Barbell_Press_1")){
+>>>>>>> 6f1970c897ce4ca93b582ad6cdce9629ef39a1f7
             exerciseType.setText(Conditions.exercise_1);
         }
-        else if(type.equals("Cable_Crossovers_2")){
+        else if(type.equals("Flat_bench_Dumbbell_Flye_2")){
             exerciseType.setText(Conditions.exercise_2);
         }
-        else if(type.equals("Dumbbells_Alternate_Aammer_Curls_3")){
+        else if(type.equals("Flat_bench_Dumbbell_Press_3")){
             exerciseType.setText(Conditions.exercise_3);
         }
+<<<<<<< HEAD
         else if(type.equals("Bent_over_lateral_raise_4")){
+=======
+        else if(type.equals("Incline_Dumbbell_Flye_4")){
+>>>>>>> 6f1970c897ce4ca93b582ad6cdce9629ef39a1f7
             exerciseType.setText(Conditions.exercise_4);
         }
-        else if(type.equals("Flat_Bench_Barbell_Press_5")){
+        else if(type.equals("Reverse_Grid_Pulldown_5")){
             exerciseType.setText(Conditions.exercise_5);
         }
-        else if(type.equals("Flat_Bench_Dumbbell_Flye_6")){
+        else if(type.equals("Machine_Curls_6")){
             exerciseType.setText(Conditions.exercise_6);
         }
-        else if(type.equals("Bent_Over_Lateral_Raise_7")){
+        else if(type.equals("Alternate_Dumbbell_Curl_7")){
             exerciseType.setText(Conditions.exercise_7);
         }
-        else if(type.equals("Barbell_Bent_Over_Row_8")){
+        else if(type.equals("Pec_Deck_Flye_8")){
             exerciseType.setText(Conditions.exercise_8);
         }
-        else if(type.equals("Barbell_Neck_After_Bending_9")){
+        else if(type.equals("Incline_Dumbbell_Press_9")){
             exerciseType.setText(Conditions.exercise_9);
         }
+<<<<<<< HEAD
         else if(type.equals("TOO_SLOW")){
             exerciseType.setText(Conditions.too_slow);
         }
         else if(type.equals("TOO_FAST")){
             exerciseType.setText(Conditions.too_fast);
+=======
+        else if(type.equals("Cable_Crossovers_10")){
+            exerciseType.setText(Conditions.exercise_10);
+>>>>>>> 6f1970c897ce4ca93b582ad6cdce9629ef39a1f7
         }
         else
             exerciseType.setText("无动作");

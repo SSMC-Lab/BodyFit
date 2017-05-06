@@ -21,7 +21,11 @@ public class ModelData {
 
     //所有模板文件
     private final String[] FILENAME= {
+<<<<<<< HEAD
             "1.txt","2.txt", "3.txt","4.txt", "5.txt","6.txt", "3.txt", "4.txt", "9.txt"
+=======
+            "1.txt","2.txt", "3.txt","4.txt","6.txt", "7.txt","8.txt", "9.txt","10.txt",
+>>>>>>> 6f1970c897ce4ca93b582ad6cdce9629ef39a1f7
     };
 
     //储存模板的空间

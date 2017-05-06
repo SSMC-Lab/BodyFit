@@ -44,9 +44,14 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
     private double start,end,time;
     private final static double INTERVAL_OF_ONE_ACTION=500; //单位ms
 
+<<<<<<< HEAD
     private int EIGHT_OR_FOURTEEN=0;    //区分8 14
     private int ONE_OR_FIVE=0;  //区分1 10
     private int NUM_OF_ACTION=0;
+=======
+    private int NUM_OF_ACTION=0;//做了多少个相同的动作，若动作类型发生变化，则会清0
+    private int SIX_OR_SEVEN=-1;
+>>>>>>> 6f1970c897ce4ca93b582ad6cdce9629ef39a1f7
     private DynamicTimeWarping dtw;
     private int exerciseTypeNum=-1;
 
@@ -255,13 +260,15 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
                 dataSelect();
             }
         }
-        ax_test=selectedDataSet.getDataByIndex(0);
-        ay_test=selectedDataSet.getDataByIndex(1);
-        az_test=selectedDataSet.getDataByIndex(2);
+        ax_test=selectedDataSet.getDataByIndex(0);//获取测试数据的ax
+        ay_test=selectedDataSet.getDataByIndex(1);//获取测试数据的ay
+        az_test=selectedDataSet.getDataByIndex(2);//获取测试数据的az
         gx_test=selectedDataSet.getDataByIndex(3);
         gy_test=selectedDataSet.getDataByIndex(4);
         gz_test=selectedDataSet.getDataByIndex(5);
 
+        //将模板数据从asset读取到程序储存
+        //只有判断第一个动作之前会执行
         if(hasReadModelData==false) {
             if(loadModelData()==true) {
                 hasReadModelData = true;
@@ -277,10 +284,18 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
             Log.e(TAG,"ax_mol[i]="+ax_mol[0][i]+" ay_mol[i]="+ay_mol[0][i]+" az_mol[i]="+az_mol[0][i]);
         }*/
 
+        //设置两个最小值的原因是同时找出两个最小值
+        //为了区分两个容易搞混的动作
         double minDis1=10000000.0,minDis2=10000000.0;//记录Dist最小的动作标号
         int minIndex1=1,minIndex2=1;
       for(int i=0;i<exercise_num;i++)
       {
+<<<<<<< HEAD
+=======
+          //第3 4 5种,也就是i-1种，动作暂时不判断
+          if(i==2 || i==3 || i==4)
+              continue;
+>>>>>>> 6f1970c897ce4ca93b582ad6cdce9629ef39a1f7
 
           Dist[i]=0;
           Dist[i]+=dtw.getDtwValue(ax_mol[i], ax_test);
@@ -305,6 +320,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
       }
         Log.i(TAG,"ExerciseRecognition,ExerciseType,minIndex1="+minIndex1+" minIndex2="+minIndex2);
         /*以下用于处理容易混淆的两种动作*/
+<<<<<<< HEAD
         if(minIndex1==1&&minIndex2==5 || minIndex1==5&&minIndex2==1){
             ONE_OR_FIVE=5;
             int i,len=ay_test.length;
@@ -317,6 +333,10 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
 
             minIndex1=ONE_OR_FIVE;
             minDis1=Dist[ONE_OR_FIVE-1];
+=======
+        if(minIndex1==6 && minIndex2==7 || minIndex1==7 && minIndex2==6){
+            //处理方法
+>>>>>>> 6f1970c897ce4ca93b582ad6cdce9629ef39a1f7
         }
 
         exerciseTypeNum=minIndex1;
@@ -453,6 +473,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
         else
             maxSpeed=az_vm;
         //maxSpeed 0-20:太慢，20-35:正常，35-:太快
+        //暂时这么区分，后续需要改进才行
         Log.i(TAG,"maxSpeed="+maxSpeed);
         if(maxSpeed<25)
             return -1;
@@ -573,7 +594,7 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
 
     private boolean loadModelData(){
         ModelData model=new ModelData(context);
-        model.readModelData();
+        model.readModelData();//读取模板数据,下面是返回模板数据
         ax_mol=model.getAx_mol();
         ay_mol=model.getAy_mol();
         az_mol=model.getAz_mol();
@@ -586,6 +607,8 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
         p1_mol=model.getP1_mol();
         p2_mol=model.getP2_mol();
         p3_mol=model.getP3_mol();
+        model=null;
+
         if(ax_mol!=null&&ay_mol!=null&&az_mol!=null&&
                 gx_mol!=null&&gy_mol!=null&&gz_mol!=null&&
                 mx_mol!=null&&my_mol!=null&&mz_mol!=null&&
@@ -601,66 +624,44 @@ public class SingleExerciseAnalysis implements ExerciseAnalysis {
 
 
     private void setExerciseType(int type){
-        if(type<1 || type>19){
-            Log.e(TAG,"setExerciseType(),enter wrong type,type<1 or typr>17");
-            return;
-        }
+
         switch(type){
             case 1:
-                exerciseType=ExerciseType.Alternate_Dumbbell_Curl_1;
+                exerciseType=ExerciseType.Flat_bench_Barbell_Press_1;
                 break;
             case 2:
-                exerciseType=ExerciseType.Cable_Crossovers_2;
+                exerciseType=ExerciseType.Flat_bench_Dumbbell_Flye_2;
                 break;
             case 3:
-                exerciseType=ExerciseType.Dumbbells_Alternate_Aammer_Curls_3;
+                exerciseType=ExerciseType.Flat_bench_Dumbbell_Press_3;
                 break;
             case 4:
+<<<<<<< HEAD
                 exerciseType=ExerciseType.Bent_over_lateral_raise_4;
+=======
+                exerciseType=ExerciseType.Incline_Dumbbell_Flye_4;
+>>>>>>> 6f1970c897ce4ca93b582ad6cdce9629ef39a1f7
                 break;
             case 5:
-                exerciseType=ExerciseType.Flat_Bench_Barbell_Press_5;
+                exerciseType=ExerciseType.Reverse_Grid_Pulldown_5;
                 break;
             case 6:
-                exerciseType=ExerciseType.Flat_Bench_Dumbbell_Flye_6;
+                exerciseType=ExerciseType.Machine_Curls_6;
                 break;
             case 7:
-                exerciseType=ExerciseType.Bent_Over_Lateral_Raise_7;
+                exerciseType=ExerciseType.Alternate_Dumbbell_Curl_7;
                 break;
             case 8:
-                exerciseType=ExerciseType.Barbell_Bent_Over_Row_8;
+                exerciseType=ExerciseType.Pec_Deck_Flye_8;
                 break;
             case 9:
-                exerciseType=ExerciseType.Barbell_Neck_After_Bending_9;
+                exerciseType=ExerciseType.Incline_Dumbbell_Press_9;
                 break;
             case 10:
-                exerciseType=ExerciseType.Machine_Curls_10;
+                exerciseType=ExerciseType.Cable_Crossovers_10;
                 break;
-            case 11:
-                exerciseType=ExerciseType.Pec_Deck_Flye_11;
-                break;
-            case 12:
-                exerciseType=ExerciseType.Instruments_Made_Thoracic_Mobility_12;
-                break;
-            case 13:
-                exerciseType=ExerciseType.Reverse_Grip_Pulldown_13;
-                break;
-            case 14:
-                exerciseType=ExerciseType.One_Arm_Dumbell_Row_14;
-                break;
-            case 15:
-                exerciseType=ExerciseType.Dumbbell_Is_The_Shoulder_15;
-                break;
-            case 16:
-                exerciseType=ExerciseType.Birds_Standing_16;
-                break;
-            case 17:
-                exerciseType=ExerciseType.Sitting_On_Shoulder_17;
-            case 18:
-                exerciseType=ExerciseType.TOO_SLOW;
-                break;
-            case 19:
-                exerciseType=ExerciseType.TOO_FAST;
+            default:
+                Log.e(TAG,"SingleExerciseAbalysis->setExerciseType():enter wrong type,type<1 or typr>10");
                 break;
         }
     }

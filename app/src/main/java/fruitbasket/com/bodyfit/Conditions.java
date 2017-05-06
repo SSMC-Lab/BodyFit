@@ -47,6 +47,7 @@ public class Conditions {
     public static final String P3="p3";
 
     //All Action Chinese Name
+<<<<<<< HEAD
     // "///"means the action dont use now
     public final static String exercise_1="交替哑铃弯举_1";
     public final static String exercise_2="锤式弯举_2";
@@ -59,9 +60,21 @@ public class Conditions {
     public final static String exercise_9="站姿飞鸟_9";
     public final static String too_slow="太慢";
     public final static String too_fast="太快";
+=======
+    public final static String exercise_1="平板杠铃卧推_1";
+    public final static String exercise_2="平板哑铃弯举_2";
+    public final static String exercise_3="平板哑铃卧推_3";
+    public final static String exercise_4="斜板哑铃弯举_4";
+    public final static String exercise_5="xxx_5";
+    public final static String exercise_6="器械弯举_6";
+    public final static String exercise_7="哑铃弯举_7";
+    public final static String exercise_8="器械夹胸_8";
+    public final static String exercise_9="坐姿哑铃卧推_9";
+    public final static String exercise_10="xxx_10";
+>>>>>>> 6f1970c897ce4ca93b582ad6cdce9629ef39a1f7
 
     //requestCode
-    public final static int SOCIETY_R_CODE=1;  //运动圈请求码
+    public final static int SOCIETY_R_CODE=1;  //运动圈界面请求码
     public final static int EXERCISE_R_CODE=2; //运动界面请求码
     public final static int PERSON_R_CODE=3;   //个人信息界面请求码
 
